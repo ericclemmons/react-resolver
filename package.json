@@ -1,0 +1,38 @@
+{
+  "name": "react-resolver",
+  "version": "0.0.1",
+  "description": "Isomorphic library to lazy-load data for React components",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "6to5": "^3.5.3",
+    "bluebird": "^2.9.8",
+    "lodash": "^3.1.0",
+    "react": "^0.12.2",
+    "stampit": "^1.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ericclemmons/react-resolver.git"
+  },
+  "keywords": [
+    "react",
+    "lazy",
+    "load",
+    "resolve"
+  ],
+  "author": "Eric Clemmons <eric@smarterspam.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericclemmons/react-resolver/issues"
+  },
+  "homepage": "https://github.com/ericclemmons/react-resolver"
+}
