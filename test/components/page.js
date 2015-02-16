@@ -1,3 +1,4 @@
+var Bluebird  = require('bluebird');
 var React     = require('react');
 var Resolver  = require('../../');
 
@@ -9,7 +10,11 @@ var Page = React.createClass({
   statics: {
     resolve: {
       title: function() {
-        return 'Welcome!';
+        return new Bluebird(function(resolve) {
+          setTimeout(function() {
+            resolve('Welcome!');
+          }, 1000);
+        });
       }
     },
   },
@@ -25,8 +30,13 @@ var Page = React.createClass({
       <body>
         <h1>{this.props.title}</h1>
 
-        <Content body='body=""' />
-        {/*<Content />*/}
+        <Content body='body' />
+        <Content />
+
+        <section>
+          <Content body='body2' />
+          <Content />
+        </section>
       </body>
     );
   }

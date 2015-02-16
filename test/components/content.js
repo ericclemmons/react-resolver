@@ -1,3 +1,4 @@
+var Bluebird  = require('bluebird');
 var React     = require('react');
 var Resolver  = require('../../');
 
@@ -8,7 +9,12 @@ var Content = React.createClass({
   statics: {
     resolve: {
       body: function() {
-        return 'Howdy!';
+        return new Bluebird(function(resolve) {
+          setTimeout(function() {
+            resolve('Howdy!');
+          }, 1000);
+        });
+
       }
     }
   },
