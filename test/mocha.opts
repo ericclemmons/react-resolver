@@ -1,3 +1,3 @@
---compilers js:6to5/register
+--compilers js:babel/register
 --reporter spec
 --ui bdd
