@@ -10,19 +10,6 @@
 Checkout the [examples][2]!
 
 
-## Status
-
-**This project is undergoing eager, active development :)**
-
-- [x] Define props as `static.resolve`
-  - [x] Resolve props that are Promises
-  - [x] Resolve props that have callbacks
-  - [x] Resolve props that are synchronous
-- [x] Server-side rendering
-- [x] Client-side rendering
-  - [ ] With state changes
-
-
 ## Installation
 
 ```shell
@@ -90,6 +77,30 @@ Router.run(routes, function(Handler) {
 ```
 
 - - -
+
+## Development
+
+```shell
+$ npm install
+```
+
+### Testing
+
+```shell
+$ npm test
+```
+
+### Status
+
+**This project is undergoing eager, active development :)**
+
+- [x] Define props as `static.resolve`
+  - [x] Resolve props that are Promises
+  - [x] Resolve props that have callbacks
+  - [x] Resolve props that are synchronous
+- [x] Server-side rendering
+- [x] Client-side rendering
+  - [ ] With state changes
 
 ## Authors
 
