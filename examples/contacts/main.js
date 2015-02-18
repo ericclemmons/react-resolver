@@ -1,13 +1,11 @@
 require('./layout.less');
 
 var React     = require('react');
-var Resolver  = require('../..');
+var resolver  = require('../..').create();
 var Router    = require('react-router');
-var routes    = require('./routes');
+var routes    = resolver.route(require('./routes'));
 
-var resolver = new Resolver();
-
-Router.run(resolver.route(routes), function(Handler) {
+Router.run(routes, function(Handler) {
   resolver.handle(Handler).then(function(resolved) {
     React.render(resolved, document.getElementById('app'));
   });

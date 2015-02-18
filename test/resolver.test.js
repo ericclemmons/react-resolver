@@ -1,11 +1,11 @@
 var React     = require('react');
 var request   = require('superagent');
-var Resolver  = require('../');
+var resolver  = require('../').create();
 var Router    = require('react-router');
-var routes    = require('../examples/contacts/routes');
+var routes    = resolver.route(require('../examples/contacts/routes'));
 var sinon     = require('sinon');
 
-describe('new Resolver()', function() {
+describe('Resolver', function() {
   before(function() {
     sinon.stub(request, 'get', function(url, callback) {
       var file = `../public${url}`;
@@ -21,15 +21,11 @@ describe('new Resolver()', function() {
     request.get.restore();
   });
 
-  describe('.run', function() {
-    it('works', function(done) {
-      var resolver = new Resolver();
-
-      Router.run(resolver.route(routes), function(Handler) {
-        resolver.handle(Handler).then(function(resolved) {
-          done(null, React.renderToStaticMarkup(resolved));
-        }, done);
-      });
+  it('works', function(done) {
+    Router.run(routes, function(Handler) {
+      resolver.handle(Handler).then(function(resolved) {
+        done(null, React.renderToStaticMarkup(resolved));
+      }, done);
     });
   });
 });
