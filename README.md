@@ -8,6 +8,24 @@
 $ npm install --save react-resolver
 ```
 
+## Usage
+
+### 1. Specify Props to Lazy-Load
+
+
+
+```javascript
+var UserView = React.createClass({
+  statics: {
+    resolve: {
+      user: function() {
+        return http.get('/users')
+      }
+    }
+  },
+  ...
+});
+
 - - -
 
 ## [License][1]

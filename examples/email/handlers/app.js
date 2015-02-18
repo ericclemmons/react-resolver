@@ -1,5 +1,6 @@
 require('./app.less');
 
+var Bluebird      = require('bluebird');
 var React         = require('react');
 var Resolver      = require('../../../');
 var RouteHandler  = require('react-router').RouteHandler;
@@ -9,12 +10,12 @@ var Header  = require('../components/header');
 var Footer  = require('../components/footer');
 
 var App = React.createClass({
-  mixins: [Resolver.mixin],
-
   statics: {
     resolve: {
-      contacts: function(done) {
-        request.get('/api/contacts.json', done);
+      loggedIn: function() {
+        return new Promise(function(resolve) {
+          setTimeout(resolve, 1000);
+        });
       }
     }
   },
