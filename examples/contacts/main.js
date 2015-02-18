@@ -1,3 +1,5 @@
+require('./layout.less');
+
 var React     = require('react');
 var Resolver  = require('../..');
 var Router    = require('react-router');

@@ -1,5 +1,3 @@
-require('./app.less');
-
 var Header        = require('../components/header');
 var Footer        = require('../components/footer');
 var React         = require('react');

@@ -24,6 +24,7 @@
     "mocha": "^2.1.0",
     "react-router": "^0.12.0",
     "react-tap-event-plugin": "^0.1.4",
+    "sinon": "^1.12.2",
     "style-loader": "^0.8.3",
     "superagent": "^0.21.0",
     "url-loader": "^0.5.5",
