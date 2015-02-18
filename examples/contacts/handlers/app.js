@@ -1,21 +1,18 @@
 require('./app.less');
 
-var Bluebird      = require('bluebird');
+var Header        = require('../components/header');
+var Footer        = require('../components/footer');
 var React         = require('react');
 var Resolver      = require('../../../');
 var RouteHandler  = require('react-router').RouteHandler;
-var request       = require('superagent');
-
-var Header  = require('../components/header');
-var Footer  = require('../components/footer');
 
 var App = React.createClass({
+  // mixins: [Resolver.mixin],
+
   statics: {
     resolve: {
       loggedIn: function() {
-        return new Promise(function(resolve) {
-          setTimeout(resolve, 1000);
-        });
+        return true;
       }
     }
   },

@@ -2,7 +2,7 @@ module.exports = {
   devtool: 'inline-source-map',
 
   entry: {
-    app: ['./examples/email/main.js']
+    app: ['./examples/contacts/main.js']
   },
 
   module: {

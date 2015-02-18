@@ -1,10 +1,7 @@
-var Bluebird  = require('bluebird');
 var React     = require('react');
 var request   = require('superagent');
+var Link      = require('react-router').Link;
 var Resolver  = require('../../../');
-var { Link }  = require('react-router');
-
-var Contact = require('./contact');
 
 var Home = React.createClass({
   mixins: [Resolver.mixin],

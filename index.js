@@ -1,6 +1,2 @@
-var Resolver = {
-  mixin: require('./lib/mixin'),
-  resolve: require('./lib/resolve'),
-};
-
-module.exports = Resolver;
+module.exports        = require('./lib/resolver');
+module.exports.mixin  = require('./lib/mixin');

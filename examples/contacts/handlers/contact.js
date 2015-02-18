@@ -1,5 +1,3 @@
-var _         = require('lodash');
-var Bluebird  = require('bluebird');
 var React     = require('react');
 var request   = require('superagent');
 var Resolver  = require('../../../');
