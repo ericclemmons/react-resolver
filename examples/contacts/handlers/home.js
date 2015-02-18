@@ -23,7 +23,7 @@ var Home = React.createClass({
 
         <ul>
           {this.props.contacts.map(contact =>
-            <li>
+            <li key={contact._id}>
               <Link to="contact" params={{ contactId: contact._id }}>
                 {contact.name}
               </Link>
