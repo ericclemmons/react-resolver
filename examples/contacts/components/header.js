@@ -11,6 +11,8 @@ var Header = React.createClass({
               React Resolver
             </Link>
           </div>
+
+          {this.props.children}
         </div>
       </nav>
     );
