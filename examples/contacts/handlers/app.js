@@ -7,7 +7,7 @@ var Resolver      = require('../../../');
 var RouteHandler  = require('react-router').RouteHandler;
 
 var App = React.createClass({
-  // mixins: [Resolver.mixin],
+  mixins: [Resolver.mixin],
 
   statics: {
     resolve: {
