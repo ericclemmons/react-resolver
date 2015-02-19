@@ -6,7 +6,5 @@ var Router    = require('react-router');
 var routes    = resolver.route(require('./routes'));
 
 Router.run(routes, function(Handler) {
-  resolver.handle(Handler).then(function(resolved) {
-    React.render(resolved, document.getElementById('app'));
-  });
+  React.render(<Handler />, document.getElementById('app'));
 });
