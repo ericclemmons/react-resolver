@@ -7,6 +7,15 @@
 [![](https://img.shields.io/david/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=dependencies)
 [![](https://img.shields.io/david/dev/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=devDependencies)
 
+Inspired by [ui-router][4] for Angular,
+React Resolver allows you to:
+
+- Define & lazy-load component data dependencies and inject them as `props`.
+- Express/Koa/Hapi-friendly server-side rendering.
+- Progressive, client-side rendering.
+- Works with [React Router][3]!
+- Similar goals as [Facebook's Relay][5]
+
 Checkout the [examples][2]!
 
 
@@ -113,3 +122,5 @@ $ npm test
 [1]: https://raw.githubusercontent.com/ericclemmons/react-resolver/master/LICENSE
 [2]: https://github.com/ericclemmons/react-resolver/tree/master/examples
 [3]: https://github.com/rackt/react-router
+[4]: https://github.com/angular-ui/ui-router/wiki#resolve
+[5]: https://gist.github.com/wincent/598fa75e22bdfa44cf47
