@@ -27,6 +27,12 @@ $ npm install --save react-resolver
 
 ```javascript
 var Resolver = require('react-resolver');
+
+// Create an instance
+var resolver = new Resolver();
+
+// or, if you prefer factories...
+var resolver = Resolver.create();
 ```
 
 
