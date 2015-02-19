@@ -91,6 +91,8 @@ Router.run(routes, function(Handler) {
 });
 ```
 
+**Remember**, if you're rendering on the server you want a _new instance of `Resolver`_ for each request!
+
 - - -
 
 ## Development
