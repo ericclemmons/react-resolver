@@ -37,7 +37,7 @@ export default {
       return false;
     };
 
-    let pending = _.mapValues(statics, function(value, key) {
+    let pending = _.mapValues(statics, (value, key) => {
       // Existing props shouldn't be replaced
       if (_.has(this.props, key)) {
         return Bluebird.resolve(this.props[key]);
@@ -56,7 +56,7 @@ export default {
         // Value is a synchronous function call
         return Bluebird.resolve(value.call(this));
       }
-    }.bind(this));
+    });
 
     this.context.resolver.promises[id] = Bluebird.props(pending);
   },

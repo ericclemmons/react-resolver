@@ -50,9 +50,7 @@ export default class Resolver {
 
     // Because the first render is hidden, a minimum of 1 resolution is required
     if (pending || !this.renders++) {
-      return Bluebird.props(this.promises).then(function() {
-        return this.resolve(element);
-      }.bind(this));
+      return Bluebird.props(this.promises).then(() => this.resolve(element));
     }
 
     return Bluebird.resolve(element);
