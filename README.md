@@ -51,7 +51,11 @@ var resolver = Resolver.create();
 ### 1. Specify Props to Lazy-Load
 
 ```javascript
+var Resolver = require('react-resolver');
+
 var UserView = React.createClass({
+  mixins: [Resolver.mixin],
+
   statics: {
     resolve: {
       // Return a Promise
