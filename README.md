@@ -7,9 +7,6 @@
 [![](https://img.shields.io/david/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=dependencies)
 [![](https://img.shields.io/david/dev/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=devDependencies)
 
-Inspired by [ui-router][4] for Angular,
-React Resolver allows you to:
-
 - Define & lazy-load component data dependencies and inject them as `props`.
 - Express/Koa/Hapi-friendly server-side rendering.
 - Progressive, client-side rendering.
@@ -18,6 +15,7 @@ React Resolver allows you to:
 
 - - -
 
+- [Intro](#intro)
 - [Examples][2]
 - [Installation](#installation)
 - [Usage](#usage)
@@ -27,6 +25,31 @@ React Resolver allows you to:
 - [License][1]
 
 - - -
+
+
+## Intro
+
+Similar to [ui-router][4] for Angular, React Resolver lets you define & load
+data dependencies as close to the templates using them as possible: the _Components_.
+
+You may be asking, **how is this different from [Relay & GraphQL][7]**?
+
+Both projects are working to solve the similar problems:
+
+> Data fetching is still a tricky problem, especially as applications become more complicated.
+
+With [Relay & GraphQL][7]:
+
+> Each component specifies its own data dependencies declaratively **using a query language called GraphQL**. The data is made available to the component via properties on `this.props`.
+
+_(Emphasis my own)_
+
+With React Router, whether you use [Flux-like
+_Stores_][9], hand-crafted _Services_, or even isomorphic HTTP libraries like
+[superagent][8], is **up to you**.
+
+**Once Relay is released, you should be to make a smooth transition (if you'd like!),
+as your templates should still be expecting the same data via `this.props`**.
 
 
 ## Installation
@@ -128,3 +151,6 @@ $ npm test
 [4]: https://github.com/angular-ui/ui-router/wiki#resolve
 [5]: https://gist.github.com/wincent/598fa75e22bdfa44cf47
 [6]: https://github.com/ericclemmons/react-resolver/blob/master/CHANGELOG.md
+[7]: http://facebook.github.io/react/blog/2015/02/20/introducing-relay-and-graphql.html
+[8]: https://github.com/visionmedia/superagent
+[9]: https://github.com/goatslacker/alt
