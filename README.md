@@ -13,10 +13,20 @@ React Resolver allows you to:
 - Define & lazy-load component data dependencies and inject them as `props`.
 - Express/Koa/Hapi-friendly server-side rendering.
 - Progressive, client-side rendering.
-- Works with [React Router][3]!
-- Similar goals as [Facebook's Relay][5]
+- Works with [React Router][3].
 
-Checkout the [examples][2]!
+
+- - -
+
+- [Examples][2]
+- [Installation](#installation)
+- [Usage](#usage)
+- [Changelog][6]
+- [Development](#development)
+- [Authors](#authors)
+- [License][1]
+
+- - -
 
 
 ## Installation
@@ -100,23 +110,12 @@ Router.run(routes, function(Handler) {
 
 ```shell
 $ npm install
-$ npm start
-```
-
-
-### Testing
-
-```shell
 $ npm test
 ```
-
 
 ## Authors
 
 - Eric Clemmons (<eric@smarterspam.com>)
-
-
-## [License][1]
 
 
 [1]: https://raw.githubusercontent.com/ericclemmons/react-resolver/master/LICENSE
@@ -124,3 +123,4 @@ $ npm test
 [3]: https://github.com/rackt/react-router
 [4]: https://github.com/angular-ui/ui-router/wiki#resolve
 [5]: https://gist.github.com/wincent/598fa75e22bdfa44cf47
+[6]: https://raw.githubusercontent.com/ericclemmons/react-resolver/master/CHANGELOG.md
