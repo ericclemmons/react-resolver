@@ -7,13 +7,16 @@
 - [#6][6] - README comparison to Relay.
 - [#7][7] - Add `react` and `react-router` as `peerDependencies`.
 
+
 ### v0.0.3 (2015-02-19)
 
 - Public release
 
+
 ### v0.0.2 (2015-02-18)
 
 - Working prototype with context
+
 
 ### v0.0.1 (2015-01-29)
 
