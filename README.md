@@ -118,9 +118,9 @@ $ npm test
 - Eric Clemmons (<eric@smarterspam.com>)
 
 
-[1]: https://github.com/ericclemmons/react-resolver/master/LICENSE
+[1]: https://github.com/ericclemmons/react-resolver/blob/master/LICENSE
 [2]: https://github.com/ericclemmons/react-resolver/tree/master/examples
 [3]: https://github.com/rackt/react-router
 [4]: https://github.com/angular-ui/ui-router/wiki#resolve
 [5]: https://gist.github.com/wincent/598fa75e22bdfa44cf47
-[6]: https://github.com/ericclemmons/react-resolver/master/CHANGELOG.md
+[6]: https://github.com/ericclemmons/react-resolver/blob/master/CHANGELOG.md
