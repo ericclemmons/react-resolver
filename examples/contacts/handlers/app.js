@@ -1,7 +1,7 @@
 var Header        = require('../components/header');
 var Footer        = require('../components/footer');
 var React         = require('react');
-var Resolver      = require('../../../dist');
+var Resolver      = require('react-resolver');
 var RouteHandler  = require('react-router').RouteHandler;
 
 var App = React.createClass({
