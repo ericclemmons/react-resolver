@@ -19,9 +19,7 @@
     "superagent": "^0.21.0"
   },
   "peerDependencies": {
-    "react": "0.12.x"
-  },
-  "optionalDependencies": {
+    "react": "0.12.x",
     "react-router": "0.12.x"
   },
   "scripts": {
