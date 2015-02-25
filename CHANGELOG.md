@@ -3,6 +3,11 @@
 ### Upcoming...
 
 
+### v0.1.2 - (2015-02-25)
+
+- Fix [examples/contacts](https://github.com/ericclemmons/react-resolver/tree/e026a3b1cbf16995c10c825c18d2f20b6277f62f/examples/contacts)
+
+
 ### v0.1.1 - (2015-02-25)
 
 - Move `react-router` from `optionalDependencies` to `peerDependencies`
