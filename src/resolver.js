@@ -55,8 +55,4 @@ export default class Resolver {
 
     return Bluebird.resolve(element);
   }
-
-  handle(Component) {
-    return this.resolve(<Component />);
-  }
 }

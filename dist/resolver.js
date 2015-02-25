@@ -91,13 +91,6 @@ var Resolver = (function () {
       },
       writable: true,
       configurable: true
-    },
-    handle: {
-      value: function handle(Component) {
-        return this.resolve(React.createElement(Component, null));
-      },
-      writable: true,
-      configurable: true
     }
   });
 

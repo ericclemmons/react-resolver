@@ -132,6 +132,8 @@ Router.run(resolver.route(routes), function(Handler) {
 });
 ```
 
+#### Server
+
 On the server, _all promises have to be resolved **before** rendering_
 and sending the response via `resolver.resolve`.
 
@@ -147,8 +149,8 @@ app.get('/', function(req, res) {
   var resolver = Resolver.create();
 
   Router.run(resolver.route(routes), function(Handler) {
-    resolver.handle(Handler).then(function(resolved) {
-      res.send(React.renderToStaticMarkup(resolved));
+    resolver.resolve(<Handler />).then(function(handled) {
+      res.send(React.renderToStaticMarkup(handled));
     });
   });
 });
