@@ -1,7 +1,7 @@
 var React     = require('react');
 var request   = require('superagent');
 var Link      = require('react-router').Link;
-var Resolver  = require('../../../');
+var Resolver  = require('react-resolver');
 
 var Home = React.createClass({
   mixins: [Resolver.mixin],

@@ -1,10 +1,10 @@
-var _         = require('lodash');
-var assign    = require('react/lib/Object.assign');
-var Bluebird  = require('bluebird');
-var React     = require('react');
-var utils     = require('./utils');
+import _ from 'lodash';
+import assign from 'react/lib/Object.assign';
+import Bluebird from 'bluebird';
+import React from 'react';
+import utils from './utils';
 
-module.exports = {
+export default {
   contextTypes: {
     resolver: React.PropTypes.shape({
       promises: React.PropTypes.object.isRequired
@@ -12,9 +12,9 @@ module.exports = {
   },
 
   componentWillMount: function() {
-    var id      = utils.getElementId(this);
-    var promise = utils.getElementPromise(this);
-    var statics = utils.getElementStatics(this);
+    let id      = utils.getElementId(this);
+    let promise = utils.getElementPromise(this);
+    let statics = utils.getElementStatics(this);
 
     if (!statics) {
       return false;
@@ -37,7 +37,7 @@ module.exports = {
       return false;
     };
 
-    var pending = _.mapValues(statics, function(value, key) {
+    let pending = _.mapValues(statics, (value, key) => {
       // Existing props shouldn't be replaced
       if (_.has(this.props, key)) {
         return Bluebird.resolve(this.props[key]);
@@ -56,13 +56,13 @@ module.exports = {
         // Value is a synchronous function call
         return Bluebird.resolve(value.call(this));
       }
-    }.bind(this));
+    });
 
     this.context.resolver.promises[id] = Bluebird.props(pending);
   },
 
   componentDidMount: function() {
-    var promise = utils.getElementPromise(this);
+    let promise = utils.getElementPromise(this);
 
     if (!promise) {
       return false;

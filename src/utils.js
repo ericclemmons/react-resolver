@@ -3,7 +3,7 @@ module.exports.getElementId = function(element) {
 };
 
 module.exports.getElementPromise = function(element) {
-  var id = module.exports.getElementId(element);
+  let id = module.exports.getElementId(element);
 
   return element.context.resolver.promises[id];
 };
@@ -13,8 +13,8 @@ module.exports.getElementStatics = function(element) {
 };
 
 module.exports.removeElementPromise = function(element) {
-  var id      = module.exports.getElementId(element);
-  var promise = module.exports.getElementPromise(element);
+  let id      = module.exports.getElementId(element);
+  let promise = module.exports.getElementPromise(element);
 
   element.context.resolver.promises[id] = null;
 
@@ -22,7 +22,7 @@ module.exports.removeElementPromise = function(element) {
 };
 
 module.exports.setElementPromise = function(element, promise) {
-  var id = module.exports.getElementId(element);
+  let id = module.exports.getElementId(element);
 
   element.context.resolver.promises[id] = promise;
 

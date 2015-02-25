@@ -3,3 +3,9 @@ language: node_js
 node_js:
   - 0.10
   - 0.11
+
+before_script:
+  - npm link .
+  - cd examples/contacts
+  - npm install
+  - npm link react-resolver

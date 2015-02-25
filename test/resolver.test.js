@@ -1,9 +1,11 @@
-var React     = require('react');
-var request   = require('superagent');
-var resolver  = require('../').create();
-var Router    = require('react-router');
-var routes    = resolver.route(require('../examples/contacts/routes'));
-var sinon     = require('sinon');
+import React from 'react';
+import request from 'superagent';
+import Resolver from '../dist'
+import Router from 'react-router';
+import sinon from 'sinon';
+import Routes from '../examples/contacts/routes';
+
+let resolver = Resolver.create();
 
 describe('Resolver', function() {
   before(function() {
@@ -22,7 +24,7 @@ describe('Resolver', function() {
   });
 
   it('works', function(done) {
-    Router.run(routes, function(Handler) {
+    Router.run(resolver.route(Routes), function(Handler) {
       resolver.handle(Handler).then(function(resolved) {
         done(null, React.renderToStaticMarkup(resolved));
       }, done);

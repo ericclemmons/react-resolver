@@ -1,6 +1,6 @@
 var React     = require('react');
 var request   = require('superagent');
-var Resolver  = require('../../../');
+var Resolver  = require('react-resolver');
 var Router    = require('react-router');
 
 var { Link } = Router;

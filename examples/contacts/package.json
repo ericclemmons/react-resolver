@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "./node_modules/.bin/webpack-dev-server --content-base ./public --hot --inline --no-info"
+  },
+  "devDependencies": {
+    "webpack": "^1.6.0",
+    "webpack-dev-server": "^1.7.0"
+  }
+}
