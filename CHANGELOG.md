@@ -2,18 +2,22 @@
 
 ### Upcoming...
 
+### v0.2.0 - (2015-02-25)
 
-### v0.1.2 - (2015-02-25)
+- Remove [`resolver.handle`][11]
+
+
+### v0.1.2 (2015-02-25)
 
 - Fix [examples/contacts](https://github.com/ericclemmons/react-resolver/tree/e026a3b1cbf16995c10c825c18d2f20b6277f62f/examples/contacts)
 
 
-### v0.1.1 - (2015-02-25)
+### v0.1.1 (2015-02-25)
 
 - Move `react-router` from `optionalDependencies` to `peerDependencies`
 
 
-### v0.1.0 - (2015-02-24)
+### v0.1.0 (2015-02-24)
 
 - [#7][7] - Add `react` and `react-router` as `peerDependencies`.
 - [#8][8] - Support React v0.13
@@ -46,3 +50,4 @@
 [6]: https://github.com/ericclemmons/react-resolver/issues/6
 [7]: https://github.com/ericclemmons/react-resolver/issues/7
 [8]: https://github.com/ericclemmons/react-resolver/issues/8
+[11]: https://github.com/ericclemmons/react-resolver/issues/11

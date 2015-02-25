@@ -132,6 +132,8 @@ Router.run(resolver.route(routes), function(Handler) {
 });
 ```
 
+#### Server
+
 On the server, _all promises have to be resolved **before** rendering_
 and sending the response via `resolver.resolve`.
 
