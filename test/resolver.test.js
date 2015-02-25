@@ -25,8 +25,8 @@ describe('Resolver', function() {
 
   it('works', function(done) {
     Router.run(resolver.route(Routes), function(Handler) {
-      resolver.handle(Handler).then(function(resolved) {
-        done(null, React.renderToStaticMarkup(resolved));
+      resolver.resolve(<Handler />).then(function(handled) {
+        done(null, React.renderToStaticMarkup(handled));
       }, done);
     });
   });
