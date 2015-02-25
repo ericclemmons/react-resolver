@@ -10,7 +10,7 @@ let resolver = Resolver.create();
 describe('Resolver', function() {
   before(function() {
     sinon.stub(request, 'get', function(url, callback) {
-      var file = `../public${url}`;
+      var file = `../examples/contacts/public${url}`;
 
       callback({
         ok: true,

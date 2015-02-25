@@ -161,6 +161,8 @@ app.get('/', function(req, res) {
 
 ```shell
 $ npm install
+$ npm link .
+$ (cd examples/contacts/ && npm link react-resolver)
 $ npm test
 ```
 
