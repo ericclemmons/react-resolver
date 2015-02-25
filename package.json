@@ -11,7 +11,7 @@
     "lodash": "^3.3.1"
   },
   "devDependencies": {
-    "babel": "^4.4.6",
+    "babel": "^4.5.1",
     "mocha": "^2.1.0",
     "react": "0.12.x",
     "react-router": "0.12.x",
