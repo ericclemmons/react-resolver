@@ -113,22 +113,46 @@ This makes it possible for your `statics.resolve` props to access
 
 ### 3. Resolve & Render
 
+#### Client
+
+Because the client supports lazy-loading of components, you can use
+`React.render` as usual.
+
+The only caveat is, if you're using [react-router][3], you'll need to
+wrap your routes with `resolver.route` to maintain context:
+
 ```javascript
-var resolver  = require('resolver').create();
-var routes    = resolver.route(require('./routes'));
+var Resolver  = require('resolver');
+var routes    = require('./routes');
 
-Router.run(routes, function(Handler) {
-  resolver.handle(Handler).then(function(resolved) {
-    // On the Client
-    React.render(resolved, document.getElementById('app'));
+var resolver = Resolver.create();
 
-    // on the Server
-    res.send(React.renderToStaticMarkup(resolved));
-  });
+Router.run(resolver.route(routes), function(Handler) {
+  React.render(<Handler />, document.getElementById('app'));
 });
 ```
 
-**Remember**, if you're rendering on the server you want a _new instance of `Resolver`_ for each request!
+On the server, _all promises have to be resolved **before** rendering_
+and sending the response via `resolver.resolve`.
+
+Be sure to create a new instance of the `Resolver` per-request to avoid
+leaking props to different users!
+
+```javascript
+var Resolver  = require('resolver')
+var routes    = require('./routes');
+
+// Your middleware here...
+app.get('/', function(req, res) {
+  var resolver = Resolver.create();
+
+  Router.run(resolver.route(routes), function(Handler) {
+    resolver.handle(Handler).then(function(resolved) {
+      res.send(React.renderToStaticMarkup(resolved));
+    });
+  });
+});
+```
 
 - - -
 
