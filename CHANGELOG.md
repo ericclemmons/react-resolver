@@ -3,9 +3,15 @@
 ### Upcoming...
 
 
+### v0.1.1 - (2015-02-25)
+
+- Move `react-router` from `optionalDependencies` to `peerDependencies`
+
+
 ### v0.1.0 - (2015-02-24)
 
 - [#7][7] - Add `react` and `react-router` as `peerDependencies`.
+
 
 ### v0.0.4 (2015-02-24)
 
