@@ -1,6 +1,6 @@
 {
   "name": "react-resolver",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Isomorphic library to lazy-load data for React components",
   "main": "dist/index.js",
   "directories": {
