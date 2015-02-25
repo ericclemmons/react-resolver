@@ -3,6 +3,7 @@
 ### Upcoming...
 
 - [#7][7] - Add `react` and `react-router` as `peerDependencies`.
+- [#8][8] - Support React v0.13
 
 
 ### v0.0.4 (2015-02-24)
@@ -31,3 +32,4 @@
 [5]: https://github.com/ericclemmons/react-resolver/issues/5
 [6]: https://github.com/ericclemmons/react-resolver/issues/6
 [7]: https://github.com/ericclemmons/react-resolver/issues/7
+[8]: https://github.com/ericclemmons/react-resolver/issues/8
