@@ -103,8 +103,14 @@ Assuming you're using [React Router][3], you'll need to wrap your routes
 to maintain `context`:
 
 ```javascript
+
+var routes = (
+  <Route handler={App}>
+    <Route path="/users/:userId" name="bar" handler={User}>
+  </Route>
+);
 var resolver  = require('resolver').create();
-var routes    = resolver.route(require('./routes'));
+routes = resolver.route(routes);
 ```
 
 This makes it possible for your `statics.resolve` props to access
