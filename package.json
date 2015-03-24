@@ -6,21 +6,13 @@
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "bluebird": "^2.9.12",
-    "lodash": "^3.3.1"
-  },
   "devDependencies": {
-    "babel": "^4.5.1",
-    "mocha": "^2.1.0",
-    "react": "0.12.x",
-    "react-router": "0.12.x",
-    "sinon": "^1.12.2",
-    "superagent": "^0.21.0"
+    "babel": "^4.7.16",
+    "mocha": "^2.2.1",
+    "react": "0.13.x"
   },
   "peerDependencies": {
-    "react": "0.12.x",
-    "react-router": "0.12.x"
+    "react": "0.13.x"
   },
   "scripts": {
     "prepublish": "npm run build",
