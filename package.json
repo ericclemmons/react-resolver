@@ -11,6 +11,7 @@
     "babel-eslint": "^2.0.2",
     "eslint": "^0.17.1",
     "eslint-plugin-react": "^1.6.0",
+    "jsdom": "^3.1.2",
     "mocha": "^2.2.1",
     "react": "0.13.x"
   },
@@ -18,10 +19,10 @@
     "react": "0.13.x"
   },
   "scripts": {
-    "build": "./node_modules/.bin/babel --out-dir dist/ src/",
-    "lint": "./node_modules/.bin/eslint src",
+    "build": "babel --out-dir dist/ src/",
+    "lint": "eslint src",
     "prepublish": "npm run build",
-    "test": "npm run lint"
+    "test": "npm run lint && mocha"
   },
   "repository": {
     "type": "git",
