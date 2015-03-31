@@ -1,8 +1,17 @@
-import Resolver from './resolver';
-import mixin from './mixin';
-import utils from './utils';
+import React from "react";
 
-Resolver.mixin = mixin;
-Resolver.utils = utils;
+import Container from "./Container";
 
-export default Resolver;
+export { Container };
+
+export const createContainer = function(Component, props = {}) {
+  class ComponentContainer extends React.Component {
+    render() {
+      return <Container component={Component} {...props} {...this.props} />;
+    }
+  }
+
+  ComponentContainer.displayName = `${Component.displayName}Container`;
+
+  return ComponentContainer;
+};
