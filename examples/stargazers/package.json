@@ -1,7 +1,6 @@
 {
   "devDependencies": {
     "axios": "^0.5.2",
-    "babel-loader": "^4.2.0",
     "babelify": "^5.0.4",
     "browser-sync": "^2.4.0",
     "es6-promise": "^2.0.1",
