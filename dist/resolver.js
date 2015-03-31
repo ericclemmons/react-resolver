@@ -2,7 +2,7 @@
 
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-var _prototypeProperties = function (child, staticProps, instanceProps) { if (staticProps) Object.defineProperties(child, staticProps); if (instanceProps) Object.defineProperties(child.prototype, instanceProps); };
+var _createClass = (function () { function defineProperties(target, props) { for (var key in props) { var prop = props[key]; prop.configurable = true; if (prop.value) prop.writable = true; } Object.defineProperties(target, props); } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
@@ -34,15 +34,7 @@ var Resolver = (function () {
     }
   }
 
-  _prototypeProperties(Resolver, {
-    create: {
-      value: function create(context) {
-        return new Resolver(context);
-      },
-      writable: true,
-      configurable: true
-    }
-  }, {
+  _createClass(Resolver, {
     route: {
       value: function route(routes) {
         var context = { resolver: this };
@@ -66,9 +58,7 @@ var Resolver = (function () {
           { handler: ResolverContext },
           routes
         );
-      },
-      writable: true,
-      configurable: true
+      }
     },
     resolve: {
       value: function resolve(element) {
@@ -88,9 +78,13 @@ var Resolver = (function () {
         }
 
         return Bluebird.resolve(element);
-      },
-      writable: true,
-      configurable: true
+      }
+    }
+  }, {
+    create: {
+      value: function create(context) {
+        return new Resolver(context);
+      }
     }
   });
 

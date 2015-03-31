@@ -7,39 +7,49 @@ class ResolverContainer extends React.Component {
     this.state = {
       rejected: false,
       fulfilled: false,
+      values: {},
     };
   }
 
   componentWillMount() {
-    const keys = Object.keys(this.props.resolve);
+    const keys = Object.keys(this.props.resolve).filter((key) => {
+      return !this.props.hasOwnProperty(key);
+    });
 
     const promises = keys.map((key) => {
       const valueOf = this.props.resolve[key];
 
-      return Promise.resolve(valueOf(this.props));
+      // Individually set values upon resolution
+      return Promise.resolve(valueOf(this.props)).then((value) => {
+        const values = this.state.values;
+
+        values[key] = value;
+
+        this.setState({ values });
+      });
     });
 
     Promise.all(promises).then((values) => {
-      const fulfilled = {};
-
-      values.forEach((value, i) => {
-        const key = keys[i];
-
-        fulfilled[key] = value;
-      });
-
-      this.fulfill(fulfilled);
+      this.fulfill(values);
     }, this.reject);
   }
 
   fulfill(values) {
-    this.setState({ fulfilled: values });
+    this.setState({
+      fulfilled: true,
+      rejected: false,
+      values,
+    });
   }
 
-  reject(value) {
-    this.setState({ rejected: value });
+  reject(error) {
+    this.setState({
+      fulfilled: false,
+      error,
+      rejected: true,
+    });
 
-    throw new Error(`${this.constructor.displayName} was rejected: ${value}`);
+    throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
   }
 
   shouldComponentUpdate(props, state) {
