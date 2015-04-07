@@ -63,6 +63,8 @@ class Stargazers extends React.Component {
   }
 }
 
+Stargazers.displayName = "Stargazers";
+
 Stargazers.propTypes = {
   users: React.PropTypes.array.isRequired,
 };
