@@ -22,7 +22,7 @@
     "build": "babel --out-dir dist/ src/",
     "lint": "eslint src",
     "prepublish": "npm run build",
-    "test": "npm run lint && mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -39,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/ericclemmons/react-resolver/issues"
   },
-  "homepage": "https://github.com/ericclemmons/react-resolver"
+  "homepage": "https://github.com/ericclemmons/react-resolver",
+  "dependencies": {
+    "cuid": "^1.2.4"
+  }
 }

@@ -1,20 +1,6 @@
-import React from "react";
-
 import Container from "./Container";
+import Resolver from "./Resolver";
 
-const Resolver = { Container };
-
-Resolver.createContainer = function(Component, props = {}) {
-  class ComponentContainer extends React.Component {
-    render() {
-      return <Container component={Component} {...props} {...this.props} />;
-    }
-  }
-
-  ComponentContainer.displayName = `${Component.displayName}Container`;
-  ComponentContainer.propTypes = Container.propTypes;
-
-  return ComponentContainer;
-};
+Resolver.Container = Container;
 
 export default Resolver;

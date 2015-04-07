@@ -4,56 +4,17 @@ class ResolverContainer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      rejected: false,
-      fulfilled: false,
-      values: {},
-    };
+    this.state = this.context.resolver.getContainerState(this);
   }
 
   componentWillMount() {
-    const keys = Object.keys(this.props.resolve).filter((key) => {
-      return !this.props.hasOwnProperty(key);
-    });
-
-    const promises = keys.map((key) => {
-      const valueOf = this.props.resolve[key];
-
-      // Individually set values upon resolution
-      return Promise.resolve(valueOf(this.props)).then((value) => {
-        const values = this.state.values;
-
-        values[key] = value;
-
-        this.setState({ values });
-      });
-    });
-
-    Promise.all(promises).then((values) => {
-      this.fulfill(values);
-    }, this.reject);
-  }
-
-  fulfill(values) {
-    this.setState({
-      fulfilled: true,
-      rejected: false,
-      values,
-    });
-  }
-
-  reject(error) {
-    this.setState({
-      fulfilled: false,
-      error,
-      rejected: true,
-    });
-
-    throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
+    if (!this.state.fulfilled) {
+      this.context.resolver.resolve(this, this.setState.bind(this));
+    }
   }
 
   shouldComponentUpdate(props, state) {
-    return !!state.fulfilled;
+    return state.fulfilled;
   }
 
   render() {
@@ -62,12 +23,20 @@ class ResolverContainer extends React.Component {
     }
 
     return (
-      <this.props.component {...this.props} {...this.state.fulfilled} />
+      <this.props.component {...this.state.values} />
     );
   }
 }
 
+ResolverContainer.contextTypes = {
+  id: React.PropTypes.string.isRequired,
+  resolver: React.PropTypes.object.isRequired,
+};
+
+ResolverContainer.displayName = "ResolverContainer";
+
 ResolverContainer.propTypes = {
+  component: React.PropTypes.any.isRequired,
   resolve: React.PropTypes.object.isRequired,
 };
 

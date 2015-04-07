@@ -2,7 +2,6 @@ import assert from "assert";
 import React from "react";
 
 import { Container } from "../src";
-import Fixture from "./support/Fixture";
 
 describe("Container", function() {
   describe(".propTypes", function() {
@@ -28,21 +27,5 @@ describe("Container", function() {
         assert.equal(error, null);
       });
     });
-  });
-
-  it("should not resolve props that already set", function() {
-    const element = (
-      <Container
-        component={Fixture}
-        user="Exists"
-        resolve={{
-          user: function() {
-            throw new Error("`user` should not have been called");
-          },
-        }}
-      />
-    );
-
-    React.renderToStaticMarkup(element);
   });
 });
