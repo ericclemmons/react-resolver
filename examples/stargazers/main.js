@@ -1,6 +1,7 @@
 /* eslint no-unused-vars: 0, no-undef: 0, react/react-in-jsx-scope: 0 */
 
 import React from "react";
+import Resolver from "../../src";
 import Router from "react-router";
 import ES6Promise from "es6-promise";
 
@@ -16,5 +17,5 @@ Router.run((
     <DefaultRoute name="home" handler={Home} />
   </Route>
 ), function(Handler) {
-  React.render(<Handler />, document.getElementById("app"));
+  Resolver.render(<Handler />, document.getElementById("app"));
 });
