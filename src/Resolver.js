@@ -114,6 +114,12 @@ export default class Resolver {
     return ComponentContainer;
   }
 
+  static render(element, node) {
+    return new Resolver(element).then((resolved) => {
+      return React.render(resolved, node);
+    });
+  }
+
   static renderToStaticMarkup(element) {
     return new Resolver(element).then((resolved) => {
       return React.renderToStaticMarkup(resolved);
