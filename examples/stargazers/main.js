@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: 0, no-undef: 0, react/react-in-jsx-scope: 0 */
 
 import React from "react";
-import Resolver from "../../src";
+import Resolver from "react-resolver";
 import Router from "react-router";
 import ES6Promise from "es6-promise";
 
