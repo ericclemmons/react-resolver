@@ -2,13 +2,10 @@
 
 var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
 
-var Resolver = _interopRequire(require("./resolver"));
+var Container = _interopRequire(require("./Container"));
 
-var mixin = _interopRequire(require("./mixin"));
+var Resolver = _interopRequire(require("./Resolver"));
 
-var utils = _interopRequire(require("./utils"));
-
-Resolver.mixin = mixin;
-Resolver.utils = utils;
+Resolver.Container = Container;
 
 module.exports = Resolver;
