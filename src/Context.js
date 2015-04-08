@@ -3,10 +3,6 @@ import React from "react/addons";
 import Resolver from "./Resolver";
 
 class ResolverContext extends React.Component {
-  cloneChild(child) {
-    return React.addons.cloneWithProps(child, this.props);
-  }
-
   getChildContext() {
     const resolver = this.props.resolver || this.context.resolver;
 
