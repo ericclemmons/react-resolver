@@ -1,4 +1,4 @@
-import React from "react/addons";
+import React from "react";
 
 import Resolver from "./Resolver";
 
@@ -10,7 +10,7 @@ class ResolverContext extends React.Component {
   }
 
   render() {
-    return React.addons.cloneWithProps(this.props.element, this.props);
+    return React.cloneElement(this.props.element);
   }
 }
 
