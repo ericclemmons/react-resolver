@@ -1,13 +1,10 @@
 import assert from "assert";
 import React from "react";
+import Resolver from "../src";
 
-import { Container } from "../src";
-
-class PropsFixture extends React.Component {
-  render() {
-    return <p>{Object.keys(this.props).join(", ")}</p>;
-  }
-}
+import { Container } from "../src/Container";
+import ContextFixture from "./support/ContextFixture";
+import PropsFixture from "./support/PropsFixture";
 
 describe("<Container />", function() {
   it("should not resolve props that already set", function() {
@@ -22,5 +19,17 @@ describe("<Container />", function() {
     );
 
     React.renderToStaticMarkup(element);
+  });
+
+  it.only("should pass down context", function() {
+    const resolver = new Resolver();
+
+    const element = (
+      <Container resolver={resolver}>
+        <ContextFixture />
+      </Container>
+    );
+
+    console.log(React.renderToStaticMarkup(element));
   });
 });
