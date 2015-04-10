@@ -64,14 +64,6 @@ export default class Resolver {
     throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
   }
 
-  render(element) {
-    const root = <Container resolver={this}>{element}</Container>;
-
-    React.renderToStaticMarkup(root);
-
-    return this.finish().then(() => root);
-  }
-
   resolve(container, callback) {
     const asyncProps = container.props.resolve || {};
     const state = this.getContainerState(container);
