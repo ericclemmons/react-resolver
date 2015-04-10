@@ -8,8 +8,6 @@ import PropsFixtureContainer from "./support/PropsFixtureContainer";
 describe("Resolver", function() {
   describe(".renderToString", function() {
     it("should not fail", function(done) {
-      const expected = React.renderToString(<PropsFixture user="eric" />);
-
       Resolver.renderToString(<PropsFixtureContainer />).then((string) => {
         assert(string);
 
