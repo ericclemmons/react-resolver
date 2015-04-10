@@ -22,7 +22,6 @@ var Resolver = (function () {
 
     _classCallCheck(this, Resolver);
 
-    this.container = React.createElement(Container, { resolver: this });
     this.promises = [];
     this.states = states;
   }
@@ -48,7 +47,7 @@ var Resolver = (function () {
             return _this.finish();
           }
 
-          return _this.container;
+          return values;
         });
       }
     },
@@ -88,21 +87,6 @@ var Resolver = (function () {
         }
 
         throw new Error("" + this.constructor.displayName + " was rejected: " + error);
-      }
-    },
-    render: {
-      value: function render(element) {
-        var root = React.createElement(
-          Container,
-          { resolver: this },
-          element
-        );
-
-        React.renderToStaticMarkup(root);
-
-        return this.finish().then(function () {
-          return root;
-        });
       }
     },
     resolve: {
@@ -201,21 +185,35 @@ var Resolver = (function () {
         return ComponentContainer;
       }
     },
-    render: {
-      value: function render(element, node) {
+    renderToString: {
+      value: function renderToString(element) {
         var resolver = new Resolver();
+        var context = React.createElement(
+          Container,
+          { resolver: resolver },
+          element
+        );
 
-        return resolver.render(element).then(function (resolved) {
-          return React.render(resolved, node);
+        React.renderToString(context);
+
+        return resolver.finish().then(function () {
+          return React.renderToString(context);
         });
       }
     },
     renderToStaticMarkup: {
       value: function renderToStaticMarkup(element) {
         var resolver = new Resolver();
+        var context = React.createElement(
+          Container,
+          { resolver: resolver },
+          element
+        );
 
-        return resolver.render(element).then(function (resolved) {
-          return React.renderToStaticMarkup(resolved);
+        React.renderToStaticMarkup(context);
+
+        return resolver.finish().then(function () {
+          return React.renderToStaticMarkup(context);
         });
       }
     }

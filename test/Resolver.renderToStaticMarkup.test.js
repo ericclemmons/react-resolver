@@ -29,7 +29,7 @@ describe("Resolver", function() {
 
         const render = function() {
           return Resolver.renderToStaticMarkup(<PropsFixtureContainer />);
-        }
+        };
 
         render()
           .then((markup) => {

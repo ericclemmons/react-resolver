@@ -141,19 +141,25 @@ export default class Resolver {
     return ComponentContainer;
   }
 
-  static render(element, node) {
+  static renderToString(element) {
     const resolver = new Resolver();
+    const context = <Container resolver={resolver}>{element}</Container>;
 
-    return resolver.render(element).then((resolved) => {
-      return React.render(resolved, node);
+    React.renderToString(context);
+
+    return resolver.finish().then(() => {
+      return React.renderToString(context);
     });
   }
 
   static renderToStaticMarkup(element) {
     const resolver = new Resolver();
+    const context = <Container resolver={resolver}>{element}</Container>;
 
-    return resolver.render(element).then((resolved) => {
-      return React.renderToStaticMarkup(resolved);
+    React.renderToStaticMarkup(context);
+
+    return resolver.finish().then(() => {
+      return React.renderToStaticMarkup(context);
     });
   }
 }
