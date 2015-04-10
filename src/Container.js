@@ -69,7 +69,7 @@ class Container extends React.Component {
 }
 
 Container.childContextTypes = {
-  resolver: React.PropTypes.any,
+  resolver: React.PropTypes.object,
 };
 
 Container.contextTypes = {
@@ -83,7 +83,7 @@ Container.propTypes = {
   component: React.PropTypes.any,
   element: React.PropTypes.element,
   resolve: React.PropTypes.object,
-  resolver: React.PropTypes.any,
+  resolver: React.PropTypes.object,
 };
 
 export default Container;

@@ -65,6 +65,14 @@ export default class Resolver {
     throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
   }
 
+  render(element) {
+    const root = <Container resolver={this}>{element}</Container>;
+
+    React.renderToStaticMarkup(root);
+
+    return this.finish().then(() => root);
+  }
+
   resolve(container, callback) {
     const asyncProps = container.props.resolve || {};
     const state = this.getContainerState(container);
@@ -82,7 +90,7 @@ export default class Resolver {
       })
       // Filter out pre-loaded values
       .filter((asyncProp) => {
-        return state.values.hasOwnProperty(asyncProp);
+        return !state.values.hasOwnProperty(asyncProp);
       })
     ;
 
@@ -107,10 +115,6 @@ export default class Resolver {
       () => this.fulfillState(state, callback),
       (error) => this.rejectState(error, state, callback)
     );
-  }
-
-  then(callback) {
-    return this.finish().then(callback);
   }
 
   static createContainer(Component, props = {}) {
@@ -147,13 +151,17 @@ export default class Resolver {
   }
 
   static render(element, node) {
-    return new Resolver(element).then((resolved) => {
+    const resolver = new Resolver();
+
+    return resolver.render(element).then((resolved) => {
       return React.render(resolved, node);
     });
   }
 
   static renderToStaticMarkup(element) {
-    return new Resolver(element).then((resolved) => {
+    const resolver = new Resolver();
+
+    return resolver.render(element).then((resolved) => {
       return React.renderToStaticMarkup(resolved);
     });
   }

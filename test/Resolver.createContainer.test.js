@@ -1,22 +1,44 @@
 import assert from "assert";
 import React from "react";
 
-import Resolver from "../src";
+import Container from "../src/Container";
+import FixtureContainer from "./support/FixtureContainer";
 
-const { Container } = Resolver;
+describe("Resolver", function() {
+  describe(".createContainer", function() {
+    describe(".displayName", function() {
+      it("should be `${ComponentName}Container`", function() {
+        assert.equal(FixtureContainer.displayName, "FixtureContainer");
+      });
+    });
 
-class Fixture extends React.Component {}
+    describe(".childContextTypes", function() {
+      it("should only specify `id`", function() {
+        const keys = Object.keys(FixtureContainer.childContextTypes);
 
-describe(".createContainer", function() {
-  beforeEach(function() {
-    this.TestContainer = Resolver.createContainer(Fixture);
-  });
+        assert.deepEqual(keys, ["id"]);
+      });
 
-  it("should use same propTypes as Container", function() {
-    assert.deepEqual(Container.propTypes, this.TestContainer.propTypes);
-  });
+      describe(".id", function() {
+        it("should be `React.PropTypes.string.isRequired`", function() {
+          assert.equal(
+            FixtureContainer.childContextTypes.id,
+            React.PropTypes.string.isRequired
+          );
+        });
+      });
+    });
 
-  it("should set `displayName` to `[ComponentName]Container`", function() {
-    assert(this.TestContainer.displayName, "FixtureContainer");
+    describe(".contextTypes", function() {
+      it("should not have any", function() {
+        assert.equal(FixtureContainer.contextTypes, undefined);
+      });
+    });
+
+    describe(".propTypes", function() {
+      it("should not have any", function() {
+        assert.equal(FixtureContainer.propTypes, undefined);
+      });
+    });
   });
 });

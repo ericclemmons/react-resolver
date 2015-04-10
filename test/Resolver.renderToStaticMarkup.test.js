@@ -3,30 +3,35 @@ import React from "react";
 
 import PropsFixture from "./support/PropsFixture";
 import PropsFixtureContainer from "./support/PropsFixtureContainer";
-import Resolver from "../src";
+import Resolver from "../src/Resolver";
 
 describe("Resolver", function() {
   describe(".renderToStaticMarkup", function() {
-    describe("when given normal components", function() {
+    context("when given a `React.Component`", function() {
       it("matches React.renderToStaticMarkup", function(done) {
-        const expected = React.renderToStaticMarkup(<PropsFixture />);
+        const expected = React.renderToStaticMarkup(<PropsFixture user="Eric" />);
 
-        Resolver.renderToStaticMarkup(<PropsFixture />)
-          .then((actual) => assert.equal(actual, expected))
-          .then(done)
+        Resolver.renderToStaticMarkup(<PropsFixture user="Eric" />)
+          .then((markup) => {
+            assert.equal(markup, expected);
+          }, done)
+          .then(done, done)
+          .catch(done)
         ;
       });
     });
 
-    describe("when given containers", function() {
+    context("when given a <Container />", function() {
       it("matches React.renderToStaticMarkup", function(done) {
         const expected = React.renderToStaticMarkup(
-          <PropsFixture user="Eric Clemmons" />
+          <PropsFixture user="Eric" />
         );
 
         Resolver.renderToStaticMarkup(<PropsFixtureContainer />)
-          .then((actual) => assert.equal(actual, expected))
-          .then(done)
+          .then((markup) => {
+            assert.equal(markup, expected);
+          })
+          .then(done, done)
           .catch(done)
         ;
       });
