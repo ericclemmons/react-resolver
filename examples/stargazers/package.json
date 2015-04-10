@@ -4,10 +4,12 @@
   "scripts": {
     "postinstall": "cp -R ../../dist node_modules/react-resolver",
     "preinstall": "rm -rf node_modules/react-resolver",
+    "prestart": "babel-node ./bin/generate-index.js > public/index.html",
     "start": "webpack-dev-server --content-base ./public --hot --inline --no-info"
   },
   "dependencies": {
     "axios": "^0.5.4",
+    "babel": "^5.0.12",
     "babel-core": "^5.0.12",
     "babel-loader": "^5.0.0",
     "es6-promise": "^2.0.1",
