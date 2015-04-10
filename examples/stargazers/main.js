@@ -2,23 +2,17 @@
 
 import React from "react";
 import { Container, Resolver } from "react-resolver";
+import { DefaultRoute, Route } from "react-router";
 import Router from "react-router";
 import ES6Promise from "es6-promise";
 
-import App from "./handlers/App";
-import Home from "./handlers/Home";
-
-const { DefaultRoute, Route } = Router;
-
-ES6Promise.polyfill();
+import routes from "./routes";
 
 const resolver = new Resolver();
 
-Router.run((
-  <Route path="/" handler={App}>
-    <DefaultRoute name="home" handler={Home} />
-  </Route>
-), function(Handler) {
+ES6Promise.polyfill();
+
+Router.run(routes, (Handler) => {
   React.render((
     <Container resolver={resolver}>
       <Handler />
