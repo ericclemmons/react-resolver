@@ -1,8 +1,7 @@
 import assert from "assert";
+import { Container, Resolver } from "../dist";
 import React from "react";
-import Resolver from "../src/Resolver";
 
-import Container from "../src/Container";
 import ContextFixture from "./support/ContextFixture";
 import PropsFixture from "./support/PropsFixture";
 import PropsFixtureContainer from "./support/PropsFixtureContainer";

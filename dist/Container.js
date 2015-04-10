@@ -93,7 +93,7 @@ var Container = (function (_React$Component) {
 })(React.Component);
 
 Container.childContextTypes = {
-  resolver: React.PropTypes.any };
+  resolver: React.PropTypes.object };
 
 Container.contextTypes = {
   id: React.PropTypes.string,
@@ -105,6 +105,6 @@ Container.propTypes = {
   component: React.PropTypes.any,
   element: React.PropTypes.element,
   resolve: React.PropTypes.object,
-  resolver: React.PropTypes.any };
+  resolver: React.PropTypes.object };
 
 module.exports = Container;

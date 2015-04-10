@@ -1,4 +1,4 @@
 import ContextFixture from "./ContextFixture";
-import Resolver from "../../src/Resolver";
+import { Resolver } from "../../dist";
 
 export default Resolver.createContainer(ContextFixture);

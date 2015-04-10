@@ -1,7 +1,7 @@
 import assert from "assert";
+import { Container } from "../dist";
 import React from "react";
 
-import Container from "../src/Container";
 
 describe("Container", function() {
   describe(".childContextTypes", function() {

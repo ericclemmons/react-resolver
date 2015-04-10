@@ -1,7 +1,7 @@
 import assert from "assert";
+import { Container } from "../dist";
 import React from "react";
 
-import Container from "../src/Container";
 import FixtureContainer from "./support/FixtureContainer";
 
 describe("Resolver", function() {

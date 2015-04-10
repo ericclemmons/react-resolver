@@ -10,11 +10,11 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var cuid = _interopRequire(require("cuid"));
-
 var React = _interopRequire(require("react"));
 
 var Container = _interopRequire(require("./Container"));
+
+var counter = 0;
 
 var Resolver = (function () {
   function Resolver() {
@@ -65,19 +65,16 @@ var Resolver = (function () {
       value: function getContainerState(container) {
         var id = container.context.id;
 
-        if (!id) {
-          throw new TypeError("Container does not have an ID");
+        var state = id && this.states.hasOwnProperty(id) ? this.states[id] : {
+          fulfilled: false,
+          rejected: false,
+          values: {} };
+
+        if (id && !this.states.hasOwnProperty(id)) {
+          this.states[id] = state;
         }
 
-        if (!this.states.hasOwnProperty(id)) {
-          this.states[id] = {
-            fulfilled: false,
-            error: undefined,
-            rejected: false,
-            values: {} };
-        }
-
-        return this.states[id];
+        return state;
       }
     },
     rejectState: {
@@ -91,6 +88,21 @@ var Resolver = (function () {
         }
 
         throw new Error("" + this.constructor.displayName + " was rejected: " + error);
+      }
+    },
+    render: {
+      value: function render(element) {
+        var root = React.createElement(
+          Container,
+          { resolver: this },
+          element
+        );
+
+        React.renderToStaticMarkup(root);
+
+        return this.finish().then(function () {
+          return root;
+        });
       }
     },
     resolve: {
@@ -113,11 +125,11 @@ var Resolver = (function () {
         })
         // Filter out pre-loaded values
         .filter(function (asyncProp) {
-          return state.values.hasOwnProperty(asyncProp);
+          return !state.values.hasOwnProperty(asyncProp);
         });
 
         if (!asyncKeys.length) {
-          return this.fulfillState(state);
+          return Promise.resolve(this.fulfillState(state, callback));
         }
 
         var promises = asyncKeys.map(function (prop) {
@@ -139,11 +151,6 @@ var Resolver = (function () {
           return _this.rejectState(error, state, callback);
         });
       }
-    },
-    then: {
-      value: function then(callback) {
-        return this.finish().then(callback);
-      }
     }
   }, {
     createContainer: {
@@ -154,7 +161,8 @@ var Resolver = (function () {
           throw new ReferenceError("Resolver.createContainer requires wrapped component to have `displayName`");
         }
 
-        var id = cuid();
+        var name = "" + Component.displayName + "Container";
+        var id = "" + counter + "-" + name;
 
         var ComponentContainer = (function (_React$Component) {
           function ComponentContainer() {
@@ -188,21 +196,25 @@ var Resolver = (function () {
         ComponentContainer.childContextTypes = {
           id: React.PropTypes.string.isRequired };
 
-        ComponentContainer.displayName = "" + Component.displayName + "Container";
+        ComponentContainer.displayName = name;
 
         return ComponentContainer;
       }
     },
     render: {
       value: function render(element, node) {
-        return new Resolver(element).then(function (resolved) {
+        var resolver = new Resolver();
+
+        return resolver.render(element).then(function (resolved) {
           return React.render(resolved, node);
         });
       }
     },
     renderToStaticMarkup: {
       value: function renderToStaticMarkup(element) {
-        return new Resolver(element).then(function (resolved) {
+        var resolver = new Resolver();
+
+        return resolver.render(element).then(function (resolved) {
           return React.renderToStaticMarkup(resolved);
         });
       }

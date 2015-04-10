@@ -1,6 +1,6 @@
 import React from "react";
 
-import Container from "../../src/Container";
+import { Container } from "../../dist";
 
 class ContextFixture extends React.Component {
   render() {

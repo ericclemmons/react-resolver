@@ -6,6 +6,8 @@ var Container = _interopRequire(require("./Container"));
 
 var Resolver = _interopRequire(require("./Resolver"));
 
-Resolver.Container = Container;
+var ResolverError = _interopRequire(require("./ResolverError"));
 
-module.exports = Resolver;
+module.exports.Container = Container;
+module.exports.Error = ResolverError;
+module.exports.Resolver = Resolver;

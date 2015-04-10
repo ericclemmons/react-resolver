@@ -1,9 +1,9 @@
 import assert from "assert";
+import { Resolver } from "../dist";
 import React from "react";
 
 import PropsFixture from "./support/PropsFixture";
 import PropsFixtureContainer from "./support/PropsFixtureContainer";
-import Resolver from "../src/Resolver";
 
 describe("Resolver", function() {
   describe(".renderToStaticMarkup", function() {

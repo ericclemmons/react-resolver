@@ -22,7 +22,7 @@
     "build": "babel --out-dir dist/ src/",
     "lint": "eslint src",
     "prepublish": "npm run build",
-    "test": "mocha"
+    "test": "npm run build && mocha"
   },
   "repository": {
     "type": "git",
