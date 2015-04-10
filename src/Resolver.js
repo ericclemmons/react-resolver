@@ -42,7 +42,6 @@ export default class Resolver {
 
     const state = (id && this.states.hasOwnProperty(id)) ? this.states[id] : {
       fulfilled: false,
-      error: undefined,
       rejected: false,
       values: {},
     };
