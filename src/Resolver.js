@@ -1,7 +1,8 @@
-import cuid from "cuid";
 import React from "react";
 
 import Container from "./Container";
+
+let counter = 0;
 
 export default class Resolver {
   constructor(states = {}) {
@@ -39,16 +40,18 @@ export default class Resolver {
   getContainerState(container) {
     const { id } = container.context;
 
+    const state = (id && this.states.hasOwnProperty(id)) ? this.states[id] : {
+      fulfilled: false,
+      error: undefined,
+      rejected: false,
+      values: {},
+    };
+
     if (!this.states.hasOwnProperty(id)) {
-      this.states[id] = {
-        fulfilled: false,
-        error: undefined,
-        rejected: false,
-        values: {},
-      };
+      this.states[id] = state;
     }
 
-    return this.states[id];
+    return state;
   }
 
   rejectState(error, state, callback) {
@@ -116,7 +119,8 @@ export default class Resolver {
       throw new ReferenceError("Resolver.createContainer requires wrapped component to have `displayName`");
     }
 
-    const id = cuid();
+    const name = `${Component.displayName}Container`;
+    const id = `Resolver.${counter}.${name}`;
 
     class ComponentContainer extends React.Component {
       getChildContext() {
@@ -138,7 +142,7 @@ export default class Resolver {
       id: React.PropTypes.string.isRequired,
     };
 
-    ComponentContainer.displayName = `${Component.displayName}Container`;
+    ComponentContainer.displayName = name;
 
     return ComponentContainer;
   }

@@ -40,7 +40,5 @@
     "url": "https://github.com/ericclemmons/react-resolver/issues"
   },
   "homepage": "https://github.com/ericclemmons/react-resolver",
-  "dependencies": {
-    "cuid": "^1.2.4"
-  }
+  "dependencies": {}
 }
