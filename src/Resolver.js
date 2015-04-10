@@ -6,7 +6,6 @@ let counter = 0;
 
 export default class Resolver {
   constructor(states = {}) {
-    this.container = <Container resolver={this} />;
     this.promises = [];
     this.states = states;
   }
@@ -25,7 +24,7 @@ export default class Resolver {
         return this.finish();
       }
 
-      return this.container;
+      return values;
     });
   }
 
