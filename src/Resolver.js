@@ -85,7 +85,7 @@ export default class Resolver {
     ;
 
     if (!asyncKeys.length) {
-      return this.fulfillState(state);
+      return Promise.resolve(this.fulfillState(state, callback));
     }
 
     const promises = asyncKeys.map((prop) => {
