@@ -18,7 +18,7 @@ describe("Resolver", function() {
       });
     });
 
-    describe.only("when given containers", function() {
+    describe("when given containers", function() {
       it("matches React.renderToStaticMarkup", function(done) {
         const expected = React.renderToStaticMarkup(
           <PropsFixture user="Eric Clemmons" />

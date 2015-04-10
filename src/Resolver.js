@@ -2,15 +2,12 @@ import cuid from "cuid";
 import React from "react";
 
 import Container from "./Container";
-import Context from "./Context";
 
 export default class Resolver {
-  constructor(element, states = {}) {
+  constructor(states = {}) {
+    this.container = <Container resolver={this} />;
     this.promises = [];
-    this.root = <Context element={element} resolver={this} />;
     this.states = states;
-
-    React.renderToStaticMarkup(this.root);
   }
 
   await(promises = []) {
@@ -27,8 +24,16 @@ export default class Resolver {
         return this.finish();
       }
 
-      return this.root;
+      return this.container;
     });
+  }
+
+  fulfillState(state, callback) {
+    state.error = undefined;
+    state.fulfilled = true;
+    state.rejected = false;
+
+    return callback ? callback(state) : state;
   }
 
   getContainerState(container) {
@@ -46,13 +51,46 @@ export default class Resolver {
     return this.states[id];
   }
 
+  rejectState(error, state, callback) {
+    state.error = error;
+    state.fulfilled = false;
+    state.rejected = true;
+
+    if (callback) {
+      callback(state);
+    }
+
+    throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
+  }
+
   resolve(container, callback) {
-    const { props } = container;
+    const asyncProps = container.props.resolve || {};
     const state = this.getContainerState(container);
 
-    const promises = Object.keys(props.resolve).map((prop) => {
-      const valueOf = props.resolve[prop];
-      const value = props.hasOwnProperty(prop) ? props[prop]: valueOf(props);
+    const asyncKeys = Object.keys(asyncProps)
+      // Assign existing prop values
+      .filter((asyncProp) => {
+        if (container.props.hasOwnProperty(asyncProp)) {
+          state.values[asyncProp] = container.props[asyncProp];
+
+          return false;
+        }
+
+        return true;
+      })
+      // Filter out pre-loaded values
+      .filter((asyncProp) => {
+        return state.values.hasOwnProperty(asyncProp);
+      })
+    ;
+
+    if (!asyncKeys.length) {
+      return this.fulfillState(state);
+    }
+
+    const promises = asyncKeys.map((prop) => {
+      const valueOf = container.props.resolve[prop];
+      const value = container.props.hasOwnProperty(prop) ? container.props[prop]: valueOf(container.props);
 
       return Promise.resolve(value).then((value) => {
         state.values[prop] = value;
@@ -63,19 +101,10 @@ export default class Resolver {
       });
     });
 
-    return this.await(promises).then(() => {
-      state.error = undefined;
-      state.fulfilled = true;
-      state.rejected = false;
-
-      callback(state);
-    }, (error) => {
-      state.error = error;
-      state.fulfilled = false;
-      state.rejected = true;
-
-      throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
-    });
+    return this.await(promises).then(
+      () => this.fulfillState(state, callback),
+      (error) => this.rejectState(error, state, callback)
+    );
   }
 
   then(callback) {

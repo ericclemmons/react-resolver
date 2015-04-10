@@ -10,25 +10,48 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var React = _interopRequire(require("react"));
+var React = _interopRequire(require("react/addons"));
 
-var ResolverContainer = (function (_React$Component) {
-  function ResolverContainer(props, context) {
-    _classCallCheck(this, ResolverContainer);
+var ResolverError = _interopRequire(require("./ResolverError"));
 
-    _get(Object.getPrototypeOf(ResolverContainer.prototype), "constructor", this).call(this, props, context);
+var Children = React.Children;
+var cloneWithProps = React.addons.cloneWithProps;
 
-    this.state = this.context.resolver.getContainerState(this);
+var Container = (function (_React$Component) {
+  function Container(props, context) {
+    _classCallCheck(this, Container);
+
+    _get(Object.getPrototypeOf(Container.prototype), "constructor", this).call(this, props, context);
+
+    this.state = this.getResolver().getContainerState(this);
   }
 
-  _inherits(ResolverContainer, _React$Component);
+  _inherits(Container, _React$Component);
 
-  _createClass(ResolverContainer, {
+  _createClass(Container, {
     componentWillMount: {
       value: function componentWillMount() {
         if (!this.state.fulfilled) {
-          this.context.resolver.resolve(this, this.setState.bind(this));
+          this.getResolver().resolve(this, this.setState.bind(this));
         }
+      }
+    },
+    getChildContext: {
+      value: function getChildContext() {
+        var resolver = this.getResolver();
+
+        return { resolver: resolver };
+      }
+    },
+    getResolver: {
+      value: function getResolver() {
+        var resolver = this.props.resolver || this.context.resolver;
+
+        if (!resolver) {
+          throw new ReferenceError("Resolver is not defined in either `context` or `props`.  (Perhaps missing a root <Container resolver={new Resolver()} />?)");
+        }
+
+        return resolver;
       }
     },
     shouldComponentUpdate: {
@@ -42,22 +65,46 @@ var ResolverContainer = (function (_React$Component) {
           return false;
         }
 
-        return React.createElement(this.props.component, this.state.values);
+        if (this.props.component) {
+          return React.createElement(this.props.component, this.state.values);
+        }
+
+        if (this.props.element) {
+          return cloneWithProps(this.props.element);
+        }
+
+        if (this.props.children) {
+          if (Children.count(this.props.children) === 1) {
+            return cloneWithProps(Children.only(this.props.children));
+          }
+          return React.createElement(
+            "span",
+            null,
+            Children.map(this.props.children, cloneWithProps)
+          );
+        }
+
+        throw new ResolverError("<Container /> requires one of the following props to render: `element`, `component`, or `children`");
       }
     }
   });
 
-  return ResolverContainer;
+  return Container;
 })(React.Component);
 
-ResolverContainer.contextTypes = {
-  id: React.PropTypes.string.isRequired,
-  resolver: React.PropTypes.object.isRequired };
+Container.childContextTypes = {
+  resolver: React.PropTypes.any };
 
-ResolverContainer.displayName = "ResolverContainer";
+Container.contextTypes = {
+  id: React.PropTypes.string,
+  resolver: React.PropTypes.object };
 
-ResolverContainer.propTypes = {
-  component: React.PropTypes.any.isRequired,
-  resolve: React.PropTypes.object.isRequired };
+Container.displayName = "ResolverContainer";
 
-module.exports = ResolverContainer;
+Container.propTypes = {
+  component: React.PropTypes.any,
+  element: React.PropTypes.element,
+  resolve: React.PropTypes.object,
+  resolver: React.PropTypes.any };
+
+module.exports = Container;

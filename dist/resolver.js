@@ -16,19 +16,15 @@ var React = _interopRequire(require("react"));
 
 var Container = _interopRequire(require("./Container"));
 
-var Context = _interopRequire(require("./Context"));
-
 var Resolver = (function () {
-  function Resolver(element) {
-    var states = arguments[1] === undefined ? {} : arguments[1];
+  function Resolver() {
+    var states = arguments[0] === undefined ? {} : arguments[0];
 
     _classCallCheck(this, Resolver);
 
+    this.container = React.createElement(Container, { resolver: this });
     this.promises = [];
-    this.root = React.createElement(Context, { element: element, resolver: this });
     this.states = states;
-
-    React.renderToStaticMarkup(this.root);
   }
 
   _createClass(Resolver, {
@@ -52,13 +48,26 @@ var Resolver = (function () {
             return _this.finish();
           }
 
-          return _this.root;
+          return _this.container;
         });
+      }
+    },
+    fulfillState: {
+      value: function fulfillState(state, callback) {
+        state.error = undefined;
+        state.fulfilled = true;
+        state.rejected = false;
+
+        return callback ? callback(state) : state;
       }
     },
     getContainerState: {
       value: function getContainerState(container) {
         var id = container.context.id;
+
+        if (!id) {
+          throw new TypeError("Container does not have an ID");
+        }
 
         if (!this.states.hasOwnProperty(id)) {
           this.states[id] = {
@@ -71,17 +80,49 @@ var Resolver = (function () {
         return this.states[id];
       }
     },
+    rejectState: {
+      value: function rejectState(error, state, callback) {
+        state.error = error;
+        state.fulfilled = false;
+        state.rejected = true;
+
+        if (callback) {
+          callback(state);
+        }
+
+        throw new Error("" + this.constructor.displayName + " was rejected: " + error);
+      }
+    },
     resolve: {
       value: function resolve(container, callback) {
         var _this = this;
 
-        var props = container.props;
-
+        var asyncProps = container.props.resolve || {};
         var state = this.getContainerState(container);
 
-        var promises = Object.keys(props.resolve).map(function (prop) {
-          var valueOf = props.resolve[prop];
-          var value = props.hasOwnProperty(prop) ? props[prop] : valueOf(props);
+        var asyncKeys = Object.keys(asyncProps)
+        // Assign existing prop values
+        .filter(function (asyncProp) {
+          if (container.props.hasOwnProperty(asyncProp)) {
+            state.values[asyncProp] = container.props[asyncProp];
+
+            return false;
+          }
+
+          return true;
+        })
+        // Filter out pre-loaded values
+        .filter(function (asyncProp) {
+          return state.values.hasOwnProperty(asyncProp);
+        });
+
+        if (!asyncKeys.length) {
+          return this.fulfillState(state);
+        }
+
+        var promises = asyncKeys.map(function (prop) {
+          var valueOf = container.props.resolve[prop];
+          var value = container.props.hasOwnProperty(prop) ? container.props[prop] : valueOf(container.props);
 
           return Promise.resolve(value).then(function (value) {
             state.values[prop] = value;
@@ -93,17 +134,9 @@ var Resolver = (function () {
         });
 
         return this.await(promises).then(function () {
-          state.error = undefined;
-          state.fulfilled = true;
-          state.rejected = false;
-
-          callback(state);
+          return _this.fulfillState(state, callback);
         }, function (error) {
-          state.error = error;
-          state.fulfilled = false;
-          state.rejected = true;
-
-          throw new Error("" + _this.constructor.displayName + " was rejected: " + error);
+          return _this.rejectState(error, state, callback);
         });
       }
     },
