@@ -46,7 +46,7 @@ export default class Resolver {
       values: {},
     };
 
-    if (!this.states.hasOwnProperty(id)) {
+    if (id && !this.states.hasOwnProperty(id)) {
       this.states[id] = state;
     }
 
@@ -119,7 +119,7 @@ export default class Resolver {
     }
 
     const name = `${Component.displayName}Container`;
-    const id = `Resolver.${counter}.${name}`;
+    const id = `${counter}-${name}`;
 
     class ComponentContainer extends React.Component {
       getChildContext() {

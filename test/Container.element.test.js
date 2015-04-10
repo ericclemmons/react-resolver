@@ -5,9 +5,10 @@ import Resolver from "../src";
 import Container from "../src/Container";
 import ContextFixture from "./support/ContextFixture";
 import PropsFixture from "./support/PropsFixture";
+import PropsFixtureContainer from "./support/PropsFixtureContainer";
 
-describe.only("<Container />", function() {
-  before(function() {
+describe("<Container />", function() {
+  beforeEach(function() {
     this.resolver = new Resolver();
   });
 
@@ -79,7 +80,25 @@ describe.only("<Container />", function() {
     });
 
     describe(".resolver", function() {
+      it("should not store state for plain <Container />", function() {
+        React.renderToStaticMarkup(
+          <Container resolver={this.resolver}>
+            <PropsFixture {...this.props} />
+          </Container>
+        );
 
+        assert.equal(0, Object.keys(this.resolver.states).length);
+      });
+
+      it("should store state for `Resolver.createContainer`s", function() {
+        React.renderToStaticMarkup(
+          <Container resolver={this.resolver}>
+            <PropsFixtureContainer {...this.props} />
+          </Container>
+        );
+
+        assert.equal(1, Object.keys(this.resolver.states).length);
+      });
     });
   });
 });
