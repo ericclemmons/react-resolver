@@ -15,7 +15,7 @@ describe("Resolver", function() {
           .then((markup) => {
             assert.equal(markup, expected);
           }, done)
-          .then(done, done)
+          .then(done)
           .catch(done)
         ;
       });
@@ -27,11 +27,20 @@ describe("Resolver", function() {
           <PropsFixture user="Eric" />
         );
 
-        Resolver.renderToStaticMarkup(<PropsFixtureContainer />)
+        const render = function() {
+          return Resolver.renderToStaticMarkup(<PropsFixtureContainer />);
+        }
+
+        render()
+          .then((markup) => {
+            assert.equal(markup, expected);
+
+            return render();
+          })
           .then((markup) => {
             assert.equal(markup, expected);
           })
-          .then(done, done)
+          .then(done)
           .catch(done)
         ;
       });
