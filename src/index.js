@@ -1,6 +1,7 @@
 import Container from "./Container";
 import Resolver from "./Resolver";
+import ResolverError from "./ResolverError";
 
-Resolver.Container = Container;
-
-export default Resolver;
+module.exports.Class = Resolver;
+module.exports.Container = Container;
+module.exports.Error = ResolverError;
