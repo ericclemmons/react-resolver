@@ -7,12 +7,12 @@
     "test": "test"
   },
   "devDependencies": {
-    "babel": "^4.7.16",
+    "babel": "^5.0.12",
     "babel-eslint": "^2.0.2",
-    "eslint": "^0.17.1",
-    "eslint-plugin-react": "^1.6.0",
+    "eslint": "^0.18.0",
+    "eslint-plugin-react": "^2.1.0",
     "jsdom": "^3.1.2",
-    "mocha": "^2.2.1",
+    "mocha": "^2.2.4",
     "react": "0.13.x"
   },
   "peerDependencies": {
