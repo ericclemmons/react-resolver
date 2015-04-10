@@ -2,10 +2,11 @@
   "main": "main.js",
   "private": true,
   "scripts": {
+    "build": "webpack -p && babel-node ./bin/generate-index.js > public/index.html",
     "postinstall": "cp -R ../../dist node_modules/react-resolver",
     "preinstall": "rm -rf node_modules/react-resolver",
-    "prestart": "babel-node ./bin/generate-index.js > public/index.html",
-    "start": "webpack-dev-server --content-base ./public --hot --inline --no-info"
+    "prestart": "npm run build",
+    "start": "webpack-dev-server --content-base ./public --hot --inline --no-info --devtool inline-source-map"
   },
   "dependencies": {
     "axios": "^0.5.4",
