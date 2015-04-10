@@ -31,7 +31,7 @@ class Stargazers extends React.Component {
     return (
       <div key={`group-${i}`} className="row">
         {group.map(user => (
-          <div className={`col ${size}`}>
+          <div key={user.id} className={`col ${size}`}>
             {this.renderUser(user)}
           </div>
         ))}
