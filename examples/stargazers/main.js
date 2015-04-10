@@ -1,7 +1,7 @@
 /* eslint no-unused-vars: 0, no-undef: 0, react/react-in-jsx-scope: 0 */
 
 import React from "react";
-import Resolver from "react-resolver";
+import { Container, Resolver } from "react-resolver";
 import Router from "react-router";
 import ES6Promise from "es6-promise";
 
@@ -12,10 +12,16 @@ const { DefaultRoute, Route } = Router;
 
 ES6Promise.polyfill();
 
+const resolver = new Resolver();
+
 Router.run((
   <Route path="/" handler={App}>
     <DefaultRoute name="home" handler={Home} />
   </Route>
 ), function(Handler) {
-  Resolver.render(<Handler />, document.getElementById("app"));
+  React.render((
+    <Container resolver={resolver}>
+      <Handler />
+    </Container>
+  ), document.getElementById("app"));
 });

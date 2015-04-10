@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 
-import Resolver from "react-resolver";
+import { Resolver } from "react-resolver";
 
 class Stargazers extends React.Component {
   render() {
