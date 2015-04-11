@@ -96,8 +96,6 @@ export default class Resolver {
       return Promise.resolve(value).then((value) => {
         state.values[prop] = value;
 
-        callback(state);
-
         return value;
       });
     });
