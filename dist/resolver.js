@@ -22,7 +22,9 @@ var _Container = require("./Container");
 
 var _Container2 = _interopRequireWildcard(_Container);
 
-var counter = 0;
+var _ResolverError = require("./ResolverError");
+
+var _ResolverError2 = _interopRequireWildcard(_ResolverError);
 
 var Resolver = (function () {
   function Resolver() {
@@ -30,6 +32,8 @@ var Resolver = (function () {
 
     _classCallCheck(this, Resolver);
 
+    this.frozen = false;
+    this.ids = {};
     this.promises = [];
     this.states = states;
   }
@@ -55,8 +59,16 @@ var Resolver = (function () {
           return _this.finish();
         }
 
+        _this.finished = true;
+        _this.ids = {};
+
         return values;
       });
+    }
+  }, {
+    key: "freeze",
+    value: function freeze() {
+      this.frozen = true;
     }
   }, {
     key: "fulfillState",
@@ -68,16 +80,35 @@ var Resolver = (function () {
       return callback ? callback(state) : state;
     }
   }, {
+    key: "getContainerId",
+    value: function getContainerId(container) {
+      var parentId = container.context.parent ? container.context.parent.id : 0;
+
+      if (!this.ids[parentId]) {
+        this.ids[parentId] = 0;
+      }
+
+      var id = "" + parentId + "." + this.ids[parentId];
+
+      this.ids[parentId]++;
+
+      return id;
+    }
+  }, {
     key: "getContainerState",
     value: function getContainerState(container) {
-      var id = container.context.id;
+      var id = container.id;
 
-      var state = id && this.states.hasOwnProperty(id) ? this.states[id] : {
+      if (!id) {
+        throw new ReferenceError("" + container.constructor.displayName + " should have an ID");
+      }
+
+      var state = this.states.hasOwnProperty(id) ? this.states[id] : {
         fulfilled: false,
         rejected: false,
         values: {} };
 
-      if (id && !this.states.hasOwnProperty(id)) {
+      if (!this.states.hasOwnProperty(id)) {
         this.states[id] = state;
       }
 
@@ -124,14 +155,16 @@ var Resolver = (function () {
         return Promise.resolve(this.fulfillState(state, callback));
       }
 
+      if (this.frozen) {
+        throw new _ResolverError2["default"](["Resolver is frozen for server rendering.", "" + container.constructor.displayName + " (#" + container.id + ") should have already resolved", "\"" + asyncKeys.join("\", \"") + "\". (http://git.io/vvvkr)"].join(" "));
+      }
+
       var promises = asyncKeys.map(function (prop) {
         var valueOf = container.props.resolve[prop];
         var value = container.props.hasOwnProperty(prop) ? container.props[prop] : valueOf(container.props);
 
         return Promise.resolve(value).then(function (value) {
           state.values[prop] = value;
-
-          callback(state);
 
           return value;
         });
@@ -152,9 +185,6 @@ var Resolver = (function () {
         throw new ReferenceError("Resolver.createContainer requires wrapped component to have `displayName`");
       }
 
-      var name = "" + Component.displayName + "Container";
-      var id = "" + counter + "-" + name;
-
       var ComponentContainer = (function (_React$Component) {
         function ComponentContainer() {
           _classCallCheck(this, ComponentContainer);
@@ -167,11 +197,6 @@ var Resolver = (function () {
         _inherits(ComponentContainer, _React$Component);
 
         _createClass(ComponentContainer, [{
-          key: "getChildContext",
-          value: function getChildContext() {
-            return { id: id };
-          }
-        }, {
           key: "render",
           value: function render() {
             return _React2["default"].createElement(_Container2["default"], _extends({
@@ -183,10 +208,7 @@ var Resolver = (function () {
         return ComponentContainer;
       })(_React2["default"].Component);
 
-      ComponentContainer.childContextTypes = {
-        id: _React2["default"].PropTypes.string.isRequired };
-
-      ComponentContainer.displayName = name;
+      ComponentContainer.displayName = "" + Component.displayName + "Container";
 
       return ComponentContainer;
     }
@@ -203,6 +225,8 @@ var Resolver = (function () {
       _React2["default"].renderToString(context);
 
       return resolver.finish().then(function () {
+        resolver.freeze();
+
         return _React2["default"].renderToString(context);
       });
     }
@@ -219,6 +243,8 @@ var Resolver = (function () {
       _React2["default"].renderToStaticMarkup(context);
 
       return resolver.finish().then(function () {
+        resolver.freeze();
+
         return _React2["default"].renderToStaticMarkup(context);
       });
     }

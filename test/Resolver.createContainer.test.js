@@ -13,19 +13,8 @@ describe("Resolver", function() {
     });
 
     describe(".childContextTypes", function() {
-      it("should only specify `id`", function() {
-        const keys = Object.keys(FixtureContainer.childContextTypes);
-
-        assert.deepEqual(keys, ["id"]);
-      });
-
-      describe(".id", function() {
-        it("should be `React.PropTypes.string.isRequired`", function() {
-          assert.equal(
-            FixtureContainer.childContextTypes.id,
-            React.PropTypes.string.isRequired
-          );
-        });
+      it("should not have any", function() {
+        assert.equal(FixtureContainer.childContextTypes, undefined);
       });
     });
 

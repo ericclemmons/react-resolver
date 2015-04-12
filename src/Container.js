@@ -78,11 +78,11 @@ class Container extends React.Component {
 }
 
 Container.childContextTypes = {
-  resolver: React.PropTypes.object,
+  parent: React.PropTypes.instanceOf(Container),
+  resolver: React.PropTypes.object.isRequired,
 };
 
 Container.contextTypes = {
-  id: React.PropTypes.string,
   resolver: React.PropTypes.object,
 };
 

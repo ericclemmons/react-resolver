@@ -31,6 +31,7 @@ var Container = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Container.prototype), "constructor", this).call(this, props, context);
 
+    this.id = this.getResolver().getContainerId(this);
     this.state = this.getResolver().getContainerState(this);
   }
 
@@ -39,16 +40,25 @@ var Container = (function (_React$Component) {
   _createClass(Container, [{
     key: "componentWillMount",
     value: function componentWillMount() {
+      var _this = this;
+
       if (!this.state.fulfilled) {
-        this.getResolver().resolve(this, this.setState.bind(this));
+        this.getResolver().resolve(this, function (state) {
+          return new Promise(function (resolve) {
+            _this.setState(state, resolve);
+          });
+        });
       }
     }
   }, {
     key: "getChildContext",
     value: function getChildContext() {
+      var parent = this;
       var resolver = this.getResolver();
 
-      return { resolver: resolver };
+      return {
+        parent: parent,
+        resolver: resolver };
     }
   }, {
     key: "getResolver",
@@ -100,10 +110,10 @@ var Container = (function (_React$Component) {
 })(_React2["default"].Component);
 
 Container.childContextTypes = {
-  resolver: _React2["default"].PropTypes.object };
+  parent: _React2["default"].PropTypes.instanceOf(Container),
+  resolver: _React2["default"].PropTypes.object.isRequired };
 
 Container.contextTypes = {
-  id: _React2["default"].PropTypes.string,
   resolver: _React2["default"].PropTypes.object };
 
 Container.displayName = "ResolverContainer";

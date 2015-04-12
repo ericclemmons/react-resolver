@@ -1,11 +1,12 @@
 import React from "react";
 
 import Container from "./Container";
-
-let counter = 0;
+import ResolverError from "./ResolverError";
 
 export default class Resolver {
   constructor(states = {}) {
+    this.frozen = false;
+    this.ids = {};
     this.promises = [];
     this.states = states;
   }
@@ -24,8 +25,15 @@ export default class Resolver {
         return this.finish();
       }
 
+      this.finished = true;
+      this.ids = {};
+
       return values;
     });
+  }
+
+  freeze() {
+    this.frozen = true;
   }
 
   fulfillState(state, callback) {
@@ -36,16 +44,34 @@ export default class Resolver {
     return callback ? callback(state) : state;
   }
 
-  getContainerState(container) {
-    const { id } = container.context;
+  getContainerId(container) {
+    const parentId = container.context.parent ? container.context.parent.id : 0;
 
-    const state = (id && this.states.hasOwnProperty(id)) ? this.states[id] : {
+    if (!this.ids[parentId]) {
+      this.ids[parentId] = 0;
+    }
+
+    const id = `${parentId}.${this.ids[parentId]}`;
+
+    this.ids[parentId]++;
+
+    return id;
+  }
+
+  getContainerState(container) {
+    const { id } = container;
+
+    if (!id) {
+      throw new ReferenceError(`${container.constructor.displayName} should have an ID`);
+    }
+
+    const state = this.states.hasOwnProperty(id) ? this.states[id] : {
       fulfilled: false,
       rejected: false,
       values: {},
     };
 
-    if (id && !this.states.hasOwnProperty(id)) {
+    if (!this.states.hasOwnProperty(id)) {
       this.states[id] = state;
     }
 
@@ -89,6 +115,14 @@ export default class Resolver {
       return Promise.resolve(this.fulfillState(state, callback));
     }
 
+    if (this.frozen) {
+      throw new ResolverError([
+        "Resolver is frozen for server rendering.",
+        `${container.constructor.displayName} (#${container.id}) should have already resolved`,
+        `"${asyncKeys.join("\", \"")}". (http://git.io/vvvkr)`,
+      ].join(" "));
+    }
+
     const promises = asyncKeys.map((prop) => {
       const valueOf = container.props.resolve[prop];
       const value = container.props.hasOwnProperty(prop) ? container.props[prop]: valueOf(container.props);
@@ -111,14 +145,7 @@ export default class Resolver {
       throw new ReferenceError("Resolver.createContainer requires wrapped component to have `displayName`");
     }
 
-    const name = `${Component.displayName}Container`;
-    const id = `${counter}-${name}`;
-
     class ComponentContainer extends React.Component {
-      getChildContext() {
-        return { id };
-      }
-
       render() {
         return (
           <Container
@@ -130,11 +157,7 @@ export default class Resolver {
       }
     }
 
-    ComponentContainer.childContextTypes = {
-      id: React.PropTypes.string.isRequired,
-    };
-
-    ComponentContainer.displayName = name;
+    ComponentContainer.displayName = `${Component.displayName}Container`;
 
     return ComponentContainer;
   }
@@ -146,6 +169,8 @@ export default class Resolver {
     React.renderToString(context);
 
     return resolver.finish().then(() => {
+      resolver.freeze();
+
       return React.renderToString(context);
     });
   }
@@ -157,6 +182,8 @@ export default class Resolver {
     React.renderToStaticMarkup(context);
 
     return resolver.finish().then(() => {
+      resolver.freeze();
+
       return React.renderToStaticMarkup(context);
     });
   }

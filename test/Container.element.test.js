@@ -43,11 +43,32 @@ describe("<Container />", function() {
     });
 
     describe(".resolve", function() {
-      before(function() {
-        this.props = { user: "Exists" };
+      it("should resolve keys", function(done) {
+        const element = (
+          <Container component={PropsFixture} resolve={{
+            user: () => {
+              return new Promise((resolve) => {
+                setTimeout(() => resolve("Eric"), 0);
+              });
+            },
+          }} />
+        );
+
+        const expected = React.renderToStaticMarkup(
+          <PropsFixture user="Eric" />
+        );
+
+        Resolver.renderToStaticMarkup(element).then((markup) => {
+          assert.equal(markup, expected);
+          done();
+        }).catch(done);
       });
 
-      describe("given keys already defined in props", function() {
+      context("when keys are already defined in props", function() {
+        before(function() {
+          this.props = { user: "Exists" };
+        });
+
         it("should not resolve keys", function() {
           React.renderToStaticMarkup(
             <Container
@@ -79,14 +100,14 @@ describe("<Container />", function() {
     });
 
     describe(".resolver", function() {
-      it("should not store state for plain <Container />", function() {
+      it("should store state for plain <Container />s", function() {
         React.renderToStaticMarkup(
           <Container resolver={this.resolver}>
             <PropsFixture {...this.props} />
           </Container>
         );
 
-        assert.equal(0, Object.keys(this.resolver.states).length);
+        assert.equal(1, Object.keys(this.resolver.states).length);
       });
 
       it("should store state for `Resolver.createContainer`s", function() {
@@ -96,7 +117,7 @@ describe("<Container />", function() {
           </Container>
         );
 
-        assert.equal(1, Object.keys(this.resolver.states).length);
+        assert.equal(2, Object.keys(this.resolver.states).length);
       });
     });
   });
