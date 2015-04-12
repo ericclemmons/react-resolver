@@ -9,19 +9,28 @@ class Container extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    this.id = this.getResolver().getContainerId(this);
     this.state = this.getResolver().getContainerState(this);
   }
 
   componentWillMount() {
     if (!this.state.fulfilled) {
-      this.getResolver().resolve(this, this.setState.bind(this));
+      this.getResolver().resolve(this, (state) => {
+        return new Promise((resolve) => {
+          this.setState(state, resolve);
+        });
+      });
     }
   }
 
   getChildContext() {
+    const parent = this;
     const resolver = this.getResolver();
 
-    return { resolver };
+    return {
+      parent,
+      resolver,
+    };
   }
 
   getResolver() {
