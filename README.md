@@ -43,7 +43,6 @@
 ## Requirements
 
 - React `v0.13.x`
-  - `$ npm install --save react`
 
 _For browsers that don't nativeuly support promises, use [ES6 Promise](https://github.com/jakearchibald/es6-promise)._
 
