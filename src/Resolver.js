@@ -24,8 +24,6 @@ export default class Resolver {
         return this.finish();
       }
 
-      this.finished = true;
-
       return values;
     });
   }

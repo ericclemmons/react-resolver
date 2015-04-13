@@ -58,8 +58,6 @@ var Resolver = (function () {
           return _this.finish();
         }
 
-        _this.finished = true;
-
         return values;
       });
     }
