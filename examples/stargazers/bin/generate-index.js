@@ -13,7 +13,7 @@ const layout = fs.readFileSync(`${__dirname}/../layout.html`, "utf8");
 Router.run(routes, (Handler) => {
   Resolver.renderToString(<Handler />).then((string) => {
     const html = layout.replace(/<noscript>[\S\s.]*<\/noscript>/m, string);
-    
+
     process.stdout.write(html);
   }).catch((error) => {
     throw error;
