@@ -17,7 +17,7 @@
 
 ## Demo
 
-> ![Demo](demo.png)
+> [![Demo](demo.png)][demo]
 
 [View Demo][demo]
 
