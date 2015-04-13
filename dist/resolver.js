@@ -144,10 +144,10 @@ var Resolver = (function () {
         var valueOf = container.props.resolve[prop];
         var value = container.props.hasOwnProperty(prop) ? container.props[prop] : valueOf(container.props);
 
-        return Promise.resolve(value).then(function (value) {
-          state.values[prop] = value;
+        return Promise.resolve(value).then(function (resolved) {
+          state.values[prop] = resolved;
 
-          return value;
+          return resolved;
         });
       });
 

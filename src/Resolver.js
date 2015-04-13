@@ -109,10 +109,10 @@ export default class Resolver {
       const valueOf = container.props.resolve[prop];
       const value = container.props.hasOwnProperty(prop) ? container.props[prop]: valueOf(container.props);
 
-      return Promise.resolve(value).then((value) => {
-        state.values[prop] = value;
+      return Promise.resolve(value).then((resolved) => {
+        state.values[prop] = resolved;
 
-        return value;
+        return resolved;
       });
     });
 
