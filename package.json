@@ -7,9 +7,9 @@
     "test": "test"
   },
   "devDependencies": {
-    "babel": "^5.0.12",
+    "babel": "^5.1.4",
     "babel-eslint": "^2.0.2",
-    "eslint": "^0.18.0",
+    "eslint": "^0.19.0",
     "eslint-plugin-react": "^2.1.0",
     "jsdom": "^3.1.2",
     "mocha": "^2.2.4",
