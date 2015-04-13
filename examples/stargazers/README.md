@@ -1,4 +1,4 @@
-# React Resolver - Contacts Example
+# React Resolver - Stargazers Demo
 
 ### Usage
 

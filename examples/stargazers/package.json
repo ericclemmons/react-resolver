@@ -1,0 +1,21 @@
+{
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "build": "webpack -p",
+    "postinstall": "npm run build",
+    "preinstall": "rm -rf node_modules/react-resolver && cp -R ../../dist node_modules/react-resolver",
+    "start": "webpack-dev-server --content-base ./public --hot --inline --no-info --devtool inline-source-map"
+  },
+  "dependencies": {
+    "axios": "^0.5.4",
+    "babel": "^5.1.3",
+    "babel-core": "^5.1.3",
+    "babel-loader": "^5.0.0",
+    "es6-promise": "^2.0.1",
+    "react": "^0.13.1",
+    "react-router": "^0.13.2",
+    "webpack": "^1.8.4",
+    "webpack-dev-server": "^1.8.0"
+  }
+}

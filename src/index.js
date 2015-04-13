@@ -1,8 +1,7 @@
-import Resolver from './resolver';
-import mixin from './mixin';
-import utils from './utils';
+import Container from "./Container";
+import Resolver from "./Resolver";
+import ResolverError from "./ResolverError";
 
-Resolver.mixin = mixin;
-Resolver.utils = utils;
-
-export default Resolver;
+module.exports.Container = Container;
+module.exports.Error = ResolverError;
+module.exports.Resolver = Resolver;

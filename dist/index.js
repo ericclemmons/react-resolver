@@ -1,14 +1,19 @@
 "use strict";
 
-var _interopRequire = function (obj) { return obj && obj.__esModule ? obj["default"] : obj; };
+var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
-var Resolver = _interopRequire(require("./resolver"));
+var _Container = require("./Container");
 
-var mixin = _interopRequire(require("./mixin"));
+var _Container2 = _interopRequireWildcard(_Container);
 
-var utils = _interopRequire(require("./utils"));
+var _Resolver = require("./Resolver");
 
-Resolver.mixin = mixin;
-Resolver.utils = utils;
+var _Resolver2 = _interopRequireWildcard(_Resolver);
 
-module.exports = Resolver;
+var _ResolverError = require("./ResolverError");
+
+var _ResolverError2 = _interopRequireWildcard(_ResolverError);
+
+module.exports.Container = _Container2["default"];
+module.exports.Error = _ResolverError2["default"];
+module.exports.Resolver = _Resolver2["default"];
