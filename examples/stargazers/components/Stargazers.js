@@ -20,7 +20,7 @@ class Stargazers extends React.Component {
           </div>
         </div>
 
-        {this.renderUsers(this.props.users, 4)}
+        {this.renderUsers(this.props.users, 6)}
       </section>
     );
   }
@@ -41,13 +41,12 @@ class Stargazers extends React.Component {
 
   renderUser(user) {
     return (
-      <div key={user.id} className="card">
-        <div className="card-image">
-          <img src={user.avatar_url} alt="" className="responsive-img" />
-        </div>
-        <div className="card-content">
+      <div key={user.id} className="center-align">
+        <a href={`https://github.com/${user.login}`} target="_blank">
+          <img src={user.avatar_url} alt="" className="circle responsive-img z-depth-1" />
+          <br />
           {user.login}
-        </div>
+        </a>
       </div>
     );
   }
