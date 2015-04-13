@@ -54,9 +54,10 @@ class Stargazers extends React.Component {
 
   renderUsers(users, cols) {
     const groups = [];
+    const remaining = [].concat(users);
 
-    while (users.length) {
-      groups.push(users.splice(0, cols));
+    while (remaining.length) {
+      groups.push(remaining.splice(0, cols));
     }
 
     return groups.map(this.renderGroup.bind(this, cols));
