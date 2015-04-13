@@ -56,10 +56,10 @@ npm install --save react-resolver
 
 ## Usage
 
-_Example is based on [Stargazers.js](https://github.com/ericclemmons/react-resolver/blob/master/examples/stargazers/components/Stargazers.js) in the [demo](#demo)._
+_Example is based on [Stargazers.js](https://github.com/ericclemmons/react-resolver/blob/master/examples/stargazers/components/Stargazers.js) in the [demo][demo]._
 
-Suppose you want to display list of users (e.g. `["Eric", "Evan", "Will", "Chad"]`),
-but that data is loaded asynchronously via an API.
+Suppose you want to display list of users, but that data is loaded
+asynchronously via an API.
 
 Rather than having your component handle data-fetching _and_ rendering,
 you can create a "container" that fetches the data and only renders when ready:
@@ -81,7 +81,7 @@ class Users extends React.Component {
 }
 
 Users.defaultProps = { limit: 5 };
-Users.propTypes = { users: Raect.PropTypes.array.isRequired };
+Users.propTypes = { users: React.PropTypes.array.isRequired };
 
 // Rather than `export default Users`, create a container:
 export default Resolver.createContainer(Users, {
@@ -143,9 +143,19 @@ $ npm test
 
 ## Authors
 
-- Eric Clemmons (<eric@smarterspam.com>)
+- [Eric Clemmons](mailto:eric@smarterspam.com>) ([@ericclemmons][twitter])
+
+
+## [License][license]
+
+
+## Collaboration
+
+If you have questions or issues, please [open an issue][issue]!
 
 
 [changelog]: https://github.com/ericclemmons/react-resolver/blob/master/CHANGELOG.md
 [demo]: https://cdn.rawgit.com/ericclemmons/react-resolver/master/examples/stargazers/public/index.html
+[issue]: https://github.com/ericclemmons/react-resolver/issues/new
 [license]: https://github.com/ericclemmons/react-resolver/blob/master/LICENSE
+[twitter]: https://twitter.com/ericclemmons/
