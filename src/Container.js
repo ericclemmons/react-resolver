@@ -9,7 +9,9 @@ class Container extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    this.id = this.getResolver().getContainerId(this);
+    this.children = [];
+
+    this.id = this.getId();
     this.state = this.getResolver().getContainerState(this);
   }
 
@@ -21,6 +23,20 @@ class Container extends React.Component {
         });
       });
     }
+  }
+
+  getId() {
+    const parent = this.context.parent;
+
+    if (!parent) {
+      return ".0";
+    }
+
+    const id = `${parent.id}.${parent.children.length}`;
+
+    parent.children.push(this);
+
+    return id;
   }
 
   getChildContext() {
@@ -83,6 +99,7 @@ Container.childContextTypes = {
 };
 
 Container.contextTypes = {
+  parent: React.PropTypes.instanceOf(Container),
   resolver: React.PropTypes.object,
 };
 

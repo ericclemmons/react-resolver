@@ -34,7 +34,18 @@ describe("Container", function() {
     it("should only specify `resolver`", function() {
       const keys = Object.keys(Container.contextTypes);
 
-      assert.deepEqual(keys, ["resolver"]);
+      assert.deepEqual(keys, ["parent", "resolver"]);
+    });
+
+    describe(".parent", function() {
+      it("should be `React.PropTypes.instanceOf(Container)`", function() {
+        const declaration = Container.contextTypes.parent;
+        const context = { parent: <Fixture /> };
+        const error = declaration(context, "parent", "Container", "childContext");
+
+        assert(error instanceof Error);
+        assert.equal(error.message, "Invalid child context `parent` supplied to `Container`, expected instance of `Container`.");
+      });
     });
 
     describe(".resolver", function() {

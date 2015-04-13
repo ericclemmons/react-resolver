@@ -33,7 +33,6 @@ var Resolver = (function () {
     _classCallCheck(this, Resolver);
 
     this.frozen = false;
-    this.ids = {};
     this.promises = [];
     this.states = states;
   }
@@ -60,7 +59,6 @@ var Resolver = (function () {
         }
 
         _this.finished = true;
-        _this.ids = {};
 
         return values;
       });
@@ -78,21 +76,6 @@ var Resolver = (function () {
       state.rejected = false;
 
       return callback ? callback(state) : state;
-    }
-  }, {
-    key: "getContainerId",
-    value: function getContainerId(container) {
-      var parentId = container.context.parent ? container.context.parent.id : 0;
-
-      if (!this.ids[parentId]) {
-        this.ids[parentId] = 0;
-      }
-
-      var id = "" + parentId + "." + this.ids[parentId];
-
-      this.ids[parentId]++;
-
-      return id;
     }
   }, {
     key: "getContainerState",

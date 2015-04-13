@@ -6,7 +6,6 @@ import ResolverError from "./ResolverError";
 export default class Resolver {
   constructor(states = {}) {
     this.frozen = false;
-    this.ids = {};
     this.promises = [];
     this.states = states;
   }
@@ -26,7 +25,6 @@ export default class Resolver {
       }
 
       this.finished = true;
-      this.ids = {};
 
       return values;
     });
@@ -42,20 +40,6 @@ export default class Resolver {
     state.rejected = false;
 
     return callback ? callback(state) : state;
-  }
-
-  getContainerId(container) {
-    const parentId = container.context.parent ? container.context.parent.id : 0;
-
-    if (!this.ids[parentId]) {
-      this.ids[parentId] = 0;
-    }
-
-    const id = `${parentId}.${this.ids[parentId]}`;
-
-    this.ids[parentId]++;
-
-    return id;
   }
 
   getContainerState(container) {

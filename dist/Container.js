@@ -31,7 +31,9 @@ var Container = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Container.prototype), "constructor", this).call(this, props, context);
 
-    this.id = this.getResolver().getContainerId(this);
+    this.children = [];
+
+    this.id = this.getId();
     this.state = this.getResolver().getContainerState(this);
   }
 
@@ -49,6 +51,21 @@ var Container = (function (_React$Component) {
           });
         });
       }
+    }
+  }, {
+    key: "getId",
+    value: function getId() {
+      var parent = this.context.parent;
+
+      if (!parent) {
+        return ".0";
+      }
+
+      var id = "" + parent.id + "." + parent.children.length;
+
+      parent.children.push(this);
+
+      return id;
     }
   }, {
     key: "getChildContext",
@@ -114,6 +131,7 @@ Container.childContextTypes = {
   resolver: _React2["default"].PropTypes.object.isRequired };
 
 Container.contextTypes = {
+  parent: _React2["default"].PropTypes.instanceOf(Container),
   resolver: _React2["default"].PropTypes.object };
 
 Container.displayName = "ResolverContainer";

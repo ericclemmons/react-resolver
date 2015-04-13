@@ -13,32 +13,32 @@ describe("<Container />", function() {
 
   describe(".props", function() {
     describe(".children", function() {
-      it("should pass `resolver` to child context", function() {
+      it("should pass `parent` & `resolver` to child context", function() {
         const actual = React.renderToStaticMarkup(
           <Container resolver={this.resolver}><ContextFixture /></Container>
         );
 
-        assert.equal(actual, "<code>[resolver]</code>");
+        assert.equal(actual, "<code>[parent, resolver]</code>");
       });
     });
 
     describe(".component", function() {
-      it("should pass `resolver` to child context", function() {
+      it("should pass `parent` & `resolver` to child context", function() {
         const actual = React.renderToStaticMarkup(
           <Container component={ContextFixture} resolver={this.resolver} />
         );
 
-        assert.equal(actual, "<code>[resolver]</code>");
+        assert.equal(actual, "<code>[parent, resolver]</code>");
       });
     });
 
     describe(".element", function() {
-      it("should pass `resolver` to child context", function() {
+      it("should pass `parent` & `resolver` to child context", function() {
         const actual = React.renderToStaticMarkup(
           <Container element={<ContextFixture />} resolver={this.resolver} />
         );
 
-        assert.equal(actual, "<code>[resolver]</code>");
+        assert.equal(actual, "<code>[parent, resolver]</code>");
       });
     });
 
