@@ -11,7 +11,7 @@ global.document = jsdom.jsdom("<!DOCTYPE html><html><body></body></html>");
 const layout = fs.readFileSync(`${__dirname}/../layout.html`, "utf8");
 
 Router.run(routes, (Handler) => {
-  Resolver.renderToStaticMarkup(<Handler />).then((string) => {
+  Resolver.renderToString(<Handler />).then((string) => {
     const html = layout.replace(/<noscript>[\S\s.]*<\/noscript>/m, string);
     
     process.stdout.write(html);
