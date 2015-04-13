@@ -53,6 +53,7 @@ _For browsers that don't nativeuly support promises, use [ES6 Promise](https://g
 npm install --save react-resolver
 ```
 
+- - -
 
 ## Usage
 
