@@ -2,6 +2,20 @@
 
 ### Upcoming...
 
+- [Error Handling](https://github.com/ericclemmons/react-resolver/issues/2)
+- [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
+
+
+### v1.0.0 - (2015-04-13)
+
+- Complete rewrite for React v0.13
+- "Higher-order Components" via `Resolver.createContainer`
+- Remove all dependencies (!)
+  + [#9](https://github.com/ericclemmons/react-resolver/issues/9)
+  + [#14](https://github.com/ericclemmons/react-resolver/issues/14)
+  + [#15](https://github.com/ericclemmons/react-resolver/issues/15)
+
+
 ### v0.2.0 - (2015-02-25)
 
 - Remove [`resolver.handle`][11]
