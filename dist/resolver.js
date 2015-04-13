@@ -194,6 +194,19 @@ var Resolver = (function () {
       return ComponentContainer;
     }
   }, {
+    key: "render",
+    value: function render(element, node) {
+      var instance = arguments[2] === undefined ? new Resolver() : arguments[2];
+
+      _React2["default"].render(_React2["default"].createElement(
+        _Container2["default"],
+        { resolver: instance },
+        element
+      ), node);
+
+      return instance;
+    }
+  }, {
     key: "renderToString",
     value: function renderToString(element) {
       var resolver = new Resolver();

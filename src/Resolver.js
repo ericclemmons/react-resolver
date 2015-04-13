@@ -144,6 +144,16 @@ export default class Resolver {
     return ComponentContainer;
   }
 
+  static render(element, node, instance = new Resolver()) {
+    React.render((
+      <Container resolver={instance}>
+        {element}
+      </Container>
+    ), node);
+
+    return instance;
+  }
+
   static renderToString(element) {
     const resolver = new Resolver();
     const context = <Container resolver={resolver}>{element}</Container>;

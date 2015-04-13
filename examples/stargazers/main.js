@@ -8,14 +8,8 @@ import ES6Promise from "es6-promise";
 
 import routes from "./routes";
 
-const resolver = new Resolver();
-
 ES6Promise.polyfill();
 
 Router.run(routes, (Handler) => {
-  React.render((
-    <Container resolver={resolver}>
-      <Handler />
-    </Container>
-  ), document.getElementById("app"));
+  Resolver.render(<Handler />, document.getElementById("app"));
 });
