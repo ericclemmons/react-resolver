@@ -6,6 +6,11 @@
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
 
 
+### v1.1.1 - (2015-04-13)
+
+- Ignore more files via NPM (6c6fb03)
+
+
 ### v1.1.0 - (2015-04-13)
 
 - [Contexts](https://github.com/ericclemmons/react-resolver/pull/21)
