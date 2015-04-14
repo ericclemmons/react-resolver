@@ -20,7 +20,7 @@
   },
   "scripts": {
     "build": "babel --out-dir dist/ src/",
-    "lint": "eslint src",
+    "lint": "eslint src test",
     "prepublish": "npm run build",
     "test": "npm run build && mocha"
   },
