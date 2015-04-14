@@ -142,12 +142,12 @@ var Resolver = (function () {
 
       var promises = asyncKeys.map(function (prop) {
         var valueOf = container.props.resolve[prop];
-        var value = container.props.hasOwnProperty(prop) ? container.props[prop] : valueOf(container.props);
+        var value = container.props.hasOwnProperty(prop) ? container.props[prop] : valueOf(container.props.props, container.props.context);
 
-        return Promise.resolve(value).then(function (value) {
-          state.values[prop] = value;
+        return Promise.resolve(value).then(function (resolved) {
+          state.values[prop] = resolved;
 
-          return value;
+          return resolved;
         });
       });
 
@@ -181,14 +181,18 @@ var Resolver = (function () {
           key: "render",
           value: function render() {
             return _React2["default"].createElement(_Container2["default"], _extends({
-              component: Component
-            }, props, this.props));
+              component: Component,
+              context: this.context,
+              props: this.props
+            }, props));
           }
         }]);
 
         return ComponentContainer;
       })(_React2["default"].Component);
 
+      ComponentContainer.childContextTypes = props.childContextTypes;
+      ComponentContainer.contextTypes = props.contextTypes;
       ComponentContainer.displayName = "" + Component.displayName + "Container";
 
       return ComponentContainer;

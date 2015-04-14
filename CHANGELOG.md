@@ -2,6 +2,7 @@
 
 ### Upcoming...
 
+- [Contexts](https://github.com/ericclemmons/react-resolver/pull/21)
 - [Error Handling](https://github.com/ericclemmons/react-resolver/issues/2)
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
 
