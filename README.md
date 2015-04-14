@@ -128,6 +128,18 @@ import { Resolver } from "react-resolver";
 Resolver.render(<Users />, document.getElementById("app"));
 ```
 
+You may pass in a `Resolver` instance as the third argument to `Resolver.render`.
+
+```js
+var resolver = new Resolver();
+Resolve.render(<Users />, document.getElementById("app"), resolver);
+```
+
+The `Resolver` instance exposes a few methods.
+
+#### `await`(`<array> promises = []`)
+
+Returns a promise after all promises (the resolves and the provided `promises`) have been *resolved*.
 
 ### Server
 
