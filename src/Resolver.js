@@ -107,7 +107,10 @@ export default class Resolver {
 
     const promises = asyncKeys.map((prop) => {
       const valueOf = container.props.resolve[prop];
-      const value = container.props.hasOwnProperty(prop) ? container.props[prop]: valueOf(container.props);
+      const value = container.props.hasOwnProperty(prop)
+        ? container.props[prop]
+        : valueOf(container.props.props, container.props.context)
+      ;
 
       return Promise.resolve(value).then((resolved) => {
         state.values[prop] = resolved;
@@ -132,13 +135,16 @@ export default class Resolver {
         return (
           <Container
             component={Component}
+            context={this.context}
+            props={this.props}
             {...props}
-            {...this.props}
           />
         );
       }
     }
 
+    ComponentContainer.childContextTypes = props.childContextTypes;
+    ComponentContainer.contextTypes = props.contextTypes;
     ComponentContainer.displayName = `${Component.displayName}Container`;
 
     return ComponentContainer;
