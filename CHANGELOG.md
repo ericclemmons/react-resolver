@@ -2,9 +2,13 @@
 
 ### Upcoming...
 
-- [Contexts](https://github.com/ericclemmons/react-resolver/pull/21)
 - [Error Handling](https://github.com/ericclemmons/react-resolver/issues/2)
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
+
+
+### v1.1.0 - (2015-04-13)
+
+- [Contexts](https://github.com/ericclemmons/react-resolver/pull/21)
 
 
 ### v1.0.0 - (2015-04-13)

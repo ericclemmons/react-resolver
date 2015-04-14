@@ -87,7 +87,7 @@ Users.propTypes = { users: React.PropTypes.array.isRequired };
 // Rather than `export default Users`, create a container:
 export default Resolver.createContainer(Users, {
   resolve: {
-    users: function(props) {
+    users: function(props, context) {
       return fetch(`/api/users?limit=${props.limit}`);
     }
   }
@@ -95,6 +95,27 @@ export default Resolver.createContainer(Users, {
 
 ```
 
+If you use [React Router][router] (or anything else) that uses
+`context`, you can get access to these values via:
+
+```javascript
+Resolver.createContainer(Users, {
+  contextTypes: {
+    router: React.PropTypes.func.isRequired
+  },
+
+  resolve: {
+    user: function(props, context) {
+      const { login } = context.router.getCurrentParams();
+
+      return fetch(`/api/users/${login}`);
+    }
+  }
+});
+
+```
+
+_For a working example of this, check out [User.js](https://github.com/ericclemmons/react-resolver/blob/master/examples/stargazers/handlers/User.js) in the [demo][demo]._
 
 ### Client
 
@@ -159,4 +180,5 @@ If you have questions or issues, please [open an issue][issue]!
 [demo]: https://cdn.rawgit.com/ericclemmons/react-resolver/master/examples/stargazers/public/index.html
 [issue]: https://github.com/ericclemmons/react-resolver/issues/new
 [license]: https://github.com/ericclemmons/react-resolver/blob/master/LICENSE
+[router]: https://github.com/rackt/react-router/
 [twitter]: https://twitter.com/ericclemmons/
