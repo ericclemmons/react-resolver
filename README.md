@@ -138,7 +138,7 @@ that resolves with the rendered output!
 
 ```javascript
 import React from "react";
-import Resolver from "react-resolver";
+import { Resolver } from "react-resolver";
 
 Resolver.renderToString(<Users />).then((string) => {
   reply(string);
