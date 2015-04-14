@@ -116,13 +116,14 @@ Resolver.createContainer(Users, {
 
 _For a working example of this, check out [User.js](https://github.com/ericclemmons/react-resolver/blob/master/examples/stargazers/handlers/User.js) in the [demo][demo]._
 
+
 ### Client
 
 Replace `React.render` with `Resolver.render`, and you're all set!
 
 ```javascript
 import React from "react";
-import Resolver from "react-resolver";
+import { Resolver } from "react-resolver";
 
 Resolver.render(<Users />, document.getElementById("app"));
 ```
