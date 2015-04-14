@@ -1,4 +1,8 @@
+.eslintrc
 .travis.yml
+CHANGELOG.md
+demo.png
 examples
-LICENSE
+README.md
+src
 test
