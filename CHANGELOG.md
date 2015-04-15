@@ -6,6 +6,12 @@
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
 
 
+### v1.1.3 - (2015-04-15)
+
+- [#28](https://github.com/ericclemmons/react-resolver/issues/28)
+  _Another_ attempt to fix `Resolver` being named `resolver.js`
+
+
 ### v1.1.2 - (2015-04-15)
 
 - [#28](https://github.com/ericclemmons/react-resolver/issues/28)
