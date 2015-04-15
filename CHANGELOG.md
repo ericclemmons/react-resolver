@@ -6,6 +6,12 @@
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
 
 
+### v1.1.2 - (2015-04-15)
+
+- [#28](https://github.com/ericclemmons/react-resolver/issues/28)
+  Attempt to fix `Resolver` being named `resolver.js`
+
+
 ### v1.1.1 - (2015-04-13)
 
 - Ignore more files via NPM (6c6fb03)
