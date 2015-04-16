@@ -26,7 +26,7 @@
 
 - [Features](#features)
 - [Demo](#demo)
-- [Requirements](#requirements)
+- [Dependencies](#dependencies)
 - [Installation](#installation)
 - [Usage](#usage)
   + [Client](#client)
@@ -39,11 +39,11 @@
 - - -
 
 
-## Requirements
+## Dependencies
 
 - React `v0.13.x`
 
-_For browsers that don't nativeuly support promises, use [ES6 Promise](https://github.com/jakearchibald/es6-promise)._
+_For browsers that don't natively support Promises, use [ES6 Promises](https://github.com/jakearchibald/es6-promise)._
 
 
 ## Installation
