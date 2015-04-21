@@ -174,10 +174,11 @@ export default class Resolver {
 
     React.renderToString(context);
 
-    return resolver.finish().then(() => {
+    return resolver.finish().then((data) => {
       resolver.freeze();
 
-      return React.renderToString(context);
+      var html = React.renderToString(context);
+      return { html, data };
     });
   }
 
@@ -187,10 +188,11 @@ export default class Resolver {
 
     React.renderToStaticMarkup(context);
 
-    return resolver.finish().then(() => {
+    return resolver.finish().then((data) => {
       resolver.freeze();
 
-      return React.renderToStaticMarkup(context);
+      var html = React.renderToStaticMarkup(context);
+      return { html, data };
     });
   }
 
