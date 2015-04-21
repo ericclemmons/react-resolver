@@ -185,4 +185,8 @@ export default class Resolver {
       return React.renderToStaticMarkup(context);
     });
   }
+
+  static decorate(props = {}) {
+    return Component => Resolver.createContainer(Component, props);
+  }
 }

@@ -246,6 +246,15 @@ var Resolver = (function () {
         return _React2["default"].renderToStaticMarkup(context);
       });
     }
+  }, {
+    key: "decorate",
+    value: function decorate() {
+      var props = arguments[0] === undefined ? {} : arguments[0];
+
+      return function (Component) {
+        return Resolver.createContainer(Component, props);
+      };
+    }
   }]);
 
   return Resolver;
