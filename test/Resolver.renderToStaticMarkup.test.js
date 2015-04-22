@@ -13,7 +13,7 @@ describe("Resolver", function() {
 
         Resolver.renderToStaticMarkup(<PropsFixture user="Eric" />)
           .then((markup) => {
-            assert.equal(markup.html, expected);
+            assert.equal(markup, expected);
           }, done)
           .then(done)
           .catch(done)
@@ -33,12 +33,12 @@ describe("Resolver", function() {
 
         render()
           .then((markup) => {
-            assert.equal(markup.html, expected);
+            assert.equal(markup, expected);
 
             return render();
           })
           .then((markup) => {
-            assert.equal(markup.html, expected);
+            assert.equal(markup, expected);
           })
           .then(done)
           .catch(done)

@@ -68,7 +68,7 @@ describe("<Container />", function() {
         );
 
         Resolver.renderToStaticMarkup(element).then((markup) => {
-          assert.equal(markup.html, expected);
+          assert.equal(markup, expected);
           done();
         }).catch(done);
       });
