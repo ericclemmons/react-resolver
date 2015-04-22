@@ -106,6 +106,42 @@ describe("<Container />", function() {
           assert.equal(actual, `<code>${JSON.stringify(this.props)}</code>`);
         });
       });
+
+      context("when keys are rehydrating", function() {
+        before(function() {
+          global.__resolver__ = { user: "Exists" };
+        });
+
+        after(function() {
+          delete global.__resolver__;
+        });
+
+        it("should not resolve keys", function() {
+          React.renderToStaticMarkup(
+            <Container
+              component={PropsFixture}
+              resolve={{
+                user: function() { throw new Error("`user` should not have been called"); },
+              }}
+              resolver={this.resolver}
+            />
+          );
+        });
+
+        it("should render immediately", function() {
+          const actual = React.renderToStaticMarkup(
+            <Container
+              component={PropsFixture}
+              resolve={{
+                user: function() { return "Waiting..."; },
+              }}
+              resolver={this.resolver}
+            />
+          );
+
+          assert.equal(actual, `<code>${JSON.stringify(global.__resolver__)}</code>`);
+        });
+      });
     });
 
     describe(".resolver", function() {

@@ -96,6 +96,17 @@ export default class Resolver {
 
         return true;
       })
+      // Assign rehydration values
+      .filter((asyncProp) => {
+        if (typeof __resolver__ === 'object') {
+          if (__resolver__.hasOwnProperty(asyncProp)) {
+            state.values[asyncProp] = __resolver__[asyncProp];
+            return false;
+          }
+        }
+
+        return true;
+      })
       // Filter out pre-loaded values
       .filter((asyncProp) => {
         return !state.values.hasOwnProperty(asyncProp);
