@@ -109,7 +109,15 @@ describe("<Container />", function() {
 
       context("when keys are rehydrating", function() {
         before(function() {
-          global.__resolver__ = { user: "Exists" };
+          global.__resolver__ = {
+            '.0': {
+              values: {
+                fulfilled: false,
+                rejected: false,
+                user: "Exists"
+              }
+            }
+          };
         });
 
         after(function() {
@@ -139,7 +147,7 @@ describe("<Container />", function() {
             />
           );
 
-          assert.equal(actual, `<code>${JSON.stringify(global.__resolver__)}</code>`);
+          assert.equal(actual, `<code>${JSON.stringify(global.__resolver__['.0'].values)}</code>`);
         });
       });
     });

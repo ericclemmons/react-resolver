@@ -47,7 +47,7 @@ export default class Resolver {
       throw new ReferenceError(`${container.constructor.displayName} should have an ID`);
     }
 
-    const state = this.states[id] || {
+    const state = this.states[id] || this.rehydrate(id) || {
       fulfilled: false,
       rejected: false,
       values: {},
@@ -81,6 +81,13 @@ export default class Resolver {
     throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
   }
 
+  rehydrate(id) {
+    if (typeof __resolver__ === 'undefined') {
+      return;
+    }
+    return __resolver__[id];
+  }
+
   resolve(container, callback) {
     const asyncProps = container.props.resolve || {};
     const state = this.getContainerState(container);
@@ -92,17 +99,6 @@ export default class Resolver {
           state.values[asyncProp] = container.props[asyncProp];
 
           return false;
-        }
-
-        return true;
-      })
-      // Assign rehydration values
-      .filter((asyncProp) => {
-        if (typeof __resolver__ === 'object') {
-          if (__resolver__.hasOwnProperty(asyncProp)) {
-            state.values[asyncProp] = __resolver__[asyncProp];
-            return false;
-          }
         }
 
         return true;
@@ -190,7 +186,7 @@ export default class Resolver {
 
       var html = React.renderToString(context);
       return {
-        data: data,
+        data: resolver.states,
         toString() { return html; }
       };
     });
@@ -207,7 +203,7 @@ export default class Resolver {
 
       var html = React.renderToStaticMarkup(context);
       return {
-        data: data,
+        data: resolver.states,
         toString() { return html; }
       };
     });
