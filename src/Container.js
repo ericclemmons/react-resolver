@@ -1,9 +1,9 @@
-import React from "react/addons";
+import React from "react";
+import cloneWithProps from "react/lib/cloneWithProps";
 
 import ResolverError from "./ResolverError";
 
 const { Children } = React;
-const { cloneWithProps } = React.addons;
 
 class Container extends React.Component {
   constructor(props, context) {
