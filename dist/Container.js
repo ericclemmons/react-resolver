@@ -14,16 +14,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _React = require("react/addons");
+var _React = require("react");
 
 var _React2 = _interopRequireWildcard(_React);
+
+var _cloneWithProps = require("react/lib/cloneWithProps");
+
+var _cloneWithProps2 = _interopRequireWildcard(_cloneWithProps);
 
 var _ResolverError = require("./ResolverError");
 
 var _ResolverError2 = _interopRequireWildcard(_ResolverError);
 
 var Children = _React2["default"].Children;
-var cloneWithProps = _React2["default"].addons.cloneWithProps;
 
 var Container = (function (_React$Component) {
   function Container(props, context) {
@@ -105,17 +108,17 @@ var Container = (function (_React$Component) {
       }
 
       if (this.props.element) {
-        return cloneWithProps(this.props.element);
+        return _cloneWithProps2["default"](this.props.element);
       }
 
       if (this.props.children) {
         if (Children.count(this.props.children) === 1) {
-          return cloneWithProps(Children.only(this.props.children));
+          return _cloneWithProps2["default"](Children.only(this.props.children));
         }
         return _React2["default"].createElement(
           "span",
           null,
-          Children.map(this.props.children, cloneWithProps)
+          Children.map(this.props.children, _cloneWithProps2["default"])
         );
       }
 
