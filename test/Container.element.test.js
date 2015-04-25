@@ -103,7 +103,7 @@ describe("<Container />", function() {
       it("should store state for plain <Container />s", function() {
         React.renderToStaticMarkup(
           <Container resolver={this.resolver}>
-            <PropsFixture {...this.props} />
+            <PropsFixture />
           </Container>
         );
 
@@ -113,7 +113,7 @@ describe("<Container />", function() {
       it("should store state for `Resolver.createContainer`s", function() {
         React.renderToStaticMarkup(
           <Container resolver={this.resolver}>
-            <PropsFixtureContainer {...this.props} />
+            <PropsFixtureContainer />
           </Container>
         );
 
