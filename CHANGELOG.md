@@ -12,9 +12,11 @@
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
 - [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
 
+
 ### v1.1.5 - (2015-04-25)
 
 - Update `dist/` from `v1.1.4`
+
 
 ### v1.1.4 - (2015-04-25)
 
