@@ -107,7 +107,10 @@ describe("<Container />", function() {
           </Container>
         );
 
-        assert.equal(1, Object.keys(this.resolver.states).length);
+        const ids = Object.keys(this.resolver.states);
+
+        assert.equal(1, ids.length);
+        assert.deepEqual([".0"], ids);
       });
 
       it("should store state for `Resolver.createContainer`s", function() {
@@ -117,7 +120,10 @@ describe("<Container />", function() {
           </Container>
         );
 
-        assert.equal(2, Object.keys(this.resolver.states).length);
+        const ids = Object.keys(this.resolver.states);
+
+        assert.equal(2, ids.length);
+        assert.deepEqual([".0", ".0.0"], ids);
       });
     });
   });
