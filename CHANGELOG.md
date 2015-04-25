@@ -3,7 +3,16 @@
 ### Upcoming...
 
 - [Error Handling](https://github.com/ericclemmons/react-resolver/issues/2)
+- [Handling Reject/Catch](https://github.com/ericclemmons/react-resolver/issues/2)
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
+- [Bootstrapping Client](https://github.com/ericclemmons/react-resolver/issues/22)
+  + <https://github.com/ericclemmons/react-resolver/pull/34>
+- [Browserify Bundling Twice](https://github.com/ericclemmons/react-resolver/issues/27)
+  + <https://github.com/ericclemmons/react-resolver/pull/32>
+- [Owner/Parent Differ](https://github.com/ericclemmons/react-resolver/issues/29)
+- [Clear Cache After Render](https://github.com/ericclemmons/react-resolver/issues/33)
+- [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
+- [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
 
 
 ### v1.1.3 - (2015-04-15)
