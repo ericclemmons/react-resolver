@@ -12,6 +12,7 @@
 - **Promise-based** – Define & lazy-load component data dependencies and inject them as `props`.
 - **Isomorphic** – Express/Koa/Hapi-friendly server-side rendering & progressive, client-side rendering.
 - **Test friendly** – Containers promote separation between data-fetching & rendering.
+- [**Upcoming Fixes & Features**][upcoming].
 
 
 ## Demo
@@ -182,3 +183,4 @@ If you have questions or issues, please [open an issue][issue]!
 [license]: https://github.com/ericclemmons/react-resolver/blob/master/LICENSE
 [router]: https://github.com/rackt/react-router/
 [twitter]: https://twitter.com/ericclemmons/
+[upcoming]: https://github.com/ericclemmons/react-resolver/blob/master/CHANGELOG.md#upcoming
