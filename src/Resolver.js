@@ -60,6 +60,14 @@ export default class Resolver {
     return state;
   }
 
+  clearContainerState(container) {
+    const { id } = container;
+
+    if (this.states[id]) {
+      this.states[id] = undefined;
+    }
+  }
+
   rejectState(error, state, callback) {
     state.error = error;
     state.fulfilled = false;
