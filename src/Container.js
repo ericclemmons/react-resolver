@@ -86,6 +86,7 @@ class Container extends React.Component {
       if (Children.count(this.props.children) === 1) {
         return cloneWithProps(Children.only(this.props.children));
       }
+
       return (
         <span>
           {Children.map(this.props.children, cloneWithProps)}

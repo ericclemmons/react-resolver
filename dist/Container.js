@@ -119,6 +119,7 @@ var Container = (function (_React$Component) {
         if (Children.count(this.props.children) === 1) {
           return _cloneWithProps2["default"](Children.only(this.props.children));
         }
+
         return _React2["default"].createElement(
           "span",
           null,
