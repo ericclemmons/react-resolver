@@ -3,7 +3,7 @@ import cloneWithProps from "react/lib/cloneWithProps";
 import { Container, Resolver } from "../dist";
 import React from "react";
 
-import PropsFixture from "./support/PropsFixture";
+import PropsFixtureContainer from "./support/PropsFixtureContainer";
 
 describe("<Container />", function() {
   beforeEach(function() {
@@ -14,7 +14,7 @@ describe("<Container />", function() {
     this.resolve = { counter: function() { return ++counter; } };
     this.element = (
       <Container resolve={this.resolve} resolver={this.resolver}>
-        <PropsFixture />
+        <PropsFixtureContainer />
       </Container>
     );
   });
@@ -57,6 +57,17 @@ describe("<Container />", function() {
 
         assert.notEqual(this.rendered.state, state);
         assert(!this.rendered.state.fulfilled);
+      });
+
+      it("should reset child states", function() {
+        const last = Object.keys(this.resolver.states).pop();
+        const updated = cloneWithProps(this.element, { another: "prop" });
+
+        assert(this.rendered.state.fulfilled);
+
+        React.render(updated, this.node);
+
+        assert.equal(this.resolver.states[last], undefined);
       });
     });
 
