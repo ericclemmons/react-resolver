@@ -9,6 +9,7 @@
   + <https://github.com/ericclemmons/react-resolver/pull/34>
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
 - [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
+- [Clear Nested States](https://github.com/ericclemmons/react-resolver/pull/37)
 
 
 ### v1.1.6 - (2015-04-25)
