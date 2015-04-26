@@ -204,7 +204,6 @@ var Resolver = (function () {
         return ComponentContainer;
       })(_React2["default"].Component);
 
-      ComponentContainer.childContextTypes = props.childContextTypes;
       ComponentContainer.contextTypes = props.contextTypes;
       ComponentContainer.displayName = "" + Component.displayName + "Container";
 
