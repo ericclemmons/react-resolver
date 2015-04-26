@@ -10,6 +10,10 @@
 - [Owner/Parent Differ](https://github.com/ericclemmons/react-resolver/issues/29)
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
 - [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
+
+
+### v1.1.7 - (2015-04-25)
+
 - [Clear Nested States](https://github.com/ericclemmons/react-resolver/pull/37)
 
 
