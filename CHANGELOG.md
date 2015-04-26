@@ -8,9 +8,14 @@
 - [Bootstrapping Client](https://github.com/ericclemmons/react-resolver/issues/22)
   + <https://github.com/ericclemmons/react-resolver/pull/34>
 - [Owner/Parent Differ](https://github.com/ericclemmons/react-resolver/issues/29)
-- [Clear Cache After Render](https://github.com/ericclemmons/react-resolver/issues/33)
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
 - [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
+
+
+### v1.1.6 - (2015-04-25)
+
+- [Clear Cache After Render](https://github.com/ericclemmons/react-resolver/issues/33)
+  + Fix [Not resolving again when transitioning to sibling state](https://github.com/ericclemmons/react-resolver/issues/17)
 
 
 ### v1.1.5 - (2015-04-25)
