@@ -63,9 +63,10 @@ export default class Resolver {
   clearContainerState(container) {
     const { id } = container;
 
-    if (this.states[id]) {
-      this.states[id] = undefined;
-    }
+    Object.keys(this.states)
+      .filter(key => key.indexOf(id) === 0)
+      .forEach(key => this.states[key] = undefined)
+    ;
   }
 
   rejectState(error, state, callback) {

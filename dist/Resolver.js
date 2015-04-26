@@ -98,11 +98,15 @@ var Resolver = (function () {
   }, {
     key: "clearContainerState",
     value: function clearContainerState(container) {
+      var _this2 = this;
+
       var id = container.id;
 
-      if (this.states[id]) {
-        this.states[id] = undefined;
-      }
+      Object.keys(this.states).filter(function (key) {
+        return key.indexOf(id) === 0;
+      }).forEach(function (key) {
+        return _this2.states[key] = undefined;
+      });
     }
   }, {
     key: "rejectState",
@@ -120,7 +124,7 @@ var Resolver = (function () {
   }, {
     key: "resolve",
     value: function resolve(container, callback) {
-      var _this2 = this;
+      var _this3 = this;
 
       var asyncProps = container.props.resolve || {};
       var state = this.getContainerState(container);
@@ -161,9 +165,9 @@ var Resolver = (function () {
       });
 
       return this.await(promises).then(function () {
-        return _this2.fulfillState(state, callback);
+        return _this3.fulfillState(state, callback);
       }, function (error) {
-        return _this2.rejectState(error, state, callback);
+        return _this3.rejectState(error, state, callback);
       });
     }
   }], [{
