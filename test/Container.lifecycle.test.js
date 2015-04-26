@@ -47,7 +47,6 @@ describe("<Container />", function() {
 
     describe(".componentWillReceiveProps", function() {
       it("should reset existing state", function() {
-        const id = Object.keys(this.resolver.states).shift();
         const state = this.rendered.state;
         const updated = cloneWithProps(this.element, { another: "prop" });
 
