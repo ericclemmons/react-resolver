@@ -1,6 +1,6 @@
 "use strict";
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
@@ -16,15 +16,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _React = require("react");
 
-var _React2 = _interopRequireWildcard(_React);
+var _React2 = _interopRequireDefault(_React);
 
 var _cloneWithProps = require("react/lib/cloneWithProps");
 
-var _cloneWithProps2 = _interopRequireWildcard(_cloneWithProps);
+var _cloneWithProps2 = _interopRequireDefault(_cloneWithProps);
 
 var _ResolverError = require("./ResolverError");
 
-var _ResolverError2 = _interopRequireWildcard(_ResolverError);
+var _ResolverError2 = _interopRequireDefault(_ResolverError);
 
 var Children = _React2["default"].Children;
 

@@ -1,6 +1,6 @@
 "use strict";
 
-var _interopRequireWildcard = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
 
 var _inherits = function (subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; };
 
@@ -16,15 +16,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _React = require("react");
 
-var _React2 = _interopRequireWildcard(_React);
+var _React2 = _interopRequireDefault(_React);
 
 var _Container = require("./Container");
 
-var _Container2 = _interopRequireWildcard(_Container);
+var _Container2 = _interopRequireDefault(_Container);
 
 var _ResolverError = require("./ResolverError");
 
-var _ResolverError2 = _interopRequireWildcard(_ResolverError);
+var _ResolverError2 = _interopRequireDefault(_ResolverError);
 
 var Resolver = (function () {
   function Resolver() {
