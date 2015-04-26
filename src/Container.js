@@ -16,13 +16,17 @@ class Container extends React.Component {
   }
 
   componentWillMount() {
-    if (!this.state.fulfilled) {
-      this.getResolver().resolve(this, (state) => {
-        return new Promise((resolve) => {
-          this.setState(state, resolve);
-        });
-      });
-    }
+    this.resolve();
+  }
+
+  componentWillUnmount() {
+    this.getResolver().clearContainerState(this);
+  }
+
+  componentWillReceiveProps() {
+    this.getResolver().clearContainerState(this);
+
+    this.resolve();
   }
 
   getId() {
@@ -90,6 +94,20 @@ class Container extends React.Component {
     }
 
     throw new ResolverError("<Container /> requires one of the following props to render: `element`, `component`, or `children`");
+  }
+
+  resolve() {
+    const nextState = this.getResolver().getContainerState(this);
+
+    this.setState(nextState);
+
+    if (!nextState.fulfilled) {
+      this.getResolver().resolve(this, (finalState) => {
+        return new Promise((resolve) => {
+          this.setState(finalState, resolve);
+        });
+      });
+    }
   }
 }
 

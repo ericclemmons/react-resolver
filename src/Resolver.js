@@ -47,17 +47,25 @@ export default class Resolver {
       throw new ReferenceError(`${container.constructor.displayName} should have an ID`);
     }
 
-    const state = this.states.hasOwnProperty(id) ? this.states[id] : {
+    const state = this.states[id] || {
       fulfilled: false,
       rejected: false,
       values: {},
     };
 
-    if (!this.states.hasOwnProperty(id)) {
+    if (!this.states[id]) {
       this.states[id] = state;
     }
 
     return state;
+  }
+
+  clearContainerState(container) {
+    const { id } = container;
+
+    if (this.states[id]) {
+      this.states[id] = undefined;
+    }
   }
 
   rejectState(error, state, callback) {

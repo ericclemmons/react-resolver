@@ -84,16 +84,25 @@ var Resolver = (function () {
         throw new ReferenceError("" + container.constructor.displayName + " should have an ID");
       }
 
-      var state = this.states.hasOwnProperty(id) ? this.states[id] : {
+      var state = this.states[id] || {
         fulfilled: false,
         rejected: false,
         values: {} };
 
-      if (!this.states.hasOwnProperty(id)) {
+      if (!this.states[id]) {
         this.states[id] = state;
       }
 
       return state;
+    }
+  }, {
+    key: "clearContainerState",
+    value: function clearContainerState(container) {
+      var id = container.id;
+
+      if (this.states[id]) {
+        this.states[id] = undefined;
+      }
     }
   }, {
     key: "rejectState",

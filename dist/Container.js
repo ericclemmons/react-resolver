@@ -45,15 +45,19 @@ var Container = (function (_React$Component) {
   _createClass(Container, [{
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this = this;
+      this.resolve();
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.getResolver().clearContainerState(this);
+    }
+  }, {
+    key: "componentWillReceiveProps",
+    value: function componentWillReceiveProps() {
+      this.getResolver().clearContainerState(this);
 
-      if (!this.state.fulfilled) {
-        this.getResolver().resolve(this, function (state) {
-          return new Promise(function (resolve) {
-            _this.setState(state, resolve);
-          });
-        });
-      }
+      this.resolve();
     }
   }, {
     key: "getId",
@@ -123,6 +127,23 @@ var Container = (function (_React$Component) {
       }
 
       throw new _ResolverError2["default"]("<Container /> requires one of the following props to render: `element`, `component`, or `children`");
+    }
+  }, {
+    key: "resolve",
+    value: function resolve() {
+      var _this = this;
+
+      var nextState = this.getResolver().getContainerState(this);
+
+      this.setState(nextState);
+
+      if (!nextState.fulfilled) {
+        this.getResolver().resolve(this, function (finalState) {
+          return new Promise(function (resolve) {
+            _this.setState(finalState, resolve);
+          });
+        });
+      }
     }
   }]);
 

@@ -16,7 +16,8 @@ class Stargazers extends React.Component {
           </div>
           <div className="card-action">
             <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&repo=react-resolver&type=star&count=true" frameBorder="0" scrolling="0" width="100px" height="20px"></iframe>
-            <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&repo=react-resolver&type=watch&count=true&v=2" frameBorder="0" scrolling="0" width="60px" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&repo=react-resolver&type=watch&count=true&v=2" frameBorder="0" scrolling="0" width="80px" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&type=follow&count=true" frameBorder="0" scrolling="0" width="150px" height="20px"></iframe>
           </div>
         </div>
 

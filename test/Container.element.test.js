@@ -103,21 +103,27 @@ describe("<Container />", function() {
       it("should store state for plain <Container />s", function() {
         React.renderToStaticMarkup(
           <Container resolver={this.resolver}>
-            <PropsFixture {...this.props} />
+            <PropsFixture />
           </Container>
         );
 
-        assert.equal(1, Object.keys(this.resolver.states).length);
+        const ids = Object.keys(this.resolver.states);
+
+        assert.equal(1, ids.length);
+        assert.deepEqual([".0"], ids);
       });
 
       it("should store state for `Resolver.createContainer`s", function() {
         React.renderToStaticMarkup(
           <Container resolver={this.resolver}>
-            <PropsFixtureContainer {...this.props} />
+            <PropsFixtureContainer />
           </Container>
         );
 
-        assert.equal(2, Object.keys(this.resolver.states).length);
+        const ids = Object.keys(this.resolver.states);
+
+        assert.equal(2, ids.length);
+        assert.deepEqual([".0", ".0.0"], ids);
       });
     });
   });
