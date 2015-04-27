@@ -82,8 +82,8 @@ export default class Resolver {
   }
 
   rehydrate(id) {
-    if (typeof __resolver__ === 'undefined') {
-      return;
+    if (typeof __resolver__ === "undefined") {
+      return null;
     }
     return __resolver__[id];
   }
@@ -187,7 +187,7 @@ export default class Resolver {
       var html = React.renderToString(context);
       return {
         data: resolver.states,
-        toString() { return html; }
+        toString() { return html; },
       };
     });
   }
@@ -204,7 +204,7 @@ export default class Resolver {
       var html = React.renderToStaticMarkup(context);
       return {
         data: resolver.states,
-        toString() { return html; }
+        toString() { return html; },
       };
     });
   }
