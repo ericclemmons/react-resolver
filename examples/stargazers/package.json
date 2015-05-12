@@ -3,8 +3,8 @@
   "private": true,
   "scripts": {
     "build": "webpack -p",
-    "postinstall": "npm run build",
-    "preinstall": "rm -rf node_modules/react-resolver && cp -R ../../dist node_modules/react-resolver",
+    "postinstall": "cp -R ../../dist node_modules/react-resolver && npm run build",
+    "preinstall": "rm -rf node_modules/react-resolver || true",
     "start": "webpack-dev-server --content-base ./public --hot --inline --no-info --devtool inline-source-map"
   },
   "dependencies": {
