@@ -71,25 +71,38 @@ class Container extends React.Component {
     if (!this.state.fulfilled) {
       return false;
     }
+    const {
+      // expected properties
+      component,
+      element,
+      resolve,
+      resolver,
+      context,
+      props,
+      children,
 
-    if (this.props.component) {
+      // everything we want to seemlessly pass through
+      ...passThrough
+    } = this.props;
+
+    if (component) {
       return (
-        <this.props.component {...this.state.values} />
+        <this.props.component {...passThrough} {...this.state.values} />
       );
     }
 
-    if (this.props.element) {
-      return cloneWithProps(this.props.element);
+    if (element) {
+      return cloneWithProps(element, passThrough);
     }
 
     if (this.props.children) {
-      if (Children.count(this.props.children) === 1) {
-        return cloneWithProps(Children.only(this.props.children));
+      if (Children.count(children) === 1) {
+        return cloneWithProps(Children.only(children), passThrough);
       }
 
       return (
         <span>
-          {Children.map(this.props.children, cloneWithProps)}
+          {Children.map(this.props.children, child => cloneWithProps(child, passThrough))}
         </span>
       );
     }
