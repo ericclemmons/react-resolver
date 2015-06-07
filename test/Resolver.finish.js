@@ -1,3 +1,4 @@
+import assert from "assert";
 import React from "react";
 import { Resolver } from "../dist";
 
@@ -44,8 +45,8 @@ const BarContainer = Resolver.createContainer(Bar, {
 describe("Resolver", function() {
   describe(".finish", function() {
     it("should finish", function(done) {
-      Resolver.renderToString(<BarContainer />).then(markup => {
-        console.log(markup);
+      Resolver.renderToStaticMarkup(<BarContainer />).then(markup => {
+        assert.equal(markup, "<h1>Foo</h1>");
       }).then(done).catch(done);
     });
   });
