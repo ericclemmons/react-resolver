@@ -2,6 +2,7 @@
 
 ### Upcoming...
 
+- [Rewrite](https://github.com/ericclemmons/react-resolver/tree/v2)
 - [Error Handling](https://github.com/ericclemmons/react-resolver/issues/2)
 - [Handling Reject/Catch](https://github.com/ericclemmons/react-resolver/issues/2)
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
