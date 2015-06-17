@@ -1,196 +1,174 @@
+import assign from "object-assign";
 import React from "react";
 
-import Container from "./Container";
-import ResolverError from "./ResolverError";
+const ID = Symbol("Resolver.ID");
+const CHILDREN = Symbol("Resolver.CHILDREN");
 
-export default class Resolver {
-  constructor(states = {}) {
-    this.frozen = false;
-    this.promises = [];
-    this.states = states;
-  }
+class Resolver extends React.Component {
+  static childContextTypes = {
+    resolver: React.PropTypes.instanceOf(Resolver),
+  };
 
-  await(promises = []) {
-    this.promises = this.promises.concat(promises);
+  static contextTypes = {
+    resolver: React.PropTypes.instanceOf(Resolver),
+  };
 
-    return Promise.all(promises);
-  }
+  static defaultProps = {
+    data: {},
+    props: {},
+    resolve: {},
+  };
 
-  finish() {
-    const total = this.promises.length;
+  static propTypes = {
+    data: React.PropTypes.object.isRequired,
+    props: React.PropTypes.object,
+    render: React.PropTypes.func.isRequired,
+    resolve: React.PropTypes.object,
+  };
 
-    return Promise.all(this.promises).then((values) => {
-      if (this.promises.length > total) {
-        return this.finish();
-      }
+  static resolve = function(render, initialData = {}) {
+    const queue = [];
 
-      return values;
-    });
-  }
-
-  freeze() {
-    this.frozen = true;
-  }
-
-  fulfillState(state, callback) {
-    state.error = undefined;
-    state.fulfilled = true;
-    state.rejected = false;
-
-    return callback ? callback(state) : state;
-  }
-
-  getContainerState(container) {
-    const { id } = container;
-
-    if (!id) {
-      throw new ReferenceError(`${container.constructor.displayName} should have an ID`);
-    }
-
-    const state = this.states[id] || {
-      fulfilled: false,
-      rejected: false,
-      values: {},
-    };
-
-    if (!this.states[id]) {
-      this.states[id] = state;
-    }
-
-    return state;
-  }
-
-  clearContainerState(container) {
-    const { id } = container;
-
-    Object.keys(this.states)
-      .filter(key => key.indexOf(id) === 0)
-      .forEach(key => this.states[key] = undefined)
-    ;
-  }
-
-  rejectState(error, state, callback) {
-    state.error = error;
-    state.fulfilled = false;
-    state.rejected = true;
-
-    if (callback) {
-      callback(state);
-    }
-
-    throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
-  }
-
-  resolve(container, callback) {
-    const asyncProps = container.props.resolve || {};
-    const state = this.getContainerState(container);
-
-    const asyncKeys = Object.keys(asyncProps)
-      // Assign existing prop values
-      .filter((asyncProp) => {
-        if (container.props.hasOwnProperty(asyncProp)) {
-          state.values[asyncProp] = container.props[asyncProp];
-
-          return false;
-        }
-
-        return true;
-      })
-      // Filter out pre-loaded values
-      .filter((asyncProp) => {
-        return !state.values.hasOwnProperty(asyncProp);
-      })
-    ;
-
-    if (!asyncKeys.length) {
-      return Promise.resolve(this.fulfillState(state, callback));
-    }
-
-    if (this.frozen) {
-      throw new ResolverError([
-        "Resolver is frozen for server rendering.",
-        `${container.constructor.displayName} (#${container.id}) should have already resolved`,
-        `"${asyncKeys.join("\", \"")}". (http://git.io/vvvkr)`,
-      ].join(" "));
-    }
-
-    const promises = asyncKeys.map((prop) => {
-      const valueOf = container.props.resolve[prop];
-      const value = container.props.hasOwnProperty(prop)
-        ? container.props[prop]
-        : valueOf(container.props.props, container.props.context)
-      ;
-
-      return Promise.resolve(value).then((resolved) => {
-        state.values[prop] = resolved;
-
-        return resolved;
-      });
-    });
-
-    return this.await(promises).then(
-      () => this.fulfillState(state, callback),
-      (error) => this.rejectState(error, state, callback)
+    React.renderToStaticMarkup(
+      <Resolver
+        data={initialData}
+        onResolve={(promise) => queue.push(promise)}
+        render={render}
+      />
     );
-  }
 
-  static createContainer(Component, props = {}) {
-    if (!Component.hasOwnProperty("displayName")) {
-      throw new ReferenceError("Resolver.createContainer requires wrapped component to have `displayName`");
-    }
+    return Promise.all(queue).then((results) => {
+      const data = assign({}, initialData);
 
-    class ComponentContainer extends React.Component {
-      render() {
-        return (
-          <Container
-            component={Component}
-            context={this.context}
-            props={this.props}
-            {...props}
-          />
-        );
+      results.forEach(({ id, state }) => assign(data, { [id]: state }));
+
+      if (Object.keys(initialData).length < Object.keys(data).length) {
+        return Resolver.resolve(render, data);
       }
+
+      class Resolved extends React.Component {
+        displayName = "Resolved"
+
+        render() {
+          return (
+            <Resolver data={data} render={render} />
+          );
+        }
+      }
+
+      return { data, Resolved };
+    });
+  }
+
+  displayName = "Resolver"
+
+  constructor(props, context) {
+    super(props, context);
+
+    this[ID] = this.generateId();
+    this[CHILDREN] = [];
+
+    this.state = assign({
+      error: null,
+      fulfilled: false,
+      props: {},
+      rejected: false,
+    }, this.lookupState(this));
+  }
+
+  componentWillMount() {
+    const { fulfilled, rejected } = this.state;
+    const { resolver } = this.context;
+
+    if (!fulfilled && !rejected) {
+      this.resolve();
     }
 
-    ComponentContainer.contextTypes = props.contextTypes;
-    ComponentContainer.displayName = `${Component.displayName}Container`;
-
-    return ComponentContainer;
+    if (resolver && resolver[CHILDREN].indexOf(this) === -1) {
+      resolver[CHILDREN].push(this);
+    }
   }
 
-  static render(element, node, instance = new Resolver()) {
-    React.render((
-      <Container resolver={instance}>
-        {element}
-      </Container>
-    ), node);
+  lookupState(resolver) {
+    const id = resolver[ID];
 
-    return instance;
+    if (this.props.data[id]) {
+      return this.props.data[id];
+    } else if (this.context.resolver) {
+      return this.context.resolver.lookupState(resolver);
+    }
   }
 
-  static renderToString(element) {
-    const resolver = new Resolver();
-    const context = <Container resolver={resolver}>{element}</Container>;
+  generateId() {
+    const { resolver } = this.context;
 
-    React.renderToString(context);
+    if (!resolver) {
+      return ".0";
+    }
 
-    return resolver.finish().then(() => {
-      resolver.freeze();
+    return `${resolver[ID]}.${resolver[CHILDREN].length}`;
+  }
 
-      return React.renderToString(context);
+  getChildContext() {
+    return { resolver: this };
+  }
+
+  onResolve(state) {
+    if (this.props.onResolve) {
+      this.props.onResolve(state);
+    } else if (this.context.resolver) {
+      this.context.resolver.onResolve(state);
+    }
+  }
+
+  render() {
+    const { fulfilled, props, rejected } = this.state;
+    const { render } = this.props;
+
+    const output = (fulfilled && !rejected) ? render(props, this.context) : null;
+
+    return output;
+  }
+
+  resolve() {
+    const { props, resolve } = this.props;
+    const { context, state } = this;
+
+    const remaining = Object.keys(resolve).filter(name => {
+      return !props.hasOwnProperty(name) && !state.hasOwnProperty(name);
     });
-  }
 
-  static renderToStaticMarkup(element) {
-    const resolver = new Resolver();
-    const context = <Container resolver={resolver}>{element}</Container>;
+    const promises = remaining.map(name => {
+      const promise = resolve[name];
 
-    React.renderToStaticMarkup(context);
-
-    return resolver.finish().then(() => {
-      resolver.freeze();
-
-      return React.renderToStaticMarkup(context);
+      return promise(props, context);
     });
+
+    const promise = Promise.all(promises).then(values => {
+      state.error = null;
+      state.fulfilled = true;
+      state.props = {};
+      state.rejected = false;
+
+      remaining.forEach((name, i) => {
+        state.props[name] = values[i];
+      });
+
+      return state;
+    }).catch(error => {
+      state.error = error;
+      state.fulfilled = false;
+      state.rejected = true;
+
+      return state;
+    }).then(state => {
+      const id = this[ID];
+
+      return { id, state };
+    });
+
+    this.onResolve(promise);
   }
 }
+
+export default Resolver;

@@ -1,7 +1,4 @@
-import Container from "./Container";
+import resolve from "./resolve";
 import Resolver from "./Resolver";
-import ResolverError from "./ResolverError";
 
-module.exports.Container = Container;
-module.exports.Error = ResolverError;
-module.exports.Resolver = Resolver;
+export { resolve, Resolver };
