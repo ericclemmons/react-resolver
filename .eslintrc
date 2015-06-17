@@ -2,6 +2,9 @@
   "extends": "future/react",
 
   "rules": {
-    "space-in-brackets": [1, "always"]
+    "no-console": 0,
+    "no-process-exit": 0,
+    "space-in-brackets": 0,
+    "object-curly-spacing": [1, "always"]
   }
 }
