@@ -1,0 +1,81 @@
+#!/usr/bin/env node
+
+var path = require("path");
+var spawn = require("child_process").spawn;
+var webpack = require("webpack");
+var watch = false;
+
+var args = process.argv;
+var options = require(path.resolve(process.cwd(), "./webpack.config.test.js"));
+var entries = args.splice(args.lastIndexOf(__filename) + 1).filter(function(entry) {
+  if (entry === "--watch") {
+    watch = true;
+
+    return false;
+  }
+
+  return true;
+});
+
+// Override default entry-point if tests are specified
+if (entries.length) {
+  options.entry.all = entries.map(function(entry) {
+    // Convert entry points to absolute paths
+    return path.resolve(process.cwd(), entry);
+  });
+}
+
+var callback = function(error, stats) {
+  if (error) {
+    process.stderr.write(error);
+    process.exit(1);
+  }
+
+  // Defaults from webpack executable
+  process.stdout.write(stats.toString({
+    cached: false,
+    cachedAssets: false,
+    context: options.context,
+    json: false,
+    colors: true,
+    modules: true,
+    chunks: false,
+    reasons: false,
+    errorDetails: false,
+    chunkOrigins: false,
+    exclude: ["node_modules", "bower_components", "jam", "components"],
+  }) + "\n");
+
+  var mochaArgs = [path.resolve(process.cwd(), "node_modules/.bin/mocha")];
+  var tests = stats.compilation.assets;
+
+  for (var file in tests) {
+    mochaArgs.push(tests[file].existsAt);
+  }
+
+  // Execute mocha against compiled test(s)
+  var mocha = spawn(process.execPath, mochaArgs, { stdio: "inherit" });
+
+  mocha.on("exit", function(code, signal) {
+    process.on("exit", function() {
+      if (signal) {
+        process.kill(process.pid, signal);
+      } else {
+        process.exit(code);
+      }
+    });
+  });
+
+  // Terminate mocha
+  process.on("exit", function() {
+    mocha.kill("SIGINT"); // calls runner.abort()
+    mocha.kill("SIGTERM"); // if that didn't work, we're probably in an infinite loop, so make it die.
+    process.kill(process.pid, "SIGINT");
+  });
+};
+
+if (watch) {
+  webpack(options).watch({}, callback);
+} else {
+  webpack(options).run(callback);
+}

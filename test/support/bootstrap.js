@@ -1,5 +1,5 @@
-import jsdom from "jsdom";
+require("es6-promise").polyfill();
 
-global.document = jsdom.jsdom("<!DOCTYPE html><html><body></body></html>");
-global.navigator = { userAgent: "node.js" };
-global.window = document.parentWindow;
+var sourceMaps = require("source-map-support");
+
+sourceMaps.install();
