@@ -57,7 +57,7 @@ class Resolver extends React.Component {
     return Promise.all(queue).then((results) => {
       const data = assign({}, initialData);
 
-      results.forEach(({ id, state }) => assign(data, { [id]: state }));
+      results.forEach(({ id, state }) => data[id] = state);
 
       if (Object.keys(initialData).length < Object.keys(data).length) {
         return Resolver.resolve(render, data);
