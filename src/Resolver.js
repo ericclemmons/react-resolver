@@ -26,7 +26,22 @@ class Resolver extends React.Component {
     props: React.PropTypes.object,
     render: React.PropTypes.func.isRequired,
     resolve: React.PropTypes.object,
-  };
+  }
+
+  static render = function(render, node) {
+    const initialData = window.__REACT_RESOLVER_PAYLOAD__;
+
+    // Server-rendered output, but missing payload
+    if (!initialData && node.innerHTML) {
+      return Resolver.resolve(render).then(({ Resolved }) => {
+        React.render(<Resolved />, node);
+      });
+    }
+
+    React.render(<Resolver data={initialData} render={render} />, node);
+
+    delete window.__REACT_RESOLVER_PAYLOAD__;
+  }
 
   static resolve = function(render, initialData = {}) {
     const queue = [];
