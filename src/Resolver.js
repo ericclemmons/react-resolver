@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import assign from "object-assign";
 import React from "react";
 
@@ -7,17 +9,17 @@ const CHILDREN = Symbol("Resolver.CHILDREN");
 class Resolver extends React.Component {
   static childContextTypes = {
     resolver: React.PropTypes.instanceOf(Resolver),
-  };
+  }
 
   static contextTypes = {
     resolver: React.PropTypes.instanceOf(Resolver),
-  };
+  }
 
   static defaultProps = {
     data: {},
     props: {},
     resolve: {},
-  };
+  }
 
   static propTypes = {
     data: React.PropTypes.object.isRequired,
