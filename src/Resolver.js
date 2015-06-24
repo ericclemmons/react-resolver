@@ -3,8 +3,9 @@
 import assign from "object-assign";
 import React from "react";
 
-const ID = Symbol("Resolver.ID");
-const CHILDREN = Symbol("Resolver.CHILDREN");
+const ID = Symbol("ReactResolver.ID");
+const CHILDREN = Symbol("ReactResolver.CHILDREN");
+const IS_CLIENT = Symbol("ReactResolver.IS_CLIENT");
 
 class Resolver extends React.Component {
   static childContextTypes = {
@@ -82,35 +83,43 @@ class Resolver extends React.Component {
   constructor(props, context) {
     super(props, context);
 
+    // Internal tracking variables
     this[ID] = this.generateId();
     this[CHILDREN] = [];
+    this[IS_CLIENT] = false;
 
-    this.state = assign({
-      error: null,
-      fulfilled: false,
-      props: {},
-      rejected: false,
-    }, this.lookupState(this));
+    // Default state & begin resolution
+    this.state = this.resolve();
   }
 
-  componentWillMount() {
-    const { fulfilled, rejected } = this.state;
-    const { resolver } = this.context;
+  clearData(resolver = this) {
+    const id = resolver[ID];
 
-    if (!fulfilled && !rejected) {
-      this.resolve();
+    if (this.props.data[id]) {
+      this.props.data[id] = undefined;
+    } else if (this.context.resolver) {
+      return this.context.resolver.clearData(resolver);
     }
+  }
 
-    if (resolver && resolver[CHILDREN].indexOf(this) === -1) {
-      resolver[CHILDREN].push(this);
-    }
+  componentDidMount() {
+    this[IS_CLIENT] = true;
+  }
+
+  componentWillUnmount() {
+    this.clearData();
+  }
+
+  componentWillReceiveProps() {
+    this.clearData();
+    this.resolve();
   }
 
   lookupState(resolver) {
     const id = resolver[ID];
 
     if (this.props.data[id]) {
-      return this.props.data[id];
+      return assign({}, this.props.data[id]);
     } else if (this.context.resolver) {
       return this.context.resolver.lookupState(resolver);
     }
@@ -123,11 +132,39 @@ class Resolver extends React.Component {
       return ".0";
     }
 
-    return `${resolver[ID]}.${resolver[CHILDREN].length}`;
+    const id = `${resolver[ID]}.${resolver[CHILDREN].length}`;
+
+    if (resolver && resolver[CHILDREN].indexOf(this) === -1) {
+      resolver[CHILDREN].push(this);
+    }
+
+    return id;
   }
 
   getChildContext() {
     return { resolver: this };
+  }
+
+  getRemaining(state) {
+    const { resolve } = this.props;
+
+    // Remaining properties are any specified `resolve`
+    // keys that aren't stored in `state.props` yet
+    const remaining = Object.keys(resolve).filter(name => {
+      return !state.props.hasOwnProperty(name);
+    }).map(name => {
+      const factory = resolve[name];
+
+      return { name, factory };
+    });
+
+    return remaining;
+  }
+
+  isReady() {
+    const remaining = this.getRemaining(this.state);
+
+    return !remaining.length;
   }
 
   onResolve(state) {
@@ -139,52 +176,76 @@ class Resolver extends React.Component {
   }
 
   render() {
-    const { fulfilled, props, rejected } = this.state;
     const { render } = this.props;
+    const { context, state } = this;
 
-    const output = (fulfilled && !rejected) ? render(props, this.context) : null;
+    const output = this.isReady() ? render(state.props, context) : null;
 
     return output;
   }
 
   resolve() {
     const { props, resolve } = this.props;
-    const { context, state } = this;
+    const { context } = this;
 
-    const remaining = Object.keys(resolve).filter(name => {
-      return !props.hasOwnProperty(name) && !state.hasOwnProperty(name);
+    // Lookup existing state, if exists
+    const state = this.lookupState(this) || { props: {} };
+
+    // Give preference to prop values
+    Object.keys(props).forEach(name => {
+      const value = props[name];
+
+      if (value !== undefined) {
+        state.props[name] = value;
+      }
     });
 
-    const promises = remaining.map(name => {
-      const promise = resolve[name];
+    // Based on state, determine which values are missing
+    const async = this.getRemaining(state).map(({ name, factory }) => {
+      // Factory methods get supplied props & supplied context
+      const value = factory(props, context);
 
-      return promise(props, context);
+      return { name, value };
+    }).filter(({ name, value }) => {
+      if (value instanceof Promise) {
+        return true;
+      }
+
+      // Synchronous values are immediately assigned
+      state.props[name] = value;
     });
 
-    const promise = Promise.all(promises).then(values => {
-      state.error = null;
-      state.fulfilled = true;
-      state.props = {};
-      state.rejected = false;
-
-      remaining.forEach((name, i) => {
-        state.props[name] = values[i];
-      });
-
+    if (!async.length) {
       return state;
-    }).catch(error => {
-      state.error = error;
-      state.fulfilled = false;
-      state.rejected = true;
+    }
 
-      return state;
-    }).then(state => {
-      const id = this[ID];
+    // Resolve async values
+    const promise = Promise
+      .all(async.map(({ value }) => value))
+      .then(values => {
+        async.forEach(({ name }, i) => {
+          state.props[name] = values[i];
+        });
 
-      return { id, state };
-    });
+        return state;
+      })
+      .then(state => {
+        if (this[IS_CLIENT]) {
+          this.setState(state);
+        }
+
+        return state;
+      })
+      .then(state => {
+        const id = this[ID];
+
+        return { id, state };
+      })
+    ;
 
     this.onResolve(promise);
+
+    return state;
   }
 }
 
