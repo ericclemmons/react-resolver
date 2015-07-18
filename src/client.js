@@ -8,7 +8,7 @@ export default function client() {
       constructor(props, context) {
         super(props, context);
 
-        this.state = { visible: false };
+        this.state = { visible: process.env.NODE_ENV === "test" };
       }
 
       componentDidMount() {

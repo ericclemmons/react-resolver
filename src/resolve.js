@@ -20,7 +20,7 @@ export default function resolve(prop, promise) {
         };
 
         return (
-          <Resolver props={this.props} render={render} resolve={asyncProps} />
+          <Resolver context={this.context} props={this.props} render={render} resolve={asyncProps} />
         );
       }
     };
