@@ -219,13 +219,12 @@ class Resolver extends React.Component {
       return false;
     }
 
-    const { props, state } = this;
-    const { context, render } = props;
-
-    // Both those provided by parent & dynamically resolved
-    const allProps = { ...props.props, ...state.resolved };
-
-    return render(allProps, context);
+    return (
+      <this.props.component
+        {...this.props.props}
+        {...this.state.resolved}
+      />
+    );
   }
 
   resolve(state) {
