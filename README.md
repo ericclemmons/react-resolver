@@ -6,6 +6,17 @@
 [![](https://img.shields.io/travis/ericclemmons/react-resolver/master.svg?style=flat-square)](https://travis-ci.org/ericclemmons/react-resolver)
 [![](https://img.shields.io/david/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=dependencies)
 
+- - -
+## Documentation
+
+You're viewing the latest documentation on `master`.
+
+You can choose a specific version's documentation here:
+
+- [v1 Documentation][1]
+- [v2 Documentation][2]
+
+- - -
 
 ## Features
 
@@ -177,6 +188,8 @@ $ npm test
 If you have questions or issues, please [open an issue][issue]!
 
 
+[1]: https://github.com/ericclemmons/react-resolver/blob/v1/README.md
+[2]: https://github.com/ericclemmons/react-resolver/blob/v2/README.md
 [changelog]: https://github.com/ericclemmons/react-resolver/blob/master/CHANGELOG.md
 [demo]: https://cdn.rawgit.com/ericclemmons/react-resolver/master/examples/stargazers/public/index.html
 [issue]: https://github.com/ericclemmons/react-resolver/issues/new
