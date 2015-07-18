@@ -1,9 +1,20 @@
 import axios from "axios";
 import React from "react";
-import { Resolver } from "react-resolver";
+import { resolve } from "../../../src";
 import { Link } from "react-router";
 
-class Stargazers extends React.Component {
+@resolve("users", function({ user, repo }) {
+  const url = `https://api.github.com/repos/${user}/${repo}/stargazers`;
+
+  return axios.get(url).then(({ data }) => data);
+})
+export default class Stargazers extends React.Component {
+  static propTypes = {
+    users: React.PropTypes.array.isRequired,
+  }
+
+  displayName = "Stargazers"
+
   render() {
     return (
       <section>
@@ -43,7 +54,7 @@ class Stargazers extends React.Component {
   renderUser(user) {
     return (
       <div key={user.id} className="center-align">
-        <Link to="user" params={{ login: user.login }}>
+        <Link to={`/users/${user.login}`}>
           <img src={user.avatar_url} alt="" className="circle responsive-img z-depth-1" />
           <br />
           {user.login}
@@ -63,19 +74,3 @@ class Stargazers extends React.Component {
     return groups.map(this.renderGroup.bind(this, cols));
   }
 }
-
-Stargazers.displayName = "Stargazers";
-
-Stargazers.propTypes = {
-  users: React.PropTypes.array.isRequired,
-};
-
-export default Resolver.createContainer(Stargazers, {
-  resolve: {
-    users: function(props) {
-      const url = `https://api.github.com/repos/${props.user}/${props.repo}/stargazers`;
-
-      return axios.get(url).then(response => response.data);
-    },
-  },
-});

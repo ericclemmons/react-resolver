@@ -1,13 +1,14 @@
 import React from "react";
-import { DefaultRoute, Route } from "react-router";
+import { Redirect, Route } from "react-router";
 
-import App from "./handlers/App";
-import Home from "./handlers/Home";
-import User from "./handlers/User";
+import App from "./components/App";
+import Home from "./components/Home";
+import User from "./components/User";
 
 export default (
-  <Route path="/" handler={App}>
-    <DefaultRoute name="home" handler={Home} />
-    <Route path="/users/:login" name="user" handler={User} />
+  <Route component={App}>
+    <Route path="/" component={Home} />
+    <Route path="/users/:login" component={User} />
+    <Redirect from="*" to="/" />
   </Route>
 );

@@ -1,42 +1,51 @@
 import axios from "axios";
 import { Link } from "react-router";
 import React from "react";
-import { Resolver } from "react-resolver";
 
-class User extends React.Component {
+import { resolve } from "../../../src";
+
+@resolve("stargazer", function({ params }) {
+  const { login } = params;
+  const url = `https://api.github.com/users/${login}`;
+
+  return axios.get(url).then(({ data }) => data);
+})
+export default class Stargazer extends React.Component {
+  displayName = "Stargazer"
+
   render() {
-    const user = this.props.user;
+    const { stargazer } = this.props;
 
     return (
       <div className="container">
         <div className="card blue-grey darken-1">
           <div className="card-content">
             <span className="card-title">
-              {user.login}
+              {stargazer.login}
             </span>
 
             <ul className="collection z-depth-1">
               <li className="collection-item avatar">
-                <img src={user.avatar_url} className="circle" />
+                <img src={stargazer.avatar_url} className="circle" />
                 <span className="title">
-                  {user.name}
+                  {stargazer.name}
                 </span>
                 <p>
-                  {user.company}
+                  {stargazer.company}
                   <br />
-                  {user.location}
+                  {stargazer.location}
                 </p>
               </li>
             </ul>
           </div>
 
           <div className="card-action">
-            <Link to="home" className="align-right">
+            <Link to="/" className="align-right">
               <i className="mdi-navigation-chevron-left" />
               Back
             </Link>
 
-            <a href={user.html_url} target="_blank">
+            <a href={stargazer.html_url} target="_blank">
               View on Github
             </a>
           </div>
@@ -45,20 +54,3 @@ class User extends React.Component {
     );
   }
 }
-
-User.displayName = "User";
-
-export default Resolver.createContainer(User, {
-  contextTypes: {
-    router: React.PropTypes.func.isRequired,
-  },
-
-  resolve: {
-    user: (props, context) => {
-      const { login } = context.router.getCurrentParams();
-      const url = `https://api.github.com/users/${login}`;
-
-      return axios.get(url).then(response => response.data);
-    },
-  },
-});

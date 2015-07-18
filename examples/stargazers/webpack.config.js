@@ -1,6 +1,6 @@
 module.exports = {
   entry: {
-    main: "./main.js",
+    client: "./client.js",
   },
 
   module: {
