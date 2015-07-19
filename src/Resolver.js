@@ -90,10 +90,17 @@ export default class Resolver extends React.Component {
     this[HAS_RESOLVED] = false;
     this[IS_CLIENT] = false;
 
-    this.state = {
+    this.state = this.computeState(this.props, {
       pending: {},
       resolved: this.cached() || {},
-    };
+    });
+
+    if (this.isPending(this.state)) {
+      this.resolve(this.state);
+      this[HAS_RESOLVED] = false;
+    } else {
+      this[HAS_RESOLVED] = true;
+    }
   }
 
   cached(resolver = this) {
@@ -118,19 +125,7 @@ export default class Resolver extends React.Component {
 
   componentDidMount() {
     this[IS_CLIENT] = true;
-  }
 
-  componentWillMount() {
-    const nextState = this.computeState(this.props, this.state);
-
-    if (this.isPending(nextState)) {
-      this.resolve(nextState);
-      this[HAS_RESOLVED] = false;
-    } else {
-      this[HAS_RESOLVED] = true;
-    }
-
-    this.setState(nextState);
   }
 
   componentWillReceiveProps(nextProps) {
