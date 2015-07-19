@@ -18,7 +18,6 @@ export default function resolve(prop, promise) {
         return (
           <Resolver
             component={Component}
-            context={this.context}
             props={this.props}
             resolve={asyncProps}
           />
