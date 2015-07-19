@@ -25,7 +25,7 @@ export default class Resolver extends React.Component {
 
   static propTypes = {
     component: React.PropTypes.func.isRequired,
-    data: React.PropTypes.object.isRequired,
+    data: React.PropTypes.object,
     props: React.PropTypes.object,
     resolve: React.PropTypes.object,
   }
