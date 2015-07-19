@@ -3,6 +3,8 @@ import React from "react";
 import { resolve } from "../../../src";
 import { Link } from "react-router";
 
+@resolve("user", ({ params }) => params.user)
+@resolve("repo", ({ params }) => params.repo)
 @resolve("users", function({ user, repo }) {
   const url = `https://api.github.com/repos/${user}/${repo}/stargazers`;
 
@@ -16,23 +18,30 @@ export default class Stargazers extends React.Component {
   displayName = "Stargazers"
 
   render() {
+    const { repo, user, users } = this.props;
+
+    console.log("Render", this.displayName, user, repo);
+
     return (
       <section>
         <div className="card">
           <div className="card-content">
-            <span className="card-title deep-purple-text">Stargazers</span>
-            <p>
-              These are all of the cool people who've starred this project!
-            </p>
+            <span className="card-title deep-purple-text">
+              Stargazers for
+              {" "}
+              <code>
+                {user}/{repo}
+              </code>
+            </span>
           </div>
           <div className="card-action">
-            <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&repo=react-resolver&type=star&count=true" frameBorder="0" scrolling="0" width="100px" height="20px"></iframe>
-            <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&repo=react-resolver&type=watch&count=true&v=2" frameBorder="0" scrolling="0" width="80px" height="20px"></iframe>
-            <iframe src="https://ghbtns.com/github-btn.html?user=ericclemmons&type=follow&count=true" frameBorder="0" scrolling="0" width="150px" height="20px"></iframe>
+            <iframe src={`https://ghbtns.com/github-btn.html?user=${user}&type=follow&count=true`} frameBorder="0" scrolling="0" width="150px" height="20px"></iframe>
+            <iframe src={`https://ghbtns.com/github-btn.html?user=${user}&repo=${repo}&type=star&count=true`} frameBorder="0" scrolling="0" width="100px" height="20px"></iframe>
+            <iframe src={`https://ghbtns.com/github-btn.html?user=${user}&repo=${repo}&type=watch&count=true&v=2`} frameBorder="0" scrolling="0" width="80px" height="20px"></iframe>
           </div>
         </div>
 
-        {this.renderUsers(this.props.users, 6)}
+        {this.renderUsers(users, 6)}
       </section>
     );
   }
