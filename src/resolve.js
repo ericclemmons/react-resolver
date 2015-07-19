@@ -15,16 +15,11 @@ export default function resolve(prop, promise) {
       displayName = `${asyncNames}Resolver`
 
       render() {
-        const render = (props) => {
-          return <Component {...this.props} {...props} />;
-        };
-
         return (
           <Resolver
             component={Component}
             context={this.context}
             props={this.props}
-            render={render}
             resolve={asyncProps}
           />
         );

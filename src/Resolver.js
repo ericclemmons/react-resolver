@@ -8,7 +8,7 @@ const CHILDREN = Symbol("ReactResolver.CHILDREN");
 const HAS_RESOLVED = Symbol("ReactResolver.HAS_RESOLVED");
 const IS_CLIENT = Symbol("ReactResolver.IS_CLIENT");
 
-class Resolver extends React.Component {
+export default class Resolver extends React.Component {
   static childContextTypes = {
     resolver: React.PropTypes.instanceOf(Resolver),
   }
@@ -24,9 +24,9 @@ class Resolver extends React.Component {
   }
 
   static propTypes = {
+    component: React.PropTypes.func.isRequired,
     data: React.PropTypes.object.isRequired,
     props: React.PropTypes.object,
-    render: React.PropTypes.func.isRequired,
     resolve: React.PropTypes.object,
   }
 
@@ -286,5 +286,3 @@ class Resolver extends React.Component {
     return this[HAS_RESOLVED];
   }
 }
-
-export default Resolver;
