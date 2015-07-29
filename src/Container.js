@@ -71,25 +71,34 @@ class Container extends React.Component {
     if (!this.state.fulfilled) {
       return false;
     }
+    
+    const props = {
+      ...this.state.values,
+      ...this.props.props
+    };
 
     if (this.props.component) {
       return (
-        <this.props.component {...this.state.values} />
+        <this.props.component {...props} />
       );
     }
 
     if (this.props.element) {
-      return cloneWithProps(this.props.element);
+      return cloneWithProps(this.props.element, props);
     }
 
     if (this.props.children) {
       if (Children.count(this.props.children) === 1) {
-        return cloneWithProps(Children.only(this.props.children));
+        return cloneWithProps(Children.only(this.props.children), props);
       }
 
       return (
         <span>
-          {Children.map(this.props.children, cloneWithProps)}
+          { Children.map(
+              this.props.children,
+              (child, i) => cloneWithProps(child, { key: i, ...props})
+            )
+          }
         </span>
       );
     }
