@@ -214,6 +214,11 @@ export default class Resolver extends React.Component {
       return false;
     }
 
+    // If render is called again (e.g. hot-reloading), re-resolve
+    if (this.isPending(this.state)) {
+      this.resolve(this.state);
+    }
+
     return (
       <this.props.component
         {...this.props.props}
