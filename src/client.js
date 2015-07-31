@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function client() {
+export default function client(Loader) {
   return function clientDecorator(Component) {
     return class ClientResolver extends React.Component {
       displayName = `ClientResolver`
@@ -17,7 +17,7 @@ export default function client() {
 
       render() {
         if (!this.state.visible) {
-          return null;
+          return Loader ? <Loader /> : null;
         }
 
         return <Component {...this.props} />;
