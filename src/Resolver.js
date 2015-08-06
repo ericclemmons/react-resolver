@@ -24,7 +24,7 @@ export default class Resolver extends React.Component {
   }
 
   static propTypes = {
-    component: React.PropTypes.func.isRequired,
+    children: React.PropTypes.func.isRequired,
     data: React.PropTypes.object,
     props: React.PropTypes.object,
     resolve: React.PropTypes.object,
@@ -219,12 +219,12 @@ export default class Resolver extends React.Component {
       this.resolve(this.state);
     }
 
-    return (
-      <this.props.component
-        {...this.props.props}
-        {...this.state.resolved}
-      />
-    );
+    const renderer = this.props.children;
+
+    return renderer({
+      ...this.props.props,
+      ...this.state.resolved,
+    });
   }
 
   resolve(state) {
