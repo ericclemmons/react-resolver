@@ -12,6 +12,8 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
@@ -110,26 +112,37 @@ var Container = (function (_React$Component) {
         return false;
       }
 
-      var props = _extends({}, this.state.values, this.props.props);
+      var _props = this.props;
+      var
+      // expected properties
+      component = _props.component;
+      var element = _props.element;
+      var resolve = _props.resolve;
+      var resolver = _props.resolver;
+      var context = _props.context;
+      var props = _props.props;
+      var children = _props.children;
 
-      if (this.props.component) {
-        return _react2["default"].createElement(this.props.component, props);
+      var passThrough = _objectWithoutProperties(_props, ["component", "element", "resolve", "resolver", "context", "props", "children"]);
+
+      if (component) {
+        return _react2["default"].createElement(this.props.component, _extends({}, passThrough, this.state.values));
       }
 
-      if (this.props.element) {
-        return (0, _reactLibCloneWithProps2["default"])(this.props.element, props);
+      if (element) {
+        return (0, _reactLibCloneWithProps2["default"])(element, passThrough);
       }
 
       if (this.props.children) {
-        if (Children.count(this.props.children) === 1) {
-          return (0, _reactLibCloneWithProps2["default"])(Children.only(this.props.children), props);
+        if (Children.count(children) === 1) {
+          return (0, _reactLibCloneWithProps2["default"])(Children.only(children), passThrough);
         }
 
         return _react2["default"].createElement(
           "span",
           null,
-          Children.map(this.props.children, function (child, i) {
-            return (0, _reactLibCloneWithProps2["default"])(child, _extends({ key: i }, props));
+          Children.map(this.props.children, function (child) {
+            return (0, _reactLibCloneWithProps2["default"])(child, passThrough);
           })
         );
       }
@@ -179,3 +192,5 @@ Container.propTypes = {
 
 exports["default"] = Container;
 module.exports = exports["default"];
+
+// everything we want to seemlessly pass through
