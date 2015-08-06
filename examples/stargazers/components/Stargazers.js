@@ -3,7 +3,22 @@ import React from "react";
 import { Resolver } from "react-resolver";
 import { Link } from "react-router";
 
-class Stargazers extends React.Component {
+@Resolver.decorate({
+  resolve: {
+    users: function(props) {
+      const url = `https://api.github.com/repos/${props.user}/${props.repo}/stargazers`;
+
+      return axios.get(url).then(response => response.data);
+    },
+  },
+})
+export default class Stargazers extends React.Component {
+  static displayName = "Stargazers"
+
+  static propTypes = {
+    users: React.PropTypes.array.isRequired,
+  };
+
   render() {
     return (
       <section>
@@ -63,19 +78,3 @@ class Stargazers extends React.Component {
     return groups.map(this.renderGroup.bind(this, cols));
   }
 }
-
-Stargazers.displayName = "Stargazers";
-
-Stargazers.propTypes = {
-  users: React.PropTypes.array.isRequired,
-};
-
-export default Resolver.createContainer(Stargazers, {
-  resolve: {
-    users: function(props) {
-      const url = `https://api.github.com/repos/${props.user}/${props.repo}/stargazers`;
-
-      return axios.get(url).then(response => response.data);
-    },
-  },
-});
