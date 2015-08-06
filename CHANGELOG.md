@@ -10,7 +10,21 @@
   + <https://github.com/ericclemmons/react-resolver/pull/34>
 - [Owner/Parent Differ](https://github.com/ericclemmons/react-resolver/issues/29)
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
+
+
+### v1.2.2 - (2015-08-05)
+
 - [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
+
+
+### v1.2.1 - (2015-08-05)
+
+- [Add tests & correct props cascading](https://github.com/ericclemmons/react-resolver/pull/48)
+
+
+### v1.2.0 - (2015-08-05)
+
+- [Props cascade down to target component](https://github.com/ericclemmons/react-resolver/pull/56)
 
 
 ### v1.1.7 - (2015-04-25)

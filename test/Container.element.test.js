@@ -2,6 +2,7 @@ import assert from "assert";
 import { Container, Resolver } from "../dist";
 import React from "react";
 
+import Fixture from "./support/Fixture";
 import ContextFixture from "./support/ContextFixture";
 import PropsFixture from "./support/PropsFixture";
 import PropsFixtureContainer from "./support/PropsFixtureContainer";
@@ -29,6 +30,14 @@ describe("<Container />", function() {
         );
 
         assert.equal(actual, "<code>[parent, resolver]</code>");
+      });
+
+      it("should pass arbitrary props through to child", function() {
+        const actual = React.renderToStaticMarkup(
+          <Container component={Fixture} className="MyClass" style={{background: 'yellow'}} resolver={this.resolver} />
+        );
+
+        assert.equal(actual, '<p class="MyClass" style="background:yellow;">Fixture</p>');
       });
     });
 
