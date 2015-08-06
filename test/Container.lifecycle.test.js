@@ -78,6 +78,6 @@ describe("<Container />", function() {
         assert(React.unmountComponentAtNode(this.node), "Element was not mounted");
         assert.equal(this.resolver.states[id], undefined, "Element state should be been removed.");
       });
-    })
+    });
   });
 });

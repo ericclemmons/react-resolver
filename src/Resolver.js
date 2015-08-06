@@ -16,16 +16,15 @@ export default class Resolver {
     return Promise.all(promises);
   }
 
-  finish() {
+  finish(renderer, values=[]) {
     const total = this.promises.length;
-
-    return Promise.all(this.promises).then((values) => {
-      if (this.promises.length > total) {
-        return this.finish();
-      }
-
-      return values;
-    });
+    renderer();
+    if (this.promises.length > total) {
+      return Promise.all(this.promises).then((valueResults) => {
+        return this.finish(renderer, valueResults);
+      });
+    }
+    return Promise.resolve(values);
   }
 
   freeze() {
@@ -47,7 +46,7 @@ export default class Resolver {
       throw new ReferenceError(`${container.constructor.displayName} should have an ID`);
     }
 
-    const state = this.states[id] || {
+    const state = this.states[id] || this.rehydrate(id) || {
       fulfilled: false,
       rejected: false,
       values: {},
@@ -79,6 +78,13 @@ export default class Resolver {
     }
 
     throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
+  }
+
+  rehydrate(id) {
+    if (typeof __resolver__ === "undefined") {
+      return null;
+    }
+    return __resolver__[id];
   }
 
   resolve(container, callback) {
@@ -172,25 +178,30 @@ export default class Resolver {
     const resolver = new Resolver();
     const context = <Container resolver={resolver}>{element}</Container>;
 
-    React.renderToString(context);
-
-    return resolver.finish().then(() => {
-      resolver.freeze();
-
-      return React.renderToString(context);
-    });
+    return resolver.finish(()=>React.renderToString(context))
+      .then(() => {
+        resolver.freeze();
+        var html = React.renderToString(context);
+        return {
+          data: resolver.states,
+          toString() { return html; }
+        };
+      });
   }
 
   static renderToStaticMarkup(element) {
     const resolver = new Resolver();
     const context = <Container resolver={resolver}>{element}</Container>;
 
-    React.renderToStaticMarkup(context);
 
-    return resolver.finish().then(() => {
+    return resolver.finish(()=>React.renderToStaticMarkup(context)).then(() => {
       resolver.freeze();
 
-      return React.renderToStaticMarkup(context);
+      var html = React.renderToStaticMarkup(context);
+      return {
+        data: resolver.states,
+        toString() { return html; }
+      };
     });
   }
 
