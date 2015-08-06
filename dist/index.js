@@ -1,6 +1,6 @@
 "use strict";
 
-var _interopRequireDefault = function (obj) { return obj && obj.__esModule ? obj : { "default": obj }; };
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _Container = require("./Container");
 
