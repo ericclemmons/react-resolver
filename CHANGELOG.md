@@ -11,6 +11,9 @@
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
 - [Decorators](https://github.com/ericclemmons/react-resolver/pull/31)
 
+### v1.2.0 - (2015-08-05)
+
+- [Props cascade down to target component](https://github.com/ericclemmons/react-resolver/pull/56)
 
 ### v1.1.7 - (2015-04-25)
 
