@@ -40,7 +40,11 @@ export default class Resolver extends React.Component {
       });
     }
 
-    React.render(<Resolver data={initialData} render={render} />, node);
+    React.render((
+      <Resolver data={initialData}>
+        {render}
+      </Resolver>
+    ), node);
 
     delete window.__REACT_RESOLVER_PAYLOAD__;
   }
@@ -49,11 +53,9 @@ export default class Resolver extends React.Component {
     const queue = [];
 
     React.renderToStaticMarkup(
-      <Resolver
-        data={initialData}
-        onResolve={(promise) => queue.push(promise)}
-        render={render}
-      />
+      <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
+        {render}
+      </Resolver>
     );
 
     return Promise.all(queue).then((results) => {
@@ -70,7 +72,9 @@ export default class Resolver extends React.Component {
 
         render() {
           return (
-            <Resolver data={data} render={render} />
+            <Resolver data={data}>
+              {render}
+            </Resolver>
           );
         }
       }
@@ -125,7 +129,6 @@ export default class Resolver extends React.Component {
 
   componentDidMount() {
     this[IS_CLIENT] = true;
-
   }
 
   componentWillReceiveProps(nextProps) {
@@ -219,9 +222,8 @@ export default class Resolver extends React.Component {
       this.resolve(this.state);
     }
 
-    const renderer = this.props.children;
-
-    return renderer({
+    // Both those props provided by parent & dynamically resolved
+    return this.props.children({
       ...this.props.props,
       ...this.state.resolved,
     });

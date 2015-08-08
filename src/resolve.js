@@ -17,7 +17,7 @@ export default function resolve(prop, promise) {
       render() {
         return (
           <Resolver props={this.props} resolve={asyncProps}>
-            {(props) => <Component {...props} />}
+            {(resolved) => <Component {...this.props} {...resolved} />}
           </Resolver>
         );
       }
