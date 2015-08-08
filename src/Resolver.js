@@ -272,15 +272,15 @@ export default class Resolver extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
+    // Prevent updating when parent is changing values
+    if (this.isParentPending()) {
+      return false;
+    }
+
     // Prevent rendering until pending values are resolved
     if (this.isPending(nextState)) {
       this.resolve(nextState);
 
-      return false;
-    }
-
-    // Prevent updating when parent is changing values
-    if (this.isParentPending()) {
       return false;
     }
 
