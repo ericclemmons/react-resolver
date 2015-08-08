@@ -1,0 +1,19 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "webpack-dev-server --content-base ./public",
+    "watch": "node watch"
+  },
+  "dependencies": {
+    "axios": "0.5.4",
+    "es6-promise": "2.3.0",
+    "express": "4.13.3",
+    "react": "0.13.3",
+    "react-router": "0.13.3",
+    "webpack": "1.11.0"
+  },
+  "devDependencies": {
+    "piping": "0.2.0",
+    "webpack-dev-server": "1.10.1"
+  }
+}
