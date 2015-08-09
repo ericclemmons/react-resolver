@@ -55,7 +55,7 @@ You can choose a specific version's documentation here:
 
 ## Dependencies
 
-- React `v0.13.x`
+- React `v0.13` or `v0.14`
 
 _For browsers that don't natively support Promises, use [ES6 Promises](https://github.com/jakearchibald/es6-promise)._
 
