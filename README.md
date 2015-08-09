@@ -5,8 +5,10 @@
 [![](https://img.shields.io/github/issues-raw/ericclemmons/react-resolver.svg?style=flat-square)](https://github.com/ericclemmons/react-resolver/issues)
 [![](https://img.shields.io/travis/ericclemmons/react-resolver/master.svg?style=flat-square)](https://travis-ci.org/ericclemmons/react-resolver)
 [![](https://img.shields.io/david/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=dependencies)
+[![](https://img.shields.io/badge/slack-@react--resolver-61DAFB.svg?style=flat-square)](http://www.reactiflux.com)
 
 - - -
+
 ## Documentation
 
 You're viewing the latest documentation on `master`.
