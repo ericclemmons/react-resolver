@@ -8,13 +8,12 @@
   },
   "devDependencies": {
     "babel": "5.8.21",
-    "eslint-config-future": "^2.1.1",
-    "mocha": "^2.2.5"
+    "eslint-config-future": "^2.1.1"
   },
   "scripts": {
     "build": "rm -rf dist && babel --out-dir dist src",
     "lint": "eslint src test",
-    "test": "NODE_ENV=test ./test/support/runner"
+    "test": "echo Awaiting new tests..."
   },
   "repository": {
     "type": "git",
