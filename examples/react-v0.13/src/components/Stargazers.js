@@ -59,12 +59,14 @@ export default class Stargazers extends React.Component {
   }
 
   renderUser(user) {
+    const { login } = user;
+
     return (
       <div key={user.id} className="center-align">
-        <Link to={`/users/${user.login}`}>
+        <Link to="profile" query={{ login }}>
           <img src={user.avatar_url} alt="" className="circle responsive-img z-depth-1" />
           <br />
-          {user.login}
+          {login}
         </Link>
       </div>
     );

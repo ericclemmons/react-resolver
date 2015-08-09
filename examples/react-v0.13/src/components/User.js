@@ -4,8 +4,8 @@ import React from "react";
 
 import { resolve } from "react-resolver";
 
-@resolve("stargazer", function({ params }) {
-  const { login } = params;
+@resolve("stargazer", function({ query }) {
+  const { login } = query;
   const url = `https://api.github.com/users/${login}`;
 
   return axios.get(url).then(({ data }) => data);
