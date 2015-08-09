@@ -2,9 +2,8 @@ import express from "express";
 import Location from "react-router/lib/Location";
 import React from "react";
 import { renderToString } from "react-dom/server";
-import Router from "react-router";
 import { Resolver } from "react-resolver";
-// import ServerLocation from "react-router-server-location";
+import Router from "react-router";
 
 import routes from "./routes";
 
@@ -46,27 +45,6 @@ express()
         })
       ;
     });
-
-    // const location = new ServerLocation(req, res);
-    //
-    // Router.create({ location, routes }).run(function(Handler, state) {
-    //   // Redirect any unknown to home
-    //   if (!state.routes.length) {
-    //     return res.redirect("/");
-    //   }
-    //
-    //   const notFound = state.routes.filter(({ name }) => name === "404").length;
-    // const notFound = 0;
-    //
-    //   Resolver
-    //     .resolve(() => <Handler {...state} />)
-    //     .then(({ Resolved, data }) => {
-    //     })
-    //     .catch((error) => {
-    //       res.status(500).send(error);
-    //     })
-    //   ;
-    // });
   })
   .listen(3000, function() {
     console.info("✅  Node server started at http://localhost:3000/");
