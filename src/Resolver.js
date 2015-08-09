@@ -36,10 +36,12 @@ export default class Resolver extends React.Component {
     // Server-rendered output, but missing payload
     if (!initialData && node.innerHTML) {
       return Resolver.resolve(render).then(({ Resolved }) => {
+        // @TODO - Use react-dom.render
         React.render(<Resolved />, node);
       });
     }
 
+    // @TODO - Use react-dom.render
     React.render((
       <Resolver data={initialData}>
         {render}
@@ -52,6 +54,7 @@ export default class Resolver extends React.Component {
   static resolve = function(render, initialData = {}) {
     const queue = [];
 
+    // @TODO - Use react-dom/server.renderToStaticMarkup
     React.renderToStaticMarkup(
       <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
         {render}
