@@ -35,7 +35,7 @@ express()
               <body>
                 <div id="app">${React.renderToString(<Resolved />)}</div>
 
-                <script src="client.min.js" async defer></script>
+                <script src="/client.min.js" async defer></script>
                 <script>window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(data)}</script>
               </body>
               </html>

@@ -3,8 +3,8 @@ import React from "react";
 import { resolve } from "react-resolver";
 import { Link } from "react-router";
 
-@resolve("user", ({ query }) => query.user)
-@resolve("repo", ({ query }) => query.repo)
+@resolve("user", ({ params, query }) => params.user || query.user)
+@resolve("repo", ({ params, query }) => params.repo || query.repo)
 @resolve("users", function({ user, repo }) {
   const url = `https://api.github.com/repos/${user}/${repo}/stargazers`;
 
@@ -59,14 +59,12 @@ export default class Stargazers extends React.Component {
   }
 
   renderUser(user) {
-    const { login } = user;
-
     return (
       <div key={user.id} className="center-align">
-        <Link to="profile" query={{ login }}>
+        <Link to="user" params={{ user: user.login }}>
           <img src={user.avatar_url} alt="" className="circle responsive-img z-depth-1" />
           <br />
-          {login}
+          {user.login}
         </Link>
       </div>
     );

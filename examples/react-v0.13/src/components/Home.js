@@ -4,7 +4,7 @@ import { context, resolve } from "react-resolver";
 
 @context("router")
 @resolve("submit", function({ router }) {
-  return ({ user, repo }) => router.transitionTo("stargazers", null, { user, repo });
+  return (action) => router.transitionTo(action);
 })
 export default class Home extends React.Component {
   displayName = "Home"
@@ -13,28 +13,47 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
+      action: props.router.makeHref("query.repo"),
       user: "ericclemmons",
       repo: "react-resolver",
     };
   }
 
+  componentDidMount() {
+    this.setState(this.computeState());
+  }
+
+  computeState(state) {
+    const nextState = {
+      ...this.state,
+      ...state,
+    };
+
+    const { user, repo } = nextState;
+    const { router } = this.props;
+
+    nextState.action = router.makeHref("repo", { user, repo });
+
+    return nextState;
+  }
+
   handleChange(event) {
     const { name, value } = event.target;
 
-    this.setState({ [name]: value });
+    this.setState(this.computeState({ [name]: value }));
   }
 
   handleSubmit(event) {
     const { submit } = this.props;
-    const { user, repo } = this.state;
+    const { action } = this.state;
 
-    submit({ user, repo });
+    submit(action);
 
     event.preventDefault();
   }
 
   render() {
-    const { user, repo } = this.state;
+    const { action, user, repo } = this.state;
 
     return (
       <section>
@@ -47,7 +66,7 @@ export default class Home extends React.Component {
           <div className="card-action">
             <div className="row">
               <form
-                action="/stargazers"
+                action={action}
                 method="GET"
                 onChange={::this.handleChange}
                 onSubmit={::this.handleSubmit}

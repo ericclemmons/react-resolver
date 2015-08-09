@@ -4,9 +4,9 @@ import React from "react";
 
 import { resolve } from "react-resolver";
 
-@resolve("stargazer", function({ query }) {
-  const { login } = query;
-  const url = `https://api.github.com/users/${login}`;
+@resolve("stargazer", function({ params }) {
+  const { user } = params;
+  const url = `https://api.github.com/users/${user}`;
 
   return axios.get(url).then(({ data }) => data);
 })

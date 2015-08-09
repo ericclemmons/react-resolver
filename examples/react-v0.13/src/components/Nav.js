@@ -9,7 +9,7 @@ export default class Nav extends React.Component {
       <nav className="deep-purple darken-2">
         <div className="nav-wrapper">
           <div className="container">
-            <Link to="/" className="brand-logo">React Resolver Demo</Link>
+            <Link to="home" className="brand-logo">React Resolver Demo</Link>
           </div>
         </div>
       </nav>
