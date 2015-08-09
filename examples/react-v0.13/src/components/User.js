@@ -2,7 +2,7 @@ import axios from "axios";
 import { Link } from "react-router";
 import React from "react";
 
-import { resolve } from "../../../../src";
+import { resolve } from "react-resolver";
 
 @resolve("stargazer", function({ params }) {
   const { login } = params;

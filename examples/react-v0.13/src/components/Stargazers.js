@@ -1,10 +1,10 @@
 import axios from "axios";
 import React from "react";
-import { resolve } from "../../../../src";
+import { resolve } from "react-resolver";
 import { Link } from "react-router";
 
-@resolve("user", ({ params }) => params.user)
-@resolve("repo", ({ params }) => params.repo)
+@resolve("user", ({ query }) => query.user)
+@resolve("repo", ({ query }) => query.repo)
 @resolve("users", function({ user, repo }) {
   const url = `https://api.github.com/repos/${user}/${repo}/stargazers`;
 
