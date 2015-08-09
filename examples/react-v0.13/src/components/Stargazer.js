@@ -40,7 +40,7 @@ export default class Stargazer extends React.Component {
           </div>
 
           <div className="card-action">
-            <Link to="/" className="align-right">
+            <Link to="home" className="align-right">
               <i className="mdi-navigation-chevron-left" />
               Back
             </Link>

@@ -2,11 +2,11 @@ import axios from "axios";
 import { Link } from "react-router";
 import React from "react";
 
-import { resolve } from "../../../src";
+import { resolve } from "react-resolver";
 
 @resolve("stargazer", function({ params }) {
-  const { login } = params;
-  const url = `https://api.github.com/users/${login}`;
+  const { user } = params;
+  const url = `https://api.github.com/users/${user}`;
 
   return axios.get(url).then(({ data }) => data);
 })

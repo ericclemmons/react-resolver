@@ -1,6 +1,8 @@
 import React from "react";
 
 export default class Footer extends React.Component {
+  displayName = "Footer"
+
   render() {
     return (
       <footer className="page-footer orange">

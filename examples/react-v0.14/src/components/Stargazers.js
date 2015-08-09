@@ -1,10 +1,10 @@
 import axios from "axios";
 import React from "react";
-import { resolve } from "../../../src";
+import { resolve } from "react-resolver";
 import { Link } from "react-router";
 
-@resolve("user", ({ params }) => params.user)
-@resolve("repo", ({ params }) => params.repo)
+@resolve("user", ({ location: { query }, params }) => params.user || query.user)
+@resolve("repo", ({ location: { query }, params }) => params.repo || query.repo)
 @resolve("users", function({ user, repo }) {
   const url = `https://api.github.com/repos/${user}/${repo}/stargazers`;
 
@@ -19,8 +19,6 @@ export default class Stargazers extends React.Component {
 
   render() {
     const { repo, user, users } = this.props;
-
-    console.log("Render", this.displayName, user, repo);
 
     return (
       <section>
@@ -63,7 +61,7 @@ export default class Stargazers extends React.Component {
   renderUser(user) {
     return (
       <div key={user.id} className="center-align">
-        <Link to={`/users/${user.login}`}>
+        <Link to={`/${user.login}`}>
           <img src={user.avatar_url} alt="" className="circle responsive-img z-depth-1" />
           <br />
           {user.login}

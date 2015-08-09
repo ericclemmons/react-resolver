@@ -1,14 +1,14 @@
 require("babel/register");
 
-var client = require("./webpack.config.client");
+var config = require("./webpack.config");
 var piping = require("piping")({ hook: true });
 var webpack = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
 
 if (piping) {
-  require("./server");
+  require("./src/server");
 } else {
-  new WebpackDevServer(webpack(client), {
+  new WebpackDevServer(webpack(config), {
     contentBase: "/",
     publicPath: "http://localhost:8080/",
     headers: { "Access-Control-Allow-Origin": "*" },
