@@ -17,27 +17,30 @@ express()
         return res.redirect("/");
       }
 
+      const notFound = state.routes.filter(({ name }) => name === "404").length;
+
       Resolver
         .resolve(() => <Handler {...state} />)
         .then(({ Resolved, data }) => {
-          const rendered = React.renderToString(<Resolved />);
+          res
+            .status(notFound ? 404 : 200)
+            .send(`
+              <!DOCTYPE html>
+              <html lang="en">
+              <head>
+                <meta charset="UTF-8">
+                <title>Stargazers Demo – React Resolver</title>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
+              </head>
+              <body>
+                <div id="app">${React.renderToString(<Resolved />)}</div>
 
-          res.send(`
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-              <meta charset="UTF-8">
-              <title>Stargazers Demo – React Resolver</title>
-              <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.0/css/materialize.min.css">
-            </head>
-            <body>
-              <div id="app">${rendered}</div>
-
-              <script src="client.min.js" async defer></script>
-              <script>window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(data)}</script>
-            </body>
-            </html>
-          `);
+                <script src="client.min.js" async defer></script>
+                <script>window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(data)}</script>
+              </body>
+              </html>
+            `)
+          ;
         })
         .catch((error) => {
           res.status(500).send(error);
