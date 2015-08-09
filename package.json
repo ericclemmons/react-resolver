@@ -12,7 +12,7 @@
     "mocha": "^2.2.5"
   },
   "scripts": {
-    "build": "babel --out-dir dist src",
+    "build": "rm -rf dist && babel --out-dir dist src",
     "lint": "eslint src test",
     "test": "NODE_ENV=test ./test/support/runner"
   },
@@ -32,8 +32,5 @@
   "bugs": {
     "url": "https://github.com/ericclemmons/react-resolver/issues"
   },
-  "homepage": "https://github.com/ericclemmons/react-resolver",
-  "dependencies": {
-    "object-assign": "^3.0.0"
-  }
+  "homepage": "https://github.com/ericclemmons/react-resolver"
 }

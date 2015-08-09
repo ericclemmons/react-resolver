@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 
-import assign from "object-assign";
 import React from "react";
 
 const ID = Symbol("ReactResolver.ID");
@@ -62,7 +61,7 @@ export default class Resolver extends React.Component {
     );
 
     return Promise.all(queue).then((results) => {
-      const data = assign({}, initialData);
+      const data = { ...initialData };
 
       results.forEach(({ id, resolved }) => data[id] = resolved);
 
@@ -114,7 +113,7 @@ export default class Resolver extends React.Component {
     const id = resolver[ID];
 
     if (this.props.data.hasOwnProperty(id)) {
-      return assign({}, this.props.data[id]);
+      return { ...this.props.data[id] };
     } else if (this.context.resolver) {
       return this.context.resolver.cached(resolver);
     }
