@@ -1,6 +1,11 @@
 # React Resolver Changelog
 
 
+### v2.0.1 - (2015-08-09)
+
+- [Replace `Symbol` usage with plain strings](https://github.com/ericclemmons/react-resolver/issues/58)
+
+
 ### v2.0.0 - (2015-08-09)
 
 - [V2 Rewrite](https://github.com/ericclemmons/react-resolver/pull/52)
