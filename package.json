@@ -1,7 +1,7 @@
 {
   "name": "react-resolver",
   "version": "2.0.0",
-  "description": "Async-rendering & data-fetching for React components",
+  "description": "Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
   "directories": {
     "test": "test"
@@ -21,9 +21,10 @@
   },
   "keywords": [
     "async",
-    "react",
+    "decorator",
     "lazy",
     "load",
+    "react",
     "resolve"
   ],
   "author": "Eric Clemmons <eric@smarterspam.com>",
