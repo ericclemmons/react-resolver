@@ -1,3 +1,4 @@
+_book
 *.min.*
 dist
 node_modules

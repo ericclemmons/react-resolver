@@ -12,8 +12,14 @@
     "gitbook-cli": "0.3.4"
   },
   "scripts": {
-    "build": "rm -rf dist && babel --out-dir dist src",
+    "build": "npm run clean && npm run build:docs && npm run build:lib",
+    "build:docs": "gitbook build -g ericclemmons/react-resolver",
+    "build:lib": "babel --out-dir dist src",
+    "clean": "npm run clean:docs && npm run clean:lib",
+    "clean:docs": "rm -rf _book",
+    "clean:lib": "rm -rf dist",
     "docs": "gitbook serve",
+    "docs:publish": "npm run clean:docs && npm run build:docs && cd _book && git init && git commit --allow-empty -m 'Update gitbook' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update gitbook' && git push --force git@github.com:ericclemmons/react-resolver gh-pages",
     "lint": "eslint src test",
     "test": "echo Awaiting new tests..."
   },
