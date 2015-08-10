@@ -8,12 +8,17 @@
   },
   "devDependencies": {
     "babel": "5.8.21",
-    "eslint-config-future": "^2.1.1"
+    "babel-tape-runner": "1.2.0",
+    "blue-tape": "0.1.10",
+    "eslint-config-future": "^2.1.1",
+    "react": "0.13.3",
+    "tap-spec": "4.0.2",
+    "tape": "4.0.3"
   },
   "scripts": {
     "build": "rm -rf dist && babel --out-dir dist src",
     "lint": "eslint src test",
-    "test": "echo Awaiting new tests..."
+    "test": "babel-tape-runner test/**/*.test.js | tap-spec"
   },
   "repository": {
     "type": "git",
