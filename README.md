@@ -32,8 +32,13 @@ and programmatically annoying to maintain.
 The simplest example is a pure, client-side only application.  Afterwards,
 we can change a few lines to turn this into a universal application.
 
+If you're the visual type, **view the examples**:
 
-### 0. Dependencies
+- [React v0.13 + React Router v0.13 Example](https://github.com/ericclemmons/react-resolver/tree/v2/examples/react-v0.13)
+- [React v0.14 + React Router 1.0 Example](https://github.com/ericclemmons/react-resolver/tree/v2/examples/react-v0.14)
+
+
+### Dependencies
 
 - React `v0.13` or `v0.14`
 
