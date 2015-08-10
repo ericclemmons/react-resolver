@@ -1,200 +1,292 @@
+/* eslint-disable no-underscore-dangle */
+
 import React from "react";
 
-import Container from "./Container";
-import ResolverError from "./ResolverError";
+const ID = Symbol("ReactResolver.ID");
+const CHILDREN = Symbol("ReactResolver.CHILDREN");
+const HAS_RESOLVED = Symbol("ReactResolver.HAS_RESOLVED");
+const IS_CLIENT = Symbol("ReactResolver.IS_CLIENT");
 
-export default class Resolver {
-  constructor(states = {}) {
-    this.frozen = false;
-    this.promises = [];
-    this.states = states;
+export default class Resolver extends React.Component {
+  static childContextTypes = {
+    resolver: React.PropTypes.instanceOf(Resolver),
   }
 
-  await(promises = []) {
-    this.promises = this.promises.concat(promises);
-
-    return Promise.all(promises);
+  static contextTypes = {
+    resolver: React.PropTypes.instanceOf(Resolver),
   }
 
-  finish() {
-    const total = this.promises.length;
-
-    return Promise.all(this.promises).then((values) => {
-      if (this.promises.length > total) {
-        return this.finish();
-      }
-
-      return values;
-    });
+  static defaultProps = {
+    data: {},
+    props: {},
+    resolve: {},
   }
 
-  freeze() {
-    this.frozen = true;
+  static propTypes = {
+    children: React.PropTypes.func.isRequired,
+    data: React.PropTypes.object.isRequired,
+    props: React.PropTypes.object,
+    resolve: React.PropTypes.object,
   }
 
-  fulfillState(state, callback) {
-    state.error = undefined;
-    state.fulfilled = true;
-    state.rejected = false;
+  static render = function(render, node) {
+    const initialData = window.__REACT_RESOLVER_PAYLOAD__;
 
-    return callback ? callback(state) : state;
-  }
-
-  getContainerState(container) {
-    const { id } = container;
-
-    if (!id) {
-      throw new ReferenceError(`${container.constructor.displayName} should have an ID`);
-    }
-
-    const state = this.states[id] || {
-      fulfilled: false,
-      rejected: false,
-      values: {},
-    };
-
-    if (!this.states[id]) {
-      this.states[id] = state;
-    }
-
-    return state;
-  }
-
-  clearContainerState(container) {
-    const { id } = container;
-
-    Object.keys(this.states)
-      .filter(key => key.indexOf(id) === 0)
-      .forEach(key => this.states[key] = undefined)
-    ;
-  }
-
-  rejectState(error, state, callback) {
-    state.error = error;
-    state.fulfilled = false;
-    state.rejected = true;
-
-    if (callback) {
-      callback(state);
-    }
-
-    throw new Error(`${this.constructor.displayName} was rejected: ${error}`);
-  }
-
-  resolve(container, callback) {
-    const asyncProps = container.props.resolve || {};
-    const state = this.getContainerState(container);
-
-    const asyncKeys = Object.keys(asyncProps)
-      // Assign existing prop values
-      .filter((asyncProp) => {
-        if (container.props.hasOwnProperty(asyncProp)) {
-          state.values[asyncProp] = container.props[asyncProp];
-
-          return false;
-        }
-
-        return true;
-      })
-      // Filter out pre-loaded values
-      .filter((asyncProp) => {
-        return !state.values.hasOwnProperty(asyncProp);
-      })
-    ;
-
-    if (!asyncKeys.length) {
-      return Promise.resolve(this.fulfillState(state, callback));
-    }
-
-    if (this.frozen) {
-      throw new ResolverError([
-        "Resolver is frozen for server rendering.",
-        `${container.constructor.displayName} (#${container.id}) should have already resolved`,
-        `"${asyncKeys.join("\", \"")}". (http://git.io/vvvkr)`,
-      ].join(" "));
-    }
-
-    const promises = asyncKeys.map((prop) => {
-      const valueOf = container.props.resolve[prop];
-      const value = container.props.hasOwnProperty(prop)
-        ? container.props[prop]
-        : valueOf(container.props.props, container.props.context)
-      ;
-
-      return Promise.resolve(value).then((resolved) => {
-        state.values[prop] = resolved;
-
-        return resolved;
+    // Server-rendered output, but missing payload
+    if (!initialData && node.innerHTML) {
+      return Resolver.resolve(render).then(({ Resolved }) => {
+        // @TODO - Use react-dom.render
+        React.render(<Resolved />, node);
       });
-    });
-
-    return this.await(promises).then(
-      () => this.fulfillState(state, callback),
-      (error) => this.rejectState(error, state, callback)
-    );
-  }
-
-  static createContainer(Component, props = {}) {
-    if (!Component.hasOwnProperty("displayName")) {
-      throw new ReferenceError("Resolver.createContainer requires wrapped component to have `displayName`");
     }
 
-    class ComponentContainer extends React.Component {
-      render() {
-        return (
-          <Container
-            component={Component}
-            context={this.context}
-            props={this.props}
-            {...props}
-          />
-        );
-      }
-    }
-
-    ComponentContainer.contextTypes = props.contextTypes;
-    ComponentContainer.displayName = `${Component.displayName}Container`;
-
-    return ComponentContainer;
-  }
-
-  static render(element, node, instance = new Resolver()) {
+    // @TODO - Use react-dom.render
     React.render((
-      <Container resolver={instance}>
-        {element}
-      </Container>
+      <Resolver data={initialData}>
+        {render}
+      </Resolver>
     ), node);
 
-    return instance;
+    delete window.__REACT_RESOLVER_PAYLOAD__;
   }
 
-  static renderToString(element) {
-    const resolver = new Resolver();
-    const context = <Container resolver={resolver}>{element}</Container>;
+  static resolve = function(render, initialData = {}) {
+    const queue = [];
 
-    React.renderToString(context);
+    // @TODO - Use react-dom/server.renderToStaticMarkup
+    React.renderToStaticMarkup(
+      <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
+        {render}
+      </Resolver>
+    );
 
-    return resolver.finish().then(() => {
-      resolver.freeze();
+    return Promise.all(queue).then((results) => {
+      const data = { ...initialData };
 
-      return React.renderToString(context);
+      results.forEach(({ id, resolved }) => data[id] = resolved);
+
+      if (Object.keys(initialData).length < Object.keys(data).length) {
+        return Resolver.resolve(render, data);
+      }
+
+      class Resolved extends React.Component {
+        displayName = "Resolved"
+
+        render() {
+          return (
+            <Resolver data={data}>
+              {render}
+            </Resolver>
+          );
+        }
+      }
+
+      return { data, Resolved };
     });
   }
 
-  static renderToStaticMarkup(element) {
-    const resolver = new Resolver();
-    const context = <Container resolver={resolver}>{element}</Container>;
+  displayName = "Resolver"
 
-    React.renderToStaticMarkup(context);
+  constructor(props, context) {
+    super(props, context);
 
-    return resolver.finish().then(() => {
-      resolver.freeze();
+    // Internal tracking variables
+    this[ID] = this.generateId();
+    this[CHILDREN] = [];
+    this[HAS_RESOLVED] = false;
+    this[IS_CLIENT] = false;
 
-      return React.renderToStaticMarkup(context);
+    this.state = this.computeState(this.props, {
+      pending: {},
+      resolved: this.cached() || {},
+    });
+
+    if (this.isPending(this.state)) {
+      this.resolve(this.state);
+      this[HAS_RESOLVED] = false;
+    } else {
+      this[HAS_RESOLVED] = true;
+    }
+  }
+
+  cached(resolver = this) {
+    const id = resolver[ID];
+
+    if (this.props.data.hasOwnProperty(id)) {
+      return { ...this.props.data[id] };
+    } else if (this.context.resolver) {
+      return this.context.resolver.cached(resolver);
+    }
+  }
+
+  clearData(resolver = this) {
+    const id = resolver[ID];
+
+    if (this.props.data.hasOwnProperty(id)) {
+      delete this.props.data[id];
+    } else if (this.context.resolver) {
+      return this.context.resolver.clearData(resolver);
+    }
+  }
+
+  componentDidMount() {
+    this[IS_CLIENT] = true;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const cleanState = {
+      pending: {},
+      resolved: {},
+    };
+
+    const { pending, resolved } = this.computeState(nextProps, cleanState);
+
+    // Next state will resolve async props again, but update existing sync props
+    const nextState = {
+      pending,
+      resolved: { ...this.state.resolved, ...resolved },
+    };
+
+    this.setState(nextState);
+  }
+
+  computeState(thisProps, nextState) {
+    const { props, resolve } = thisProps;
+
+    Object.keys(resolve).forEach(name => {
+      // Ignore existing supplied props or existing resolved values
+      if (!props.hasOwnProperty(name) && !nextState.resolved.hasOwnProperty(name)) {
+        const factory = resolve[name];
+        const value = factory(props);
+
+        if (value instanceof Promise) {
+          nextState.pending[name] = value;
+        } else {
+          // Synchronous values are immediately assigned
+          nextState.resolved[name] = value;
+        }
+      }
+    });
+
+    return nextState;
+  }
+
+  generateId() {
+    const { resolver } = this.context;
+
+    if (!resolver) {
+      return ".0";
+    }
+
+    const id = `${resolver[ID]}.${resolver[CHILDREN].length}`;
+
+    if (resolver && resolver[CHILDREN].indexOf(this) === -1) {
+      resolver[CHILDREN].push(this);
+    }
+
+    return id;
+  }
+
+  getChildContext() {
+    return { resolver: this };
+  }
+
+  isPending(state = this.state) {
+    return Object.keys(state.pending).length > 0;
+  }
+
+  isParentPending() {
+    const { resolver } = this.context;
+
+    if (resolver) {
+      return resolver.isPending() || resolver.isParentPending();
+    }
+
+    return false;
+  }
+
+  onResolve(state) {
+    if (this.props.onResolve) {
+      this.props.onResolve(state);
+    } else if (this.context.resolver) {
+      this.context.resolver.onResolve(state);
+    }
+  }
+
+  render() {
+    // Avoid rendering until ready
+    if (!this[HAS_RESOLVED]) {
+      return false;
+    }
+
+    // If render is called again (e.g. hot-reloading), re-resolve
+    if (this.isPending(this.state)) {
+      this.resolve(this.state);
+    }
+
+    // Both those props provided by parent & dynamically resolved
+    return this.props.children({
+      ...this.props.props,
+      ...this.state.resolved,
     });
   }
 
-  static decorate(props = {}) {
-    return Component => Resolver.createContainer(Component, props);
+  resolve(state) {
+    const pending = Object.keys(state.pending).map(name => {
+      const promise = state.pending[name];
+
+      return { name, promise };
+    });
+
+    const promises = pending.map(({ promise }) => promise);
+
+    const resolving = Promise.all(promises).then(values => {
+      const id = this[ID];
+      const resolved = values.reduce((resolved, value, i) => {
+        const { name } = pending[i];
+
+        resolved[name] = value;
+
+        return resolved;
+      }, {});
+
+      return { id, resolved };
+    });
+
+    // Resolve listeners get the current ID + resolved
+    this.onResolve(resolving);
+
+    // Update current component with new data (on client)
+    resolving.then(({ resolved }) => {
+      this[HAS_RESOLVED] = true;
+
+      if (!this[IS_CLIENT]) {
+        return false;
+      }
+
+      const nextState = {
+        pending: {},
+        resolved: { ...state.resolved, ...resolved },
+      };
+
+      this.setState(nextState);
+    });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Prevent updating when parent is changing values
+    if (this.isParentPending()) {
+      return false;
+    }
+
+    // Prevent rendering until pending values are resolved
+    if (this.isPending(nextState)) {
+      this.resolve(nextState);
+
+      return false;
+    }
+
+    // Update if we have resolved successfully
+    return this[HAS_RESOLVED];
   }
 }

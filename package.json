@@ -1,37 +1,30 @@
 {
   "name": "react-resolver",
-  "version": "1.2.2",
-  "description": "Isomorphic library to lazy-load data for React components",
+  "version": "2.0.0",
+  "description": "Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
   "directories": {
     "test": "test"
   },
   "devDependencies": {
-    "babel": "^5.1.13",
-    "babel-eslint": "^2.0.2",
-    "eslint": "^0.19.0",
-    "eslint-plugin-react": "^2.2.0",
-    "jsdom": "^3.1.2",
-    "mocha": "^2.2.4",
-    "react": "0.13.x"
-  },
-  "peerDependencies": {
-    "react": "0.13.x"
+    "babel": "5.8.21",
+    "eslint-config-future": "^2.1.1"
   },
   "scripts": {
-    "build": "babel --out-dir dist/ src/",
+    "build": "rm -rf dist && babel --out-dir dist src",
     "lint": "eslint src test",
-    "prepublish": "npm run build",
-    "test": "npm run build && mocha"
+    "test": "echo Awaiting new tests..."
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/ericclemmons/react-resolver.git"
   },
   "keywords": [
-    "react",
+    "async",
+    "decorator",
     "lazy",
     "load",
+    "react",
     "resolve"
   ],
   "author": "Eric Clemmons <eric@smarterspam.com>",
@@ -39,6 +32,5 @@
   "bugs": {
     "url": "https://github.com/ericclemmons/react-resolver/issues"
   },
-  "homepage": "https://github.com/ericclemmons/react-resolver",
-  "dependencies": {}
+  "homepage": "https://github.com/ericclemmons/react-resolver"
 }

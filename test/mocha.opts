@@ -1,4 +1,0 @@
---compilers js:babel/register
---reporter spec
---require test/support/bootstrap.js
---ui bdd

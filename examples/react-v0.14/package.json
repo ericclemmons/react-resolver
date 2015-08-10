@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "scripts": {
+    "preinstall": "rm -rf ./node_modules/react-resolver",
+    "postinstall": "cp -r ../../dist node_modules/react-resolver",
+    "start": "webpack-dev-server --content-base ./public",
+    "watch": "node watch"
+  },
+  "dependencies": {
+    "axios": "0.5.4",
+    "babel-core": "5.8.21",
+    "babel-loader": "5.3.2",
+    "es6-promise": "2.3.0",
+    "express": "4.13.3",
+    "react": "0.14.0-beta3",
+    "react-dom": "0.14.0-beta3",
+    "react-router": "1.0.0-beta3",
+    "webpack": "1.11.0"
+  },
+  "devDependencies": {
+    "piping": "0.2.0",
+    "react-router-server-location": "1.0.2",
+    "webpack-dev-server": "1.10.1"
+  }
+}
