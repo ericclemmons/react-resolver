@@ -2,10 +2,10 @@
 
 import React from "react";
 
-const ID = Symbol("ReactResolver.ID");
-const CHILDREN = Symbol("ReactResolver.CHILDREN");
-const HAS_RESOLVED = Symbol("ReactResolver.HAS_RESOLVED");
-const IS_CLIENT = Symbol("ReactResolver.IS_CLIENT");
+const ID = "ReactResolver.ID";
+const CHILDREN = "ReactResolver.CHILDREN";
+const HAS_RESOLVED = "ReactResolver.HAS_RESOLVED";
+const IS_CLIENT = "ReactResolver.IS_CLIENT";
 
 export default class Resolver extends React.Component {
   static childContextTypes = {
