@@ -21,7 +21,11 @@
     "docs": "gitbook serve",
     "docs:publish": "npm run clean:docs && npm run build:docs && cd _book && git init && git commit --allow-empty -m 'Update gitbook' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update gitbook' && git push --force git@github.com:ericclemmons/react-resolver gh-pages",
     "lint": "eslint src test",
-    "test": "echo Awaiting new tests..."
+    "prepublish": "npm run build",
+    "preversion": "npm run clean",
+    "postversion": "git push origin master --tags && npm run docs:publisher",
+    "test": "echo Awaiting new tests...",
+    "version": "npm run build"
   },
   "repository": {
     "type": "git",
