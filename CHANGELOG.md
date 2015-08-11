@@ -5,11 +5,14 @@
 - [Error Handling](https://github.com/ericclemmons/react-resolver/issues/2)
 - [Handling Reject/Catch](https://github.com/ericclemmons/react-resolver/issues/2)
 - [React Native](https://github.com/ericclemmons/react-resolver/issues/18)
-- [Bootstrapping Client](https://github.com/ericclemmons/react-resolver/issues/22)
-  + <https://github.com/ericclemmons/react-resolver/pull/34>
 - [Owner/Parent Differ](https://github.com/ericclemmons/react-resolver/issues/29)
 - [Support Callbacks](https://github.com/ericclemmons/react-resolver/issues/35)
 
+
+### v1.3.0 - (2015-08-10)
+
+- [Bootstrapping Client](https://github.com/ericclemmons/react-resolver/issues/22)
+  + <https://github.com/ericclemmons/react-resolver/pull/34>
 
 ### v1.2.2 - (2015-08-05)
 
