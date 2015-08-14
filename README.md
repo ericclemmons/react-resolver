@@ -2,7 +2,7 @@
 
 > Async-rendering & data-fetching for universal React applications.
 
-React Resolver let's you **define data requirements _per-component_**
+React Resolver lets you **define data requirements _per-component_**
 and will **handle the nested, async rendering on both the server & client for you.**
 
 [![](https://img.shields.io/github/issues-raw/ericclemmons/react-resolver.svg?style=flat-square)](https://github.com/ericclemmons/react-resolver/issues)
