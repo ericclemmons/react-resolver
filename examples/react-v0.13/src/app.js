@@ -1,4 +1,5 @@
 import express from "express";
+import path from "path";
 import React from "react";
 import { Resolver } from "react-resolver";
 import Router from "react-router";
@@ -8,7 +9,7 @@ import routes from "./routes";
 
 export default express()
   // Serve minified assets
-  .use(express.static("../dist"))
+  .use(express.static(path.join(__dirname, "../dist")))
 
   // Let React handle all routes
   .get("*", function(req, res) {
