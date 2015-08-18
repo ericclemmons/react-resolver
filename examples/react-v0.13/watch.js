@@ -1,5 +1,3 @@
-require("babel/register");
-
 var config = require("./webpack.config");
 var piping = require("piping")({ hook: true });
 var webpack = require("webpack");
