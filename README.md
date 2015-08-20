@@ -101,7 +101,9 @@ class Stargazer extends React.Component {
   ...
 }
 
-export default resolve(Stargazer)("user", function(props) { ... });
+export default resolve("user", function(props) {
+  ...
+})(Stargazer);
 ```
 
 
