@@ -6,6 +6,7 @@ const ID = "ReactResolver.ID";
 const CHILDREN = "ReactResolver.CHILDREN";
 const HAS_RESOLVED = "ReactResolver.HAS_RESOLVED";
 const IS_CLIENT = "ReactResolver.IS_CLIENT";
+const PAYLOAD = "__REACT_RESOLVER_PAYLOAD__";
 
 export default class Resolver extends React.Component {
   static childContextTypes = {
@@ -29,25 +30,23 @@ export default class Resolver extends React.Component {
     resolve: React.PropTypes.object,
   }
 
-  static render = function(render, node) {
-    const initialData = window.__REACT_RESOLVER_PAYLOAD__;
-
+  static render = function(render, node, data = window[PAYLOAD]) {
     // Server-rendered output, but missing payload
-    if (!initialData && node.innerHTML) {
-      return Resolver.resolve(render).then(({ Resolved }) => {
-        // @TODO - Use react-dom.render
-        React.render(<Resolved />, node);
-      });
+    if (node.innerHTML && !data) {
+      return Resolver
+        .resolve(render)
+        .then(({ data }) => Resolver.render(render, node, data))
+      ;
     }
 
     // @TODO - Use react-dom.render
     React.render((
-      <Resolver data={initialData}>
+      <Resolver data={data}>
         {render}
       </Resolver>
     ), node);
 
-    delete window.__REACT_RESOLVER_PAYLOAD__;
+    delete window[PAYLOAD];
   }
 
   static resolve = function(render, initialData = {}) {
