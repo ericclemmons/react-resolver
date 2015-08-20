@@ -1,10 +1,13 @@
 {
   "private": true,
   "scripts": {
+    "build": "webpack",
+    "clean": "rm -rf dist",
     "preinstall": "rm -rf ./node_modules/react-resolver",
-    "postinstall": "cp -r ../../dist node_modules/react-resolver",
-    "start": "webpack-dev-server --content-base ./public",
-    "watch": "node watch"
+    "postinstall": "cp -r ../../src node_modules/react-resolver",
+    "start": "npm install; if [[ ${NODE_ENV} == \"production\" ]]; then npm run start:prod; else npm run start:dev; fi",
+    "start:dev": "npm run clean && node watch",
+    "start:prod": "npm run clean && npm run build && node src/server"
   },
   "dependencies": {
     "axios": "0.5.4",
