@@ -35,7 +35,10 @@ export default class Resolver extends React.Component {
     if (node.innerHTML && !data) {
       return Resolver
         .resolve(render)
-        .then(({ data }) => Resolver.render(render, node, data))
+        .then(({ Resolved }) => {
+          // @TODO - Use react-dom.render
+          React.render(<Resolved />, node);
+        })
       ;
     }
 
