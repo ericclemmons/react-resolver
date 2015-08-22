@@ -31,17 +31,6 @@ export default class Resolver extends React.Component {
   }
 
   static render = function(render, node, data = window[PAYLOAD]) {
-    // Server-rendered output, but missing payload
-    if (node.innerHTML && !data) {
-      return Resolver
-        .resolve(render)
-        .then(({ Resolved }) => {
-          // @TODO - Use react-dom.render
-          React.render(<Resolved />, node);
-        })
-      ;
-    }
-
     // @TODO - Use react-dom.render
     React.render((
       <Resolver data={data}>
