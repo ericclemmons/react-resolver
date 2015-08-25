@@ -9,7 +9,10 @@
   "devDependencies": {
     "babel": "5.8.21",
     "eslint-config-future": "^2.1.1",
-    "gitbook-cli": "0.3.4"
+    "gitbook-cli": "0.3.4",
+    "gitbook-plugin-include": "0.1.0",
+    "gitbook-plugin-include-highlight": "0.1.0",
+    "gitbook-plugin-todo": "0.1.0"
   },
   "scripts": {
     "build": "npm run clean && npm run build:docs && npm run build:lib",

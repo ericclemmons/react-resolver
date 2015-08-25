@@ -1,5 +1,10 @@
 {
   "gitbook": ">=2.2.0",
+  "plugins": [
+    "include",
+    "include-highlight",
+    "todo"
+  ],
   "pluginsConfig": {
     "fontSettings": {
       "family": "sans"
