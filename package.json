@@ -8,11 +8,16 @@
   },
   "devDependencies": {
     "babel": "5.8.21",
+    "babel-tape-runner": "1.2.0",
+    "blue-tape": "0.1.10",
     "eslint-config-future": "^2.1.1",
     "gitbook-cli": "0.3.4",
     "gitbook-plugin-include": "0.1.0",
     "gitbook-plugin-include-highlight": "0.1.0",
-    "gitbook-plugin-todo": "0.1.0"
+    "gitbook-plugin-todo": "0.1.0",
+    "react": "0.13.3",
+    "tap-spec": "4.0.2",
+    "tape": "4.0.3"
   },
   "scripts": {
     "build": "npm run clean && npm run build:docs && npm run build:lib",
@@ -27,7 +32,7 @@
     "prepublish": "npm run build",
     "preversion": "npm run clean",
     "postversion": "git push origin master --tags && npm run docs:publisher",
-    "test": "echo Awaiting new tests...",
+    "test": "npm run build:lib && babel-tape-runner test/**/*.test.js | tap-spec",
     "version": "npm run build"
   },
   "repository": {
