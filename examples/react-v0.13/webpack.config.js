@@ -1,15 +1,8 @@
 var path = require("path");
-var webpack = require("webpack");
 
 module.exports = {
-  debug: true,
-
-  devtool: "#eval-source-map",
-
   entry: {
     client: [
-      "webpack-dev-server/client?http://localhost:8080",
-      "webpack/hot/only-dev-server",
       path.join(__dirname, "src/client.js"),
     ],
   },
@@ -20,6 +13,7 @@ module.exports = {
         test: /\.js$/,
         include: [
           path.join(__dirname, "src"),
+          path.join(__dirname, "node_modules/react-resolver"),
         ],
         loaders: ["babel"],
       },
@@ -32,17 +26,11 @@ module.exports = {
     filename: "[name].min.js",
     hotUpdateChunkFilename: "update/[hash]/[id].update.js",
     hotUpdateMainFilename: "update/[hash]/update.json",
-    path: path.join(__dirname, "public"),
+    path: path.join(__dirname, "dist"),
     publicPath: "http://localhost:8080/",
   },
 
-  plugins: [
-    // Wrap builds with HMR
-    new webpack.HotModuleReplacementPlugin(),
-
-    // Prevent errors from causing a reload
-    new webpack.NoErrorsPlugin(),
-  ],
+  plugins: [],
 
   target: "web",
 };

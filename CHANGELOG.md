@@ -1,5 +1,15 @@
 # React Resolver Changelog
 
+### v2.0.3 - (2015 -08-19)
+
+- Fix integration React Router's `HistoryLocation`
+  + <https://github.com/ericclemmons/react-resolver/pull/67>
+
+
+### v2.0.2 - (2015-08-11)
+
+- Apparently releasing `v1.3.0` takes over all of the `v2` releases?
+
 
 ### v2.0.1 - (2015-08-09)
 
