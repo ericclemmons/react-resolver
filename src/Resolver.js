@@ -161,7 +161,8 @@ export default class Resolver extends React.Component {
         const factory = resolve[name];
         const value = factory(props);
 
-        if (value instanceof Promise) {
+        // duckpunched promise
+        if (value instanceof Promise || typeof value.then === "function") {
           nextState.pending[name] = value;
         } else {
           // Synchronous values are immediately assigned
