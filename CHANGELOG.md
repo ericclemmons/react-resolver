@@ -1,6 +1,12 @@
 # React Resolver Changelog
 
 ### v2.0.3 - (2015 -08-19)
+### v2.0.4 - (2015-08-25)
+
+- Support _thenables_
+  + <https://github.com/ericclemmons/react-resolver/pull/65>
+
+
 
 - Fix integration React Router's `HistoryLocation`
   + <https://github.com/ericclemmons/react-resolver/pull/67>

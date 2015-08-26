@@ -1,6 +1,6 @@
 {
   "name": "react-resolver",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
   "directories": {
