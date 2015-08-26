@@ -1,35 +1,55 @@
+import assert from "assert";
 import React from "react";
-import test from "tape";
 
 import { resolve, Resolver } from "..";
 
-@resolve({
-  "promise": () => Promise.resolve("promise"),
-  "scalar": () => "scalar",
-  "thenable": () => ({
-    then: () => "thenable",
-  }),
-})
-@resolve("test", ({ test }) => test)
-class PropTest extends React.Component {
-  displayName = "PropTest"
+@resolve("resolved", ({ actual }) => actual)
+class Test extends React.Component {
+  static displayName = "Test"
 
   render() {
-    const { promise, scalar, test, thenable } = this.props;
+    const { expected, resolved } = this.props;
 
-    test.equal(promise, "promise", "Promise should solve to scalar");
-    test.equal(scalar, "scalar", "Scalar should resolve to scalar");
-    test.equal(thenable, "thenable", "Thenable should resolve to scalar");
-    test.end();
+    assert.equal(resolved, expected);
 
-    return null;
+    return (
+      <pre>
+        {resolved}
+      </pre>
+    );
   }
 }
 
-test("@resolve", function(t) {
-  t.test("resolves promises", function(t) {
-    t.plan(3);
+describe("@resolve", function() {
+  it("wraps Component name", function() {
+    const element = <Test />;
 
-    Resolver.resolve(() => <PropTest test={t} />).catch(t.end);
+    assert.equal(Test.displayName, "ResolvedResolver");
+  });
+
+  context("with a scalar", function() {
+    it("resolves", function() {
+      return Resolver.resolve(() => <Test actual="scalar" expected="scalar" />);
+    });
+
+    it("is synchronous", function() {
+      assert.equal(
+        React.renderToStaticMarkup(<Test actual="scalar" expected="scalar" />),
+        "<pre>\nscalar</pre>"
+      );
+    });
+  });
+
+  context("with a Promise ", function() {
+    it("resolves", function() {
+      return Resolver.resolve(() => <Test actual={Promise.resolve("promise")} expected="promise" />);
+    });
+
+    it("is asynchronous", function() {
+      assert.equal(
+        React.renderToStaticMarkup(<Test actual={Promise.resolve("promise")} expected="promise" />),
+        "<noscript></noscript>"
+      );
+    });
   });
 });

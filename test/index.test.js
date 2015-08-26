@@ -1,16 +1,17 @@
-import test from "tape";
+import * as index from "..";
+import assert from "assert";
 
-import * as index from "../dist";
+describe("Resolver", function() {
+  describe("exports", function() {
+    const expected = [
+      "client",
+      "context",
+      "resolve",
+      "Resolver",
+    ];
 
-test("exports", function(t) {
-  t.plan(1);
-
-  const expected = [
-    "client",
-    "context",
-    "resolve",
-    "Resolver",
-  ];
-
-  t.deepEqual(Object.keys(index), expected, `Library exports ${expected}`);
+    it(`should export ${expected}`, function() {
+      assert.deepEqual(Object.keys(index), expected);
+    });
+  });
 });
