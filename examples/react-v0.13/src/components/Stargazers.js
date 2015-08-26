@@ -15,7 +15,7 @@ export default class Stargazers extends React.Component {
     users: React.PropTypes.array.isRequired,
   }
 
-  displayName = "Stargazers"
+  static displayName = "Stargazers"
 
   render() {
     const { repo, user, users } = this.props;

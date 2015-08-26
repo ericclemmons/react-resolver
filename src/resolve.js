@@ -12,7 +12,7 @@ export default function resolve(prop, promise) {
 
   return function resolveDecorator(Component) {
     return class PropResolver extends React.Component {
-      displayName = `${asyncNames}Resolver`
+      static displayName = `${asyncNames}Resolver`
 
       render() {
         return (

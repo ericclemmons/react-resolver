@@ -7,7 +7,7 @@ export default function context(name, type = React.PropTypes.any.isRequired) {
         [name]: type,
       }
 
-      displayName = "ContextDecorator"
+      static displayName = "ContextDecorator"
 
       render() {
         return <Component {...this.context} {...this.props} />;

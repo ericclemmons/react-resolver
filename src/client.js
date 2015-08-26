@@ -3,7 +3,7 @@ import React from "react";
 export default function client(Loader) {
   return function clientDecorator(Component) {
     return class ClientResolver extends React.Component {
-      displayName = `ClientResolver`
+      static displayName = `ClientResolver`
 
       constructor(props, context) {
         super(props, context);

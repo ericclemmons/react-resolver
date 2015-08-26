@@ -7,7 +7,7 @@ import { context, resolve } from "react-resolver";
   return (action) => router.transitionTo(action);
 })
 export default class Home extends React.Component {
-  displayName = "Home"
+  static displayName = "Home"
 
   constructor(props) {
     super(props);

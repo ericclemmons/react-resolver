@@ -1,0 +1,4 @@
+--compilers js:babel/register
+--recursive
+--reporter spec
+--ui bdd

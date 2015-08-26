@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 export default class App extends React.Component {
-  displayName = "App"
+  static displayName = "App"
 
   render() {
     return (

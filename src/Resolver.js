@@ -23,6 +23,8 @@ export default class Resolver extends React.Component {
     resolve: {},
   }
 
+  static displayName = "Resolver"
+
   static propTypes = {
     children: React.PropTypes.func.isRequired,
     data: React.PropTypes.object.isRequired,
@@ -72,7 +74,7 @@ export default class Resolver extends React.Component {
       }
 
       class Resolved extends React.Component {
-        displayName = "Resolved"
+        static displayName = "Resolved"
 
         render() {
           return (
@@ -86,8 +88,6 @@ export default class Resolver extends React.Component {
       return { data, Resolved };
     });
   }
-
-  displayName = "Resolver"
 
   constructor(props, context) {
     super(props, context);
@@ -160,8 +160,21 @@ export default class Resolver extends React.Component {
       if (!props.hasOwnProperty(name) && !nextState.resolved.hasOwnProperty(name)) {
         const factory = resolve[name];
         const value = factory(props);
+        const isPromise = (
+          value instanceof Promise
+          ||
+          (
+            (
+              typeof value === "object" && value !== null
+              ||
+              typeof value === "function"
+            )
+            &&
+            typeof value.then === "function"
+          )
+        );
 
-        if (value instanceof Promise) {
+        if (isPromise) {
           nextState.pending[name] = value;
         } else {
           // Synchronous values are immediately assigned
