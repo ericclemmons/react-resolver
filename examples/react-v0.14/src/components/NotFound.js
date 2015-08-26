@@ -1,7 +1,7 @@
 import React from "react";
 
 export default class NotFound extends React.Component {
-  displayName = "NotFound"
+  static displayName = "NotFound"
 
   render() {
     const { splat } = this.props.params;

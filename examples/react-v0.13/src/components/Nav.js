@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import React from "react";
 
 export default class Nav extends React.Component {
-  displayName = "Nav"
+  static displayName = "Nav"
 
   render() {
     return (

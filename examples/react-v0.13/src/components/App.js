@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import { RouteHandler } from "react-router";
 
 export default class App extends React.Component {
-  displayName = "App"
+  static displayName = "App"
 
   render() {
     return (

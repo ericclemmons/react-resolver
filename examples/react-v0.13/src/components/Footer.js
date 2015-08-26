@@ -1,7 +1,7 @@
 import React from "react";
 
 export default class Footer extends React.Component {
-  displayName = "Footer"
+  static displayName = "Footer"
 
   render() {
     return (

@@ -11,7 +11,7 @@ import { resolve } from "react-resolver";
   return axios.get(url).then(({ data }) => data);
 })
 export default class Stargazer extends React.Component {
-  displayName = "Stargazer"
+  static displayName = "Stargazer"
 
   render() {
     const { stargazer } = this.props;
