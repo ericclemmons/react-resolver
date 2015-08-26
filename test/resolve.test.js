@@ -22,8 +22,6 @@ class Test extends React.Component {
 
 describe("@resolve", function() {
   it("wraps Component name", function() {
-    const element = <Test />;
-
     assert.equal(Test.displayName, "ResolvedResolver");
   });
 
