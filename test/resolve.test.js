@@ -50,4 +50,21 @@ describe("@resolve", function() {
       );
     });
   });
+
+  context("with a thenable ", function() {
+    const thenable = {
+      then: (resolve) => resolve("thenable"),
+    };
+
+    it("resolves", function() {
+      return Resolver.resolve(() => <Test actual={thenable} expected="thenable" />);
+    });
+
+    it("is asynchronous", function() {
+      assert.equal(
+        React.renderToStaticMarkup(<Test actual={thenable} expected="thenable" />),
+        "<noscript></noscript>"
+      );
+    });
+  });
 });
