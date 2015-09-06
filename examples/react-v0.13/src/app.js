@@ -10,6 +10,7 @@ import routes from "./routes";
 export default express()
   // Serve minified assets
   .use(express.static(path.join(__dirname, "../dist")))
+  .use(express.static(path.join(__dirname, "../public")))
 
   // Let React handle all routes
   .get("*", function(req, res) {

@@ -1,5 +1,6 @@
 import express from "express";
 import Location from "react-router/lib/Location";
+import path from "path";
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { Resolver } from "react-resolver";
@@ -8,6 +9,10 @@ import Router from "react-router";
 import routes from "./routes";
 
 export default express()
+  // Serve minified assets
+  .use(express.static(path.join(__dirname, "../dist")))
+  .use(express.static(path.join(__dirname, "../public")))
+
   // Let React handle all routes
   .get("*", function(req, res) {
     const location = new Location(req.path, req.query);
