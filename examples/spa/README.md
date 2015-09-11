@@ -1,4 +1,4 @@
-# React Resolver - React v0.13 Example
+# React Resolver - SPA Example
 
 
 ### Technologies
