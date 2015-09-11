@@ -7,6 +7,7 @@ describe("Resolver", function() {
       "client",
       "context",
       "resolve",
+      "resolveError",
       "Resolver",
     ];
 
