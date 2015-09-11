@@ -13,6 +13,10 @@ export default function resolve(prop = "error") {
         this.state = { [prop]: undefined };
       }
 
+      componentWillReceiveProps() {
+        this.setState({ [prop]: undefined });
+      }
+
       handleCatch(error) {
         this.setState({ [prop]: error });
       }
