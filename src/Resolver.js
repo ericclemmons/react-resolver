@@ -166,7 +166,7 @@ export default class Resolver extends React.Component {
         );
 
         if (isPromise) {
-          nextState.pending[name] = value.catch((error) => {
+          nextState.pending[name] = Promise.resolve(value).catch((error) => {
             if (error instanceof Error) {
               throw error;
             }
