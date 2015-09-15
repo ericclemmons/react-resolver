@@ -1,6 +1,4 @@
-import client from "./client";
-import context from "./context";
-import resolve from "./resolve";
-import Resolver from "./Resolver";
-
-export { client, context, resolve, Resolver };
+export {default as client} from "./client";
+export {default as context} from "./context";
+export {default as resolve} from "./resolve";
+export {default as Resolver} from "./Resolver";
