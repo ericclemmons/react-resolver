@@ -1,4 +1,4 @@
-require("babel/register")({ only: /src|react-resolver/ });
+require("babel-core/register")({ only: /src|react-resolver/ });
 
 var app = require("./app");
 
