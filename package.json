@@ -14,7 +14,8 @@
     "gitbook-plugin-include-highlight": "0.1.0",
     "gitbook-plugin-todo": "0.1.0",
     "mocha": "2.2.5",
-    "react": "0.13.3"
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "scripts": {
     "build": "npm run clean && npm run build:docs && npm run build:lib",
