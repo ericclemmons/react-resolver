@@ -2,7 +2,7 @@
   "name": "react-resolver",
   "version": "2.0.22",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
-  "main": "src/exporter.js",
+  "main": "dist/exporter.js",
   "dependencies": {
     "babel": "^5.8.0",
     "react": "^0.14.0",
