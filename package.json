@@ -1,6 +1,6 @@
 {
   "name": "react-resolver",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "src/index.js",
   "dependencies": {
@@ -13,7 +13,11 @@
       "es2015",
       "stage-1"
     ],
-    "plugins": ["babel-plugin-transform-runtime", "babel-plugin-transform-strict-mode", "babel-plugin-transform-es2015-modules-commonjs"],
+    "plugins": [
+      "babel-plugin-transform-runtime",
+      "babel-plugin-transform-strict-mode",
+      "babel-plugin-transform-es2015-modules-commonjs"
+    ],
     "ignore": false
   },
   "browserify": {
