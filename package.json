@@ -43,7 +43,8 @@
       "babel-plugin-transform-export-extensions",
       "babel-plugin-transform-do-expressions",
       "babel-plugin-transform-function-bind"
-    ]
+    ],
+    "global": false
   },
   "browserify": {
     "transform": [
