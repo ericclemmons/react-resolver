@@ -1,6 +1,6 @@
 {
   "name": "react-resolver",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "src/index.js",
   "dependencies": {
@@ -45,7 +45,6 @@
       "babel-plugin-transform-function-bind"
     ]
   },
-
   "browserify": {
     "transform": [
       "babelify"
