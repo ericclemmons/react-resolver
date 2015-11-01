@@ -4,6 +4,7 @@
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "dist/exporter.js",
   "dependencies": {
+    "babel-cli": "^6.0.14",
     "babel-core": "^6.0.14",
     "babel-plugin-transform-runtime": "^6.0.14",
     "babel-plugin-transform-strict-mode": "^6.0.14",
