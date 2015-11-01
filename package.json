@@ -1,6 +1,6 @@
 {
   "name": "react-resolver",
-  "version": "2.0.18",
+  "version": "2.0.19",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "dist/exporter.js",
   "dependencies": {
@@ -28,7 +28,9 @@
     "ignore": false
   },
   "browserify": {
-    "transform": ["babelify"]
+    "transform": [
+      "babelify"
+    ]
   },
   "keywords": [
     "async",
