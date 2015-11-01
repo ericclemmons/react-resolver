@@ -9,7 +9,7 @@
     "react-dom": "^0.14.0"
   },
   "scripts": {
-    "deploy": "babel --stage 0 ./src --out-dir ./dist; git commit -am 'pushing to git'; git push origin HEAD; echo 'done';"
+    "deploy": "babel --stage 0 ./src --out-dir ./dist; git add --all .; git commit -am 'pushing to git'; git push origin HEAD; echo 'done';"
   },
   "browserify": {
     "transform": [
