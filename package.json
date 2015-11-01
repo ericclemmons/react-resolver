@@ -1,43 +1,44 @@
 {
-  "name": "react-resolver",
-  "version": "2.0.17",
-  "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
-  "main": "src/exporter.js",
-  "dependencies": {
-    "babel-core": "^6.0.14",
-    "react": "^0.14.0",
-    "react-dom": "^0.14.0"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "react",
-      "stage-0"
+    "name": "react-resolver",
+    "version": "2.0.17",
+    "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
+    "main": "src/exporter.js",
+    "dependencies": {
+        "babel-core": "^6.0.14",
+        "react": "^0.14.0",
+        "react-dom": "^0.14.0"
+    },
+    "babel": {
+        "presets": [{
+                "plugins": [
+                    ["transform-es2015-modules-commonjs", {
+                        "loose": true
+                    }]
+                ]
+            },
+            "es2015",
+            "react",
+            "stage-1"
+        ],
+        "ignore": false
+    },
+    "browserify": {
+        "transform": [
+            "babelify"
+        ]
+    },
+    "keywords": [
+        "async",
+        "decorator",
+        "lazy",
+        "load",
+        "react",
+        "resolve"
     ],
-    "plugins": [
-      "babel-plugin-transform-runtime",
-      "babel-plugin-transform-strict-mode",
-      "babel-plugin-transform-es2015-modules-commonjs"
-    ],
-    "ignore": false
-  },
-  "browserify": {
-    "transform": [
-      "babelify"
-    ]
-  },
-  "keywords": [
-    "async",
-    "decorator",
-    "lazy",
-    "load",
-    "react",
-    "resolve"
-  ],
-  "author": "Eric Clemmons <eric@smarterspam.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ericclemmons/react-resolver/issues"
-  },
-  "homepage": "https://github.com/ericclemmons/react-resolver"
+    "author": "Eric Clemmons <eric@smarterspam.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ericclemmons/react-resolver/issues"
+    },
+    "homepage": "https://github.com/ericclemmons/react-resolver"
 }
