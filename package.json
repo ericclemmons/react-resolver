@@ -9,9 +9,9 @@
   },
   "babel": {
     "presets": [
-      "react",
       "es2015",
-      "stage-1"
+      "react",
+      "stage-0"
     ],
     "plugins": [
       "babel-plugin-transform-runtime",
