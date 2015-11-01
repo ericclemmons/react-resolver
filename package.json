@@ -13,6 +13,7 @@
       "es2015",
       "stage-1"
     ],
+    "plugins": ["babel-plugin-transform-runtime", "babel-plugin-transform-strict-mode", "babel-plugin-transform-es2015-modules-commonjs"],
     "ignore": false
   },
   "browserify": {
