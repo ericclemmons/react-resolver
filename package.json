@@ -13,7 +13,7 @@
       "es2015",
       "stage-1"
     ],
-    "global": false
+    "ignore": false
   },
   "browserify": {
     "transform": [
