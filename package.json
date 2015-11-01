@@ -18,7 +18,7 @@
     "react-dom": "^0.14.0"
   },
   "scripts": {
-    "postinstall": "babel ./src --out-dir dist"
+    "postinstall2": "babel ./src --out-dir ./dist"
   },
   "babel": {
     "presets": [
