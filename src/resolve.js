@@ -11,9 +11,7 @@ export default function resolve(prop, promise) {
   const asyncNames = Object.keys(asyncProps).map(capitalize).join("");
 
   return function resolveDecorator(Component) {
-    return class PropResolver extends React.Component {
-      static displayName = `${asyncNames}Resolver`
-
+    class PropResolver extends React.Component {
       render() {
         return (
           <Resolver props={this.props} resolve={asyncProps}>
@@ -22,5 +20,7 @@ export default function resolve(prop, promise) {
         );
       }
     };
+    PropResolver.displayName = `${asyncNames}Resolver`
+    return PropResolver
   };
 }
