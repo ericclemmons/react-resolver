@@ -2,7 +2,7 @@
   "name": "react-resolver",
   "version": "2.0.23",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
-  "main": "src/index.js",
+  "main": "src/index.es6",
   "devDependencies": {
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
