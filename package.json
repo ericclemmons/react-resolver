@@ -3,13 +3,13 @@
   "version": "2.0.25",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
-  "dependencies": {
+  "devDependencies": {
     "babel": "^5.8.29",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
   },
   "scripts": {
-    "postinstall": "babel src --out-dir dist"
+    "build": "babel src --out-dir dist"
   },
   "babel": {
     "stage": 0,
