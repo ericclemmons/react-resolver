@@ -3,7 +3,7 @@
   "version": "2.0.24",
   "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
-  "devDependencies": {
+  "dependencies": {
     "babel": "^5.8.29",
     "react": "^0.14.0",
     "react-dom": "^0.14.0"
