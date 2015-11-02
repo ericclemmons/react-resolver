@@ -2,8 +2,7 @@ import React from "react";
 
 export default function client(Loader) {
   return function clientDecorator(Component) {
-    return class ClientResolver extends React.Component {
-      static displayName = `ClientResolver`
+    class ClientResolver extends React.Component {
 
       constructor(props, context) {
         super(props, context);
@@ -23,5 +22,7 @@ export default function client(Loader) {
         return <Component {...this.props} />;
       }
     };
+    ClientResolver.displayName = `ClientResolver`;
+    return ClientResolver
   };
 }

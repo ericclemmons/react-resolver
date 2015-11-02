@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
 import React from "react";
+import DOM from "react-dom";
+import SERVER from "react-dom/server";
 
 const ID = "ReactResolver.ID";
 const CHILDREN = "ReactResolver.CHILDREN";
@@ -9,75 +11,6 @@ const IS_CLIENT = "ReactResolver.IS_CLIENT";
 const PAYLOAD = "__REACT_RESOLVER_PAYLOAD__";
 
 export default class Resolver extends React.Component {
-  static childContextTypes = {
-    resolver: React.PropTypes.instanceOf(Resolver),
-  }
-
-  static contextTypes = {
-    resolver: React.PropTypes.instanceOf(Resolver),
-  }
-
-  static defaultProps = {
-    data: {},
-    props: {},
-    resolve: {},
-  }
-
-  static displayName = "Resolver"
-
-  static propTypes = {
-    children: React.PropTypes.func.isRequired,
-    data: React.PropTypes.object.isRequired,
-    props: React.PropTypes.object,
-    resolve: React.PropTypes.object,
-  }
-
-  static render = function(render, node, data = window[PAYLOAD]) {
-    // @TODO - Use react-dom.render
-    React.render((
-      <Resolver data={data}>
-        {render}
-      </Resolver>
-    ), node);
-
-    delete window[PAYLOAD];
-  }
-
-  static resolve = function(render, initialData = {}) {
-    const queue = [];
-
-    // @TODO - Use react-dom/server.renderToStaticMarkup
-    React.renderToStaticMarkup(
-      <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
-        {render}
-      </Resolver>
-    );
-
-    return Promise.all(queue).then((results) => {
-      const data = { ...initialData };
-
-      results.forEach(({ id, resolved }) => data[id] = resolved);
-
-      if (Object.keys(initialData).length < Object.keys(data).length) {
-        return Resolver.resolve(render, data);
-      }
-
-      class Resolved extends React.Component {
-        static displayName = "Resolved"
-
-        render() {
-          return (
-            <Resolver data={data}>
-              {render}
-            </Resolver>
-          );
-        }
-      }
-
-      return { data, Resolved };
-    });
-  }
-
   constructor(props, context) {
     super(props, context);
 
@@ -293,4 +226,74 @@ export default class Resolver extends React.Component {
     // Update if we have resolved successfully
     return this[HAS_RESOLVED];
   }
+}
+
+
+Resolver.childContextTypes = {
+  resolver: React.PropTypes.instanceOf(Resolver),
+}
+
+Resolver.contextTypes = {
+  resolver: React.PropTypes.instanceOf(Resolver),
+}
+
+Resolver.defaultProps = {
+  data: {},
+  props: {},
+  resolve: {},
+}
+
+Resolver.displayName = "Resolver"
+
+Resolver.propTypes = {
+  children: React.PropTypes.func.isRequired,
+  data: React.PropTypes.object.isRequired,
+  props: React.PropTypes.object,
+  resolve: React.PropTypes.object,
+}
+
+Resolver.render = function(render, node, data = window[PAYLOAD]) {
+  // @TODO - Use react-dom.render
+  DOM.render((
+    <Resolver data={data}>
+      {render}
+    </Resolver>
+  ), node);
+
+  delete window[PAYLOAD];
+}
+
+Resolver.resolve = function(render, initialData = {}) {
+  const queue = [];
+
+  // @TODO - Use react-dom/server.renderToStaticMarkup
+  SERVER.renderToStaticMarkup(
+    <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
+      {render}
+    </Resolver>
+  );
+
+  return Promise.all(queue).then((results) => {
+    const data = { ...initialData };
+
+    results.forEach(({ id, resolved }) => data[id] = resolved);
+
+    if (Object.keys(initialData).length < Object.keys(data).length) {
+      return Resolver.resolve(render, data);
+    }
+
+    class Resolved extends React.Component {
+      render() {
+        return (
+          <Resolver data={data}>
+            {render}
+          </Resolver>
+        );
+      }
+    }
+
+    Resolved.displayName = `Resolved`
+
+    return { data, Resolved };
+  });
 }

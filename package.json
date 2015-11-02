@@ -1,53 +1,19 @@
 {
   "name": "react-resolver",
-  "version": "2.0.5",
-  "description": "Async-rendering & data-fetching for universal React applications",
+  "version": "2.0.25",
+  "description": "**Browserify React duplicate WORKAROUND** -- Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
-  "directories": {
-    "test": "test"
-  },
   "devDependencies": {
-    "babel": "5.8.21",
-    "eslint-config-future": "^2.1.1",
-    "gitbook-cli": "0.3.4",
-    "gitbook-plugin-include": "0.1.0",
-    "gitbook-plugin-include-highlight": "0.1.0",
-    "gitbook-plugin-todo": "0.1.0",
-    "mocha": "2.2.5",
-    "react": "0.13.3"
+    "babel": "^5.8.29",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   },
   "scripts": {
-    "build": "npm run clean && npm run build:docs && npm run build:lib",
-    "build:docs": "gitbook build -g ericclemmons/react-resolver",
-    "build:lib": "babel --out-dir dist src",
-    "clean": "npm run clean:docs && npm run clean:lib",
-    "clean:docs": "rm -rf _book",
-    "clean:lib": "rm -rf dist",
-    "docs": "gitbook serve",
-    "docs:publish": "npm run clean:docs && npm run build:docs && cd _book && git init && git commit --allow-empty -m 'Update gitbook' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update gitbook' && git push --force git@github.com:ericclemmons/react-resolver gh-pages",
-    "lint": "eslint src test",
-    "prepublish": "npm run build",
-    "preversion": "npm run clean",
-    "postversion": "git push origin master --tags && npm run docs:publisher",
-    "test": "mocha",
-    "version": "npm run build"
+    "build": "babel src --out-dir dist"
   },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/ericclemmons/react-resolver.git"
-  },
-  "keywords": [
-    "async",
-    "decorator",
-    "lazy",
-    "load",
-    "react",
-    "resolve"
-  ],
-  "author": "Eric Clemmons <eric@smarterspam.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ericclemmons/react-resolver/issues"
+  "babel": {
+    "stage": 0,
+    "loose": "all"
   },
   "homepage": "https://github.com/ericclemmons/react-resolver"
 }
