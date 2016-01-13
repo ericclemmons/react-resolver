@@ -6,6 +6,10 @@
   "directories": {
     "test": "test"
   },
+  "peerDependencies": {
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
+  },
   "devDependencies": {
     "babel": "5.8.21",
     "eslint-config-future": "^2.1.1",
@@ -14,7 +18,8 @@
     "gitbook-plugin-include-highlight": "0.1.0",
     "gitbook-plugin-todo": "0.1.0",
     "mocha": "2.2.5",
-    "react": "0.13.3"
+    "react": "^0.14.6",
+    "react-dom": "^0.14.6"
   },
   "scripts": {
     "build": "npm run clean && npm run build:docs && npm run build:lib",

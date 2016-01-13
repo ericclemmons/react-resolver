@@ -1,6 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 
 import React from "react";
+import ReactDOM from "react-dom";
+import {renderToStaticMarkup} from "react-dom/server";
 
 const ID = "ReactResolver.ID";
 const CHILDREN = "ReactResolver.CHILDREN";
@@ -33,8 +35,7 @@ export default class Resolver extends React.Component {
   }
 
   static render = function(render, node, data = window[PAYLOAD]) {
-    // @TODO - Use react-dom.render
-    React.render((
+    ReactDOM.render((
       <Resolver data={data}>
         {render}
       </Resolver>
@@ -46,8 +47,7 @@ export default class Resolver extends React.Component {
   static resolve = function(render, initialData = {}) {
     const queue = [];
 
-    // @TODO - Use react-dom/server.renderToStaticMarkup
-    React.renderToStaticMarkup(
+    renderToStaticMarkup(
       <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
         {render}
       </Resolver>
