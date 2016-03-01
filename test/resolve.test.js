@@ -33,7 +33,7 @@ describe("@resolve", function() {
     it("is synchronous", function() {
       assert.equal(
         React.renderToStaticMarkup(<Test actual="scalar" expected="scalar" />),
-        "<pre>\nscalar</pre>"
+        "<pre>scalar</pre>"
       );
     });
   });
