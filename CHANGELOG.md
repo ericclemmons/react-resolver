@@ -1,5 +1,10 @@
 # React Resolver Changelog
 
+### v3.0.0 - (2016-03-01)
+
+- Require React, React-DOM v0.14
+  + <https://github.com/ericclemmons/react-resolver/pull/100>
+
 ### v2.0.5 - (2015-09-07)
 
 - Fix React Router v0.13.3 `HistoryLocation` bug
