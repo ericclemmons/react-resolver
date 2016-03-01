@@ -45,6 +45,12 @@ install [ES6 Promise](https://github.com/jakearchibald/es6-promise)._
 $ npm install --save react-resolver
 ```
 
+_For React v0.13 support, install [v2.x.x](https://github.com/ericclemmons/react-resolver/tree/v2.0.5)._
+
+```shell
+$ npm install --save react-resolver@2
+```
+
 
 ## Documentation
 
