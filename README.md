@@ -53,8 +53,6 @@ Complete documentation can be found here:
 
 - [Introduction](/docs/introduction)
 - [Getting Started](/docs/getting-started)
-- [API Reference](/docs/api)
-- [Troubleshooting](/docs/Troubleshooting.md)
 
 - - -
 
