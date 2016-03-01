@@ -33,7 +33,7 @@
     "lint": "eslint src test",
     "prepublish": "npm run build:lib",
     "preversion": "npm run clean",
-    "postversion": "git push origin master --tags && npm run docs:publisher",
+    "postversion": "git push origin master --tags && npm run docs:publish",
     "test": "mocha",
     "version": "npm run build"
   },
