@@ -1,5 +1,6 @@
 import assert from "assert";
 import React from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 import { resolve, Resolver } from "..";
 
@@ -32,7 +33,7 @@ describe("@resolve", function() {
 
     it("is synchronous", function() {
       assert.equal(
-        React.renderToStaticMarkup(<Test actual="scalar" expected="scalar" />),
+        renderToStaticMarkup(<Test actual="scalar" expected="scalar" />),
         "<pre>scalar</pre>"
       );
     });
@@ -45,8 +46,8 @@ describe("@resolve", function() {
 
     it("is asynchronous", function() {
       assert.equal(
-        React.renderToStaticMarkup(<Test actual={Promise.resolve("promise")} expected="promise" />),
-        "<noscript></noscript>"
+        renderToStaticMarkup(<Test actual={Promise.resolve("promise")} expected="promise" />),
+        ""
       );
     });
   });
@@ -62,8 +63,8 @@ describe("@resolve", function() {
 
     it("is asynchronous", function() {
       assert.equal(
-        React.renderToStaticMarkup(<Test actual={thenable} expected="thenable" />),
-        "<noscript></noscript>"
+        renderToStaticMarkup(<Test actual={thenable} expected="thenable" />),
+        ""
       );
     });
   });
