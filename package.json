@@ -1,20 +1,25 @@
 {
   "name": "react-resolver",
-  "version": "2.0.5",
+  "version": "3.0.1",
   "description": "Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
   "directories": {
     "test": "test"
   },
+  "peerDependencies": {
+    "react": "^0.14.6 || ^15.0.0-0",
+    "react-dom": "^0.14.6 || ^15.0.0-0"
+  },
   "devDependencies": {
-    "babel": "5.8.21",
+    "babel": "5.8.34",
     "eslint-config-future": "^2.1.1",
-    "gitbook-cli": "0.3.4",
+    "gitbook-cli": "1.0.1",
     "gitbook-plugin-include": "0.1.0",
     "gitbook-plugin-include-highlight": "0.1.0",
-    "gitbook-plugin-todo": "0.1.0",
-    "mocha": "2.2.5",
-    "react": "0.13.3"
+    "gitbook-plugin-todo": "0.1.2",
+    "mocha": "2.3.4",
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
   },
   "scripts": {
     "build": "npm run clean && npm run build:docs && npm run build:lib",
@@ -28,7 +33,7 @@
     "lint": "eslint src test",
     "prepublish": "npm run build:lib",
     "preversion": "npm run clean",
-    "postversion": "git push origin master --tags && npm run docs:publisher",
+    "postversion": "git push origin master --tags && npm run docs:publish",
     "test": "mocha",
     "version": "npm run build"
   },
