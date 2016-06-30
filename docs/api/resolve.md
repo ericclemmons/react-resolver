@@ -18,6 +18,4 @@ The difference is whether or not the props are fetched in parallel.
   return axios.get(url).then(({ data }) => data);
 })
 export default class Stargazers extends React.Component {
-
-export default class Stargazer extends React.Component {
 ```
