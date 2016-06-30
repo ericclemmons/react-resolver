@@ -15,7 +15,7 @@ import { client, resolve } from "react-resolver";
 // What sort of loader you render is up to you!
 import Loader from "./Loader";
 
-// This will
+// This will show a loader until `user` resolves
 @client(Loader)
 @resolve("user", function(props) {
   return axios
