@@ -1,8 +1,11 @@
 import axios from "axios";
 import React from "react";
-import { resolve } from "react-resolver";
+import { client, resolve } from "react-resolver";
 import { Link } from "react-router";
 
+import Loader from "./Loader";
+
+@client(Loader)
 @resolve("user", ({ location: { query }, params }) => params.user || query.user)
 @resolve("repo", ({ location: { query }, params }) => params.repo || query.repo)
 @resolve("users", function({ user, repo }) {

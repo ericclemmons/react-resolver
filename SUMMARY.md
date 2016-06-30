@@ -14,8 +14,8 @@
 
 - [API Reference](/docs/api)
   + [client](/docs/api/Client.md)
-  + [context](/docs/api/Client.md)
-  + [resolve](/docs/api/Client.md)
-  + [Resolver](/docs/api/Client.md)
+  + [context](/docs/api/Context.md)
+  + [resolve](/docs/api/resolve.md)
+  + [Resolver](/docs/api/Resolver.md)
 
 - [Troubleshooting](/docs/Troubleshooting.md)

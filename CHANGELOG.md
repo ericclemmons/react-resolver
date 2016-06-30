@@ -1,5 +1,15 @@
 # React Resolver Changelog
 
+### v3.0.2 - (2016-06-30)
+
+- Fix `@client()` not showing the loader.
+  + <https://github.com/ericclemmons/react-resolver/pull/39>
+
+### v3.0.1 - (2016-04-11)
+
+- Add support for React v15
+  + <https://github.com/ericclemmons/react-resolver/pull/112>
+
 ### v3.0.0 - (2016-03-01)
 
 - Require React, React-DOM v0.14
