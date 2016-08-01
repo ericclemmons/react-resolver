@@ -1,5 +1,10 @@
 # React Resolver Changelog
 
+### v3.0.3 - (2016-08-01)
+- Fix promise duplication
+  + <https://github.com/ericclemmons/react-resolver/pull/117>
+  + <https://github.com/ericclemmons/react-resolver/issues/116>
+
 ### v3.0.2 - (2016-06-30)
 
 - Fix `@client()` not showing the loader.
