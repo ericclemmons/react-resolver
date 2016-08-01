@@ -7,6 +7,7 @@ return a `<Resolved />` component ready for `React.render`, as well as the
 
 ```js
 import { Resolver } from "react-resolver";
+import serialize from "serialize-javascript";
 
 Router.create({ location, routes }).run((Handler, state) => {
   Resolver
@@ -20,7 +21,7 @@ Router.create({ location, routes }).run((Handler, state) => {
 
             <script src="/client.min.js" async defer></script>
             <script>
-              window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(data)}
+              window.__REACT_RESOLVER_PAYLOAD__ = ${serialize(data)}
             </script>
           </body>
         </html>
