@@ -48,7 +48,10 @@ export default class Resolver extends React.Component {
     const queue = [];
 
     renderToStaticMarkup(
-      <Resolver data={initialData} onResolve={(promise) => queue.push(promise)}>
+      <Resolver data={initialData} onResolve={((promise) => {
+        queue.push(promise);
+        return Promise.resolve(true); 
+      })}>
         {render}
       </Resolver>
     );
@@ -211,9 +214,11 @@ export default class Resolver extends React.Component {
 
   onResolve(state) {
     if (this.props.onResolve) {
-      this.props.onResolve(state);
+      return this.props.onResolve(state);
     } else if (this.context.resolver) {
-      this.context.resolver.onResolve(state);
+      return this.context.resolver.onResolve(state);
+    } else {
+      return state;
     }
   }
 
@@ -244,7 +249,7 @@ export default class Resolver extends React.Component {
 
     const promises = pending.map(({ promise }) => promise);
 
-    const resolving = Promise.all(promises).then(values => {
+    var resolving = Promise.all(promises).then(values => {
       const id = this[ID];
       const resolved = values.reduce((resolved, value, i) => {
         const { name } = pending[i];
@@ -258,7 +263,7 @@ export default class Resolver extends React.Component {
     });
 
     // Resolve listeners get the current ID + resolved
-    this.onResolve(resolving);
+    resolving = this.onResolve(resolving);
 
     // Update current component with new data (on client)
     resolving.then(({ resolved }) => {

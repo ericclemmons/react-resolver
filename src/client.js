@@ -35,6 +35,7 @@ export default function client(Loader) {
 
       enqueue(promise) {
         this.queue.push(promise);
+        return promise;
       }
 
       render() {
