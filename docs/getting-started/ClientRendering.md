@@ -5,9 +5,7 @@ Again, if we're only rendering on the client, we can render like normal:
 ```js
 import React from "react";
 
-Router.run(routes, location, (Root) => {
-  React.render(<Root />, document.getElementById("app"));
-});
+React.render(<Router ... />, document.getElementById("app"));
 ```
 
 ### 4. _Resolve_ on the Client
@@ -19,8 +17,8 @@ React Resolver **handles bootstrapping server-rendered markup** via
 ```js
 import { Resolver } from "react-resolver";
 
-Router.run(routes, location, (Root) => {
-  // To preserver context, you have to pass a render function!
-  Resolver.render(() => <Root />, document.getElementById("app"));
-});
+Resolver.render(
+  () => <Router ... />,
+  document.getElementById("app")
+); 
 ```

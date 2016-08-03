@@ -14,7 +14,7 @@ import { context, resolve } from "react-resolver";
 @context("router")
 // The `submit` prop is now a call to the router
 @resolve("submit", function({ router }) {
-  return (action) => router.transitionTo(action);
+  return (path) => router.push(path);
 })
 export default class Home extends React.Component {
 ```

@@ -6,22 +6,22 @@ return a `<Resolved />` component ready for `React.render`, as well as the
 `data` needed to bootstrap the client:
 
 ```js
+import { renderToString } from "react-dom/server";
+import { match, RouterContext } from "react-router";
 import { Resolver } from "react-resolver";
 
-Router.create({ location, routes }).run((Handler, state) => {
+match({ routes, location }, (error, redirectLocation, renderProps) => {
   Resolver
-    .resolve(() => <Handler {...state} />) // Pass a render function for context!
+    .resolve(() => <RouterContext {...renderProps} />) // Pass a render function for context!
     .then(({ Resolved, data }) => {
       res.send(`
         <!DOCTYPE html>
         <html>
           <body>
-            <div id="app">${React.render(<Resolved />)}</div>
+            <div id="app">${renderToString(<Resolved />)}</div>
 
+            <script>window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(data)}</script>
             <script src="/client.min.js" async defer></script>
-            <script>
-              window.__REACT_RESOLVER_PAYLOAD__ = ${JSON.stringify(data)}
-            </script>
           </body>
         </html>
       `)
