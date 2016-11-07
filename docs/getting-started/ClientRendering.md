@@ -1,4 +1,4 @@
-### 3. Render on the Client
+### Render on the Client
 
 Again, if we're only rendering on the client, we can render like normal:
 
@@ -8,7 +8,7 @@ import React from "react";
 React.render(<Router ... />, document.getElementById("app"));
 ```
 
-### 4. _Resolve_ on the Client
+### _Resolve_ on the Client
 
 If you have a universal application & render on the server,
 React Resolver **handles bootstrapping server-rendered markup** via

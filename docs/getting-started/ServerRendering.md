@@ -1,4 +1,4 @@
-### 5. Resolve on the Server
+### Resolve on the Server
 
 The server will look very familiar to the client-side version.  The difference
 being, `Resolver.resolve` will async render the application, fetch all data, &

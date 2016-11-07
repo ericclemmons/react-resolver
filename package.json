@@ -13,9 +13,8 @@
   "devDependencies": {
     "babel": "5.8.34",
     "eslint-config-future": "^2.1.1",
-    "gitbook-cli": "1.0.1",
-    "gitbook-plugin-include": "0.1.0",
-    "gitbook-plugin-include-highlight": "0.1.0",
+    "gitbook-cli": "2.3.0",
+    "gitbook-plugin-prism": "^1.1.0",
     "gitbook-plugin-todo": "0.1.2",
     "mocha": "2.3.4",
     "react": "^15.0.0",

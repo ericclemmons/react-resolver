@@ -1,4 +1,4 @@
-### 2. Decorate Components with Data
+### Decorate Components with Data
 
 Suppose you have the following `Stargazer` component to render a Github user's
 profile:
