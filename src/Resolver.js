@@ -149,7 +149,7 @@ export default class Resolver extends React.Component {
 
     Object.keys(resolve).forEach(name => {
       // Ignore existing supplied props or existing resolved values
-      if (this.shouldIgnoreProp(props, name) && !nextState.resolved.hasOwnProperty(name)) {
+      if (!nextState.resolved.hasOwnProperty(name)) {
         const factory = resolve[name];
         const value = factory(props);
         const isPromise = (
@@ -176,10 +176,6 @@ export default class Resolver extends React.Component {
     });
 
     return nextState;
-  }
-
-  shouldIgnoreProp(props, name) {
-    return !props.hasOwnProperty(name) || !props[name] || !props[name].length
   }
 
   generateId() {
