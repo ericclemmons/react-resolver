@@ -4,6 +4,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {renderToStaticMarkup} from "react-dom/server";
 
+import ResolverError from "./ResolverError";
+
 const ID = "ReactResolver.ID";
 const CHILDREN = "ReactResolver.CHILDREN";
 const HAS_RESOLVED = "ReactResolver.HAS_RESOLVED";
@@ -167,7 +169,16 @@ export default class Resolver extends React.Component {
         );
 
         if (isPromise) {
-          nextState.pending[name] = value;
+          nextState.pending[name] = Promise.resolve(value).catch((error) => {
+            if (error instanceof Error) {
+              throw error;
+            }
+
+            throw new ResolverError(
+              `Prop "${name}" threw an error while resolving.`,
+              error
+            );
+          });
         } else {
           // Synchronous values are immediately assigned
           nextState.resolved[name] = value;

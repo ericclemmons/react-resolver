@@ -52,9 +52,19 @@ describe("@resolve", function() {
     });
   });
 
-  context("with a thenable ", function() {
+  context("with a thenable", function() {
     const thenable = {
-      then: (resolve) => resolve("thenable"),
+      then: function(callback) {
+        return new Promise(function(resolve, reject) {
+          resolve("thenable");
+        }).then(callback);
+      },
+
+      catch: function(callback) {
+        return new Promise(function(resolve, reject) {
+          reject("thenable");
+        }).catch(callback);
+      },
     };
 
     it("resolves", function() {
