@@ -149,7 +149,7 @@ export default class Resolver extends React.Component {
 
     Object.keys(resolve).forEach(name => {
       // Ignore existing supplied props or existing resolved values
-      if (!props.hasOwnProperty(name) && !nextState.resolved.hasOwnProperty(name)) {
+      if (!nextState.resolved.hasOwnProperty(name)) {
         const factory = resolve[name];
         const value = factory(props);
         const isPromise = (
