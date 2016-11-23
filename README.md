@@ -1,5 +1,7 @@
 # React Resolver ![https://img.shields.io/npm/v/react-resolver.svg](https://img.shields.io/npm/v/react-resolver.svg?style=flat-square) [![](https://img.shields.io/github/issues-raw/ericclemmons/react-resolver.svg?style=flat-square)](https://github.com/ericclemmons/react-resolver/issues) [![](https://img.shields.io/travis/ericclemmons/react-resolver/master.svg?style=flat-square)](https://travis-ci.org/ericclemmons/react-resolver) [![](https://img.shields.io/david/ericclemmons/react-resolver.svg?style=flat-square)](https://david-dm.org/ericclemmons/react-resolver#info=dependencies)
 
+[![Join the chat at https://gitter.im/ericclemmons/react-resolver](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ericclemmons/react-resolver?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 > Async-rendering & data-fetching for universal React applications.
 
 React Resolver lets you **define data requirements _per-component_**
