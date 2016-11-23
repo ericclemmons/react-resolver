@@ -1,5 +1,10 @@
 # React Resolver Changelog
 
+### v3.1.0 - (2016-11-23)
+- Call resolvers even if property was already passed from the top component
+  + <https://github.com/ericclemmons/react-resolver/pull/121>
+  + <https://github.com/ericclemmons/react-resolver/issues/119>
+
 ### v3.0.3 - (2016-08-01)
 - Fix promise duplication
   + <https://github.com/ericclemmons/react-resolver/pull/117>
