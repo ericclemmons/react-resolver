@@ -39,9 +39,7 @@ export default class Resolver extends React.Component {
       <Resolver data={data}>
         {render}
       </Resolver>
-    ), node);
-
-    delete window[PAYLOAD];
+    ), node, () => delete window[PAYLOAD]);
   }
 
   static resolve = function(render, initialData = {}) {
