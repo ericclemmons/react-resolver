@@ -35,13 +35,11 @@ export default class Resolver extends React.Component {
   }
 
   static render = function(render, node, data = window[PAYLOAD]) {
-    ReactDOM.render((
+    return ReactDOM.render((
       <Resolver data={data}>
         {render}
       </Resolver>
-    ), node);
-
-    delete window[PAYLOAD];
+    ), node, () => delete window[PAYLOAD]);
   }
 
   static resolve = function(render, initialData = {}) {
@@ -50,7 +48,7 @@ export default class Resolver extends React.Component {
     renderToStaticMarkup(
       <Resolver data={initialData} onResolve={((promise) => {
         queue.push(promise);
-        return Promise.resolve(true); 
+        return Promise.resolve(true);
       })}>
         {render}
       </Resolver>
