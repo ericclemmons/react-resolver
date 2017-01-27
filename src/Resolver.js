@@ -128,12 +128,7 @@ export default class Resolver extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const cleanState = {
-      pending: {},
-      resolved: {},
-    };
-
-    const { pending, resolved } = this.computeState(nextProps, cleanState);
+    const { pending, resolved } = this.computeState(nextProps, this.state);
 
     // Next state will resolve async props again, but update existing sync props
     const nextState = {
