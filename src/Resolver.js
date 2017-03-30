@@ -32,6 +32,7 @@ export default class Resolver extends React.Component {
     data: React.PropTypes.object.isRequired,
     props: React.PropTypes.object,
     resolve: React.PropTypes.object,
+    renderBeforeResolved: React.PropTypes.bool
   }
 
   static render = function(render, node, data = window[PAYLOAD]) {
@@ -50,7 +51,7 @@ export default class Resolver extends React.Component {
     renderToStaticMarkup(
       <Resolver data={initialData} onResolve={((promise) => {
         queue.push(promise);
-        return Promise.resolve(true); 
+        return Promise.resolve(true);
       })}>
         {render}
       </Resolver>
@@ -224,7 +225,7 @@ export default class Resolver extends React.Component {
 
   render() {
     // Avoid rendering until ready
-    if (!this[HAS_RESOLVED]) {
+    if (!this.props.renderBeforeResolved && !this[HAS_RESOLVED]) {
       return false;
     }
 

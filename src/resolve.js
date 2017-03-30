@@ -6,8 +6,12 @@ const capitalize = (word) => {
   return word.replace(/^./, (letter) => letter.toUpperCase());
 };
 
-export default function resolve(prop, promise) {
-  const asyncProps = (arguments.length === 1) ? prop : { [prop]: promise };
+export default function resolve(prop, promise, opts) {
+  if (!opts && typeof promise === 'object') {
+    opts = promise;
+    promise = null;
+  }
+  const asyncProps = !promise ? prop : { [prop]: promise };
   const asyncNames = Object.keys(asyncProps).map(capitalize).join("");
 
   return function resolveDecorator(Component) {
@@ -16,7 +20,7 @@ export default function resolve(prop, promise) {
 
       render() {
         return (
-          <Resolver props={this.props} resolve={asyncProps}>
+          <Resolver props={this.props} resolve={asyncProps} {...opts}>
             {(resolved) => <Component {...this.props} {...resolved} />}
           </Resolver>
         );
