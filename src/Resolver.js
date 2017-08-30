@@ -26,295 +26,294 @@ function isReactNative() {
     return (typeof navigator != 'undefined' && navigator.product == 'ReactNative');
 }
 
-
 export default class Resolver extends React.Component {
-    static childContextTypes = {
-        resolver: React.PropTypes.instanceOf(Resolver),
-    }
+  static childContextTypes = {
+    resolver: React.PropTypes.instanceOf(Resolver),
+  }
 
-    static contextTypes = {
-        resolver: React.PropTypes.instanceOf(Resolver),
-    }
+  static contextTypes = {
+    resolver: React.PropTypes.instanceOf(Resolver),
+  }
 
-    static defaultProps = {
-        data: {},
-        props: {},
-        resolve: {},
-    }
+  static defaultProps = {
+    data: {},
+    props: {},
+    resolve: {},
+  }
 
-    static displayName = "Resolver"
+  static displayName = "Resolver"
 
-    static propTypes = {
-        children: React.PropTypes.func.isRequired,
-        data: React.PropTypes.object.isRequired,
-        props: React.PropTypes.object,
-        resolve: React.PropTypes.object,
-    }
+  static propTypes = {
+    children: React.PropTypes.func.isRequired,
+    data: React.PropTypes.object.isRequired,
+    props: React.PropTypes.object,
+    resolve: React.PropTypes.object,
+  }
 
-    static render = function(render, node, data = window[PAYLOAD]) {
-        ReactDOM.render((
-            <Resolver data={data}>
+  static render = function(render, node, data = window[PAYLOAD]) {
+    ReactDOM.render((
+      <Resolver data={data}>
+        {render}
+      </Resolver>
+    ), node);
+
+    delete window[PAYLOAD];
+  }
+
+  static resolve = function(render, initialData = {}) {
+    const queue = [];
+
+    if (!isReactNative()) {
+        renderToStaticMarkup(
+            <Resolver data={initialData} onResolve={((promise) => {
+                queue.push(promise);
+                return Promise.resolve(true);
+            })}>
                 {render}
             </Resolver>
-        ), node);
-
-        delete window[PAYLOAD];
+        );
     }
 
-    static resolve = function(render, initialData = {}) {
-        const queue = [];
+    return Promise.all(queue).then((results) => {
+      const data = { ...initialData };
 
-        if (!isReactNative() && renderToStaticMarkup) {
-            renderToStaticMarkup(
-                <Resolver data={initialData} onResolve={((promise) => {
-                    queue.push(promise);
-                    return Promise.resolve(true);
-                })}>
-                    {render}
-                </Resolver>
-            );
+      results.forEach(({ id, resolved }) => data[id] = resolved);
+
+      if (Object.keys(initialData).length < Object.keys(data).length) {
+        return Resolver.resolve(render, data);
+      }
+
+      class Resolved extends React.Component {
+        static displayName = "Resolved"
+
+        render() {
+          return (
+            <Resolver data={data}>
+              {render}
+            </Resolver>
+          );
         }
+      }
 
-        return Promise.all(queue).then((results) => {
-            const data = { ...initialData };
+      return { data, Resolved };
+    });
+  }
 
-            results.forEach(({ id, resolved }) => data[id] = resolved);
+  constructor(props, context) {
+    super(props, context);
 
-            if (Object.keys(initialData).length < Object.keys(data).length) {
-                return Resolver.resolve(render, data);
-            }
+    // Internal tracking variables
+    this[ID] = this.generateId();
+    this[CHILDREN] = [];
+    this[HAS_RESOLVED] = false;
+    this[IS_CLIENT] = false;
 
-            class Resolved extends React.Component {
-                static displayName = "Resolved"
+    this.state = this.computeState(this.props, {
+      pending: {},
+      resolved: this.cached() || {},
+    });
 
-                render() {
-                    return (
-                        <Resolver data={data}>
-                            {render}
-                        </Resolver>
-                    );
-                }
-            }
-
-            return { data, Resolved };
-        });
+    if (this.isPending(this.state)) {
+      this.resolve(this.state);
+      this[HAS_RESOLVED] = false;
+    } else {
+      this[HAS_RESOLVED] = true;
     }
+  }
 
-    constructor(props, context) {
-        super(props, context);
+  cached(resolver = this) {
+    const id = resolver[ID];
 
-        // Internal tracking variables
-        this[ID] = this.generateId();
-        this[CHILDREN] = [];
-        this[HAS_RESOLVED] = false;
-        this[IS_CLIENT] = false;
+    if (this.props.data.hasOwnProperty(id)) {
+      return { ...this.props.data[id] };
+    } else if (this.context.resolver) {
+      return this.context.resolver.cached(resolver);
+    }
+  }
 
-        this.state = this.computeState(this.props, {
-            pending: {},
-            resolved: this.cached() || {},
-        });
+  clearData(resolver = this) {
+    const id = resolver[ID];
 
-        if (this.isPending(this.state)) {
-            this.resolve(this.state);
-            this[HAS_RESOLVED] = false;
+    if (this.props.data.hasOwnProperty(id)) {
+      delete this.props.data[id];
+    } else if (this.context.resolver) {
+      return this.context.resolver.clearData(resolver);
+    }
+  }
+
+  componentDidMount() {
+    this[IS_CLIENT] = true;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const cleanState = {
+      pending: {},
+      resolved: {},
+    };
+
+    const { pending, resolved } = this.computeState(nextProps, cleanState);
+
+    // Next state will resolve async props again, but update existing sync props
+    const nextState = {
+      pending,
+      resolved: { ...this.state.resolved, ...resolved },
+    };
+
+    this.setState(nextState);
+  }
+
+  computeState(thisProps, nextState) {
+    const { props, resolve } = thisProps;
+
+    Object.keys(resolve).forEach(name => {
+      // Ignore existing supplied props or existing resolved values
+      if (!nextState.resolved.hasOwnProperty(name)) {
+        const factory = resolve[name];
+        const value = factory(props);
+        const isPromise = (
+          value instanceof Promise
+          ||
+          (
+            (
+              typeof value === "object" && value !== null
+              ||
+              typeof value === "function"
+            )
+            &&
+            typeof value.then === "function"
+          )
+        );
+
+        if (isPromise) {
+          nextState.pending[name] = value;
         } else {
-            this[HAS_RESOLVED] = true;
+          // Synchronous values are immediately assigned
+          nextState.resolved[name] = value;
         }
+      }
+    });
+
+    return nextState;
+  }
+
+  generateId() {
+    const { resolver } = this.context;
+
+    if (!resolver) {
+      return ".0";
     }
 
-    cached(resolver = this) {
-        const id = resolver[ID];
+    const id = `${resolver[ID]}.${resolver[CHILDREN].length}`;
 
-        if (this.props.data.hasOwnProperty(id)) {
-            return { ...this.props.data[id] };
-        } else if (this.context.resolver) {
-            return this.context.resolver.cached(resolver);
-        }
+    if (resolver && resolver[CHILDREN].indexOf(this) === -1) {
+      resolver[CHILDREN].push(this);
     }
 
-    clearData(resolver = this) {
-        const id = resolver[ID];
+    return id;
+  }
 
-        if (this.props.data.hasOwnProperty(id)) {
-            delete this.props.data[id];
-        } else if (this.context.resolver) {
-            return this.context.resolver.clearData(resolver);
-        }
+  getChildContext() {
+    return { resolver: this };
+  }
+
+  isPending(state = this.state) {
+    return Object.keys(state.pending).length > 0;
+  }
+
+  isParentPending() {
+    const { resolver } = this.context;
+
+    if (resolver) {
+      return resolver.isPending() || resolver.isParentPending();
     }
 
-    componentDidMount() {
-        this[IS_CLIENT] = true;
+    return false;
+  }
+
+  onResolve(state) {
+    if (this.props.onResolve) {
+      return this.props.onResolve(state);
+    } else if (this.context.resolver) {
+      return this.context.resolver.onResolve(state);
+    } else {
+      return state;
+    }
+  }
+
+  render() {
+    // Avoid rendering until ready
+    if (!this[HAS_RESOLVED]) {
+      return false;
     }
 
-    componentWillReceiveProps(nextProps) {
-        const cleanState = {
-            pending: {},
-            resolved: {},
-        };
-
-        const { pending, resolved } = this.computeState(nextProps, cleanState);
-
-        // Next state will resolve async props again, but update existing sync props
-        const nextState = {
-            pending,
-            resolved: { ...this.state.resolved, ...resolved },
-        };
-
-        this.setState(nextState);
+    // If render is called again (e.g. hot-reloading), re-resolve
+    if (this.isPending(this.state)) {
+      this.resolve(this.state);
     }
 
-    computeState(thisProps, nextState) {
-        const { props, resolve } = thisProps;
+    // Both those props provided by parent & dynamically resolved
+    return this.props.children({
+      ...this.props.props,
+      ...this.state.resolved,
+    });
+  }
 
-        Object.keys(resolve).forEach(name => {
-            // Ignore existing supplied props or existing resolved values
-            if (!nextState.resolved.hasOwnProperty(name)) {
-                const factory = resolve[name];
-                const value = factory(props);
-                const isPromise = (
-                    value instanceof Promise
-                    ||
-                    (
-                        (
-                            typeof value === "object" && value !== null
-                            ||
-                            typeof value === "function"
-                        )
-                        &&
-                        typeof value.then === "function"
-                    )
-                );
+  resolve(state) {
+    const pending = Object.keys(state.pending).map(name => {
+      const promise = state.pending[name];
 
-                if (isPromise) {
-                    nextState.pending[name] = value;
-                } else {
-                    // Synchronous values are immediately assigned
-                    nextState.resolved[name] = value;
-                }
-            }
-        });
+      return { name, promise };
+    });
 
-        return nextState;
-    }
+    const promises = pending.map(({ promise }) => promise);
 
-    generateId() {
-        const { resolver } = this.context;
+    var resolving = Promise.all(promises).then(values => {
+      const id = this[ID];
+      const resolved = values.reduce((resolved, value, i) => {
+        const { name } = pending[i];
 
-        if (!resolver) {
-            return ".0";
-        }
+        resolved[name] = value;
 
-        const id = `${resolver[ID]}.${resolver[CHILDREN].length}`;
+        return resolved;
+      }, {});
 
-        if (resolver && resolver[CHILDREN].indexOf(this) === -1) {
-            resolver[CHILDREN].push(this);
-        }
+      return { id, resolved };
+    });
 
-        return id;
-    }
+    // Resolve listeners get the current ID + resolved
+    resolving = this.onResolve(resolving);
 
-    getChildContext() {
-        return { resolver: this };
-    }
+    // Update current component with new data (on client)
+    resolving.then(({ resolved }) => {
+      this[HAS_RESOLVED] = true;
 
-    isPending(state = this.state) {
-        return Object.keys(state.pending).length > 0;
-    }
-
-    isParentPending() {
-        const { resolver } = this.context;
-
-        if (resolver) {
-            return resolver.isPending() || resolver.isParentPending();
-        }
-
+      if (!this[IS_CLIENT]) {
         return false;
+      }
+
+      const nextState = {
+        pending: {},
+        resolved: { ...state.resolved, ...resolved },
+      };
+
+      this.setState(nextState);
+    });
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    // Prevent updating when parent is changing values
+    if (this.isParentPending()) {
+      return false;
     }
 
-    onResolve(state) {
-        if (this.props.onResolve) {
-            return this.props.onResolve(state);
-        } else if (this.context.resolver) {
-            return this.context.resolver.onResolve(state);
-        } else {
-            return state;
-        }
+    // Prevent rendering until pending values are resolved
+    if (this.isPending(nextState)) {
+      this.resolve(nextState);
+
+      return false;
     }
 
-    render() {
-        // Avoid rendering until ready
-        if (!this[HAS_RESOLVED]) {
-            return false;
-        }
-
-        // If render is called again (e.g. hot-reloading), re-resolve
-        if (this.isPending(this.state)) {
-            this.resolve(this.state);
-        }
-
-        // Both those props provided by parent & dynamically resolved
-        return this.props.children({
-            ...this.props.props,
-            ...this.state.resolved,
-        });
-    }
-
-    resolve(state) {
-        const pending = Object.keys(state.pending).map(name => {
-            const promise = state.pending[name];
-
-            return { name, promise };
-        });
-
-        const promises = pending.map(({ promise }) => promise);
-
-        var resolving = Promise.all(promises).then(values => {
-            const id = this[ID];
-            const resolved = values.reduce((resolved, value, i) => {
-                const { name } = pending[i];
-
-                resolved[name] = value;
-
-                return resolved;
-            }, {});
-
-            return { id, resolved };
-        });
-
-        // Resolve listeners get the current ID + resolved
-        resolving = this.onResolve(resolving);
-
-        // Update current component with new data (on client)
-        resolving.then(({ resolved }) => {
-            this[HAS_RESOLVED] = true;
-
-            if (!this[IS_CLIENT]) {
-                return false;
-            }
-
-            const nextState = {
-                pending: {},
-                resolved: { ...state.resolved, ...resolved },
-            };
-
-            this.setState(nextState);
-        });
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        // Prevent updating when parent is changing values
-        if (this.isParentPending()) {
-            return false;
-        }
-
-        // Prevent rendering until pending values are resolved
-        if (this.isPending(nextState)) {
-            this.resolve(nextState);
-
-            return false;
-        }
-
-        // Update if we have resolved successfully
-        return this[HAS_RESOLVED];
-    }
+    // Update if we have resolved successfully
+    return this[HAS_RESOLVED];
+  }
 }
