@@ -9,6 +9,17 @@ const CHILDREN = "ReactResolver.CHILDREN";
 const HAS_RESOLVED = "ReactResolver.HAS_RESOLVED";
 const IS_CLIENT = "ReactResolver.IS_CLIENT";
 const PAYLOAD = "__REACT_RESOLVER_PAYLOAD__";
+const _global = this; // window or global
+
+/**
+ * Check if we're running under a ReactNative enviroment;
+ * @return {boolean}
+ *
+ * https://stackoverflow.com/questions/39468022/how-do-i-know-if-my-code-is-running-as-react-native
+ */
+function isReactNative() {
+    return (typeof navigator != 'undefined' && navigator.product == 'ReactNative');
+}
 
 export default class Resolver extends React.Component {
   static childContextTypes = {
@@ -34,27 +45,29 @@ export default class Resolver extends React.Component {
     resolve: React.PropTypes.object,
   }
 
-  static render = function(render, node, data = window[PAYLOAD]) {
+  static render = function(render, node, data = _global[PAYLOAD]) {
     ReactDOM.render((
       <Resolver data={data}>
         {render}
       </Resolver>
     ), node);
 
-    delete window[PAYLOAD];
+    delete _global[PAYLOAD];
   }
 
   static resolve = function(render, initialData = {}) {
     const queue = [];
 
-    renderToStaticMarkup(
-      <Resolver data={initialData} onResolve={((promise) => {
-        queue.push(promise);
-        return Promise.resolve(true); 
-      })}>
-        {render}
-      </Resolver>
-    );
+    if (!isReactNative()) {
+        renderToStaticMarkup(
+            <Resolver data={initialData} onResolve={((promise) => {
+                queue.push(promise);
+                return Promise.resolve(true);
+            })}>
+                {render}
+            </Resolver>
+        );
+    }
 
     return Promise.all(queue).then((results) => {
       const data = { ...initialData };
