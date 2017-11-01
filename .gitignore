@@ -1,0 +1,6 @@
+_book
+*.min.*
+dist
+node_modules
+npm-debug.log
+.idea

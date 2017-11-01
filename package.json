@@ -1,0 +1,58 @@
+{
+  "name": "react-resolver",
+  "version": "3.1.1",
+  "description": "Async-rendering & data-fetching for universal React applications",
+  "main": "dist/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "peerDependencies": {
+    "react": "^0.14.6 || ^15.0.0-0",
+    "react-dom": "^0.14.6 || ^15.0.0-0"
+  },
+  "devDependencies": {
+    "babel": "5.8.34",
+    "eslint-config-future": "^2.1.1",
+    "gitbook-cli": "2.3.0",
+    "gitbook-plugin-prism": "^1.1.0",
+    "gitbook-plugin-todo": "0.1.2",
+    "mocha": "2.3.4",
+    "prop-types": "^15.5.8",
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run build:docs && npm run build:lib",
+    "build:docs": "gitbook build -g ericclemmons/react-resolver",
+    "build:lib": "babel --out-dir dist src",
+    "clean": "npm run clean:docs && npm run clean:lib",
+    "clean:docs": "rm -rf _book",
+    "clean:lib": "rm -rf dist",
+    "docs": "gitbook serve",
+    "docs:publish": "npm run clean:docs && npm run build:docs && cd _book && git init && git commit --allow-empty -m 'Update gitbook' && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -am 'Update gitbook' && git push --force git@github.com:ericclemmons/react-resolver gh-pages",
+    "lint": "eslint src test",
+    "prepublish": "npm run build:lib",
+    "preversion": "npm run clean",
+    "postversion": "git push origin master --tags && npm run docs:publish",
+    "test": "mocha",
+    "version": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ericclemmons/react-resolver.git"
+  },
+  "keywords": [
+    "async",
+    "decorator",
+    "lazy",
+    "load",
+    "react",
+    "resolve"
+  ],
+  "author": "Eric Clemmons <eric@smarterspam.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ericclemmons/react-resolver/issues"
+  },
+  "homepage": "https://github.com/ericclemmons/react-resolver"
+}
