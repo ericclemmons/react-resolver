@@ -142,7 +142,11 @@ export default class Resolver extends React.Component {
       resolved: { ...this.state.resolved, ...resolved },
     };
 
-    this.setState(nextState);
+    this.setAtomicState(nextState);
+  }
+
+  componentWillUnmount() {
+    this._unmounted = true;
   }
 
   computeState(thisProps, nextState) {
@@ -279,8 +283,16 @@ export default class Resolver extends React.Component {
         resolved: { ...state.resolved, ...resolved },
       };
 
-      this.setState(nextState);
+      this.setAtomicState(nextState);
     });
+  }
+
+  setAtomicState(nextState) {
+    if (this._unmounted) {
+      return;
+    }
+
+    this.setState(nextState);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
