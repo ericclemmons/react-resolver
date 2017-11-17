@@ -3,6 +3,7 @@
   "version": "3.1.1",
   "description": "Async-rendering & data-fetching for universal React applications",
   "main": "dist/index.js",
+  "typings": "index.d.ts",
   "directories": {
     "test": "test"
   },
