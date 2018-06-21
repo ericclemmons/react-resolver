@@ -45,6 +45,16 @@ export default class Resolver extends React.Component {
     delete window[PAYLOAD];
   }
 
+  static hydrate = function(render, node, data = window[PAYLOAD]) {
+    ReactDOM.hydrate((
+      <Resolver data={data}>
+        {render}
+      </Resolver>
+    ), node);
+
+    delete window[PAYLOAD];
+  }
+
   static resolve = function(render, initialData = {}) {
     const queue = [];
 
