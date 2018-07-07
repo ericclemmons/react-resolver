@@ -1,4 +1,5 @@
 --compilers js:babel/register
+--require ./test/setup.js
 --recursive
 --reporter spec
 --ui bdd

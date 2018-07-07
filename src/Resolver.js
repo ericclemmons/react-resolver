@@ -45,13 +45,23 @@ export default class Resolver extends React.Component {
     delete window[PAYLOAD];
   }
 
+  static hydrateRender = function(render, node, data = window[PAYLOAD]) {
+    ReactDOM.hydrate((
+      <Resolver data={data}>
+        {render}
+      </Resolver>
+    ), node);
+
+    delete window[PAYLOAD];
+  }
+
   static resolve = function(render, initialData = {}) {
     const queue = [];
 
     renderToStaticMarkup(
       <Resolver data={initialData} onResolve={((promise) => {
         queue.push(promise);
-        return Promise.resolve(true); 
+        return Promise.resolve(true);
       })}>
         {render}
       </Resolver>
