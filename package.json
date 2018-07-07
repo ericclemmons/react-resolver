@@ -7,8 +7,8 @@
     "test": "test"
   },
   "peerDependencies": {
-    "react": "^0.14.6 || ^15.0.0-0 || ^16.0.0",
-    "react-dom": "^0.14.6 || ^15.0.0-0 || ^16.0.0"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0"
   },
   "devDependencies": {
     "babel": "5.8.34",
@@ -16,6 +16,7 @@
     "gitbook-cli": "2.3.0",
     "gitbook-plugin-prism": "^1.1.0",
     "gitbook-plugin-todo": "0.1.2",
+    "jsdom": "^9.12.0",
     "mocha": "2.3.4",
     "prop-types": "^15.5.8",
     "react": "^16.0.0",

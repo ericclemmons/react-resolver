@@ -20,5 +20,18 @@ import { Resolver } from "react-resolver";
 Resolver.render(
   () => <Router ... />,
   document.getElementById("app")
-); 
+);
+```
+
+If you want to take advantage of the `hydrate()` method available on `ReactDOM` [React Dom Docs]('https://reactjs.org/docs/react-dom.html#hydrate'), `Resolver` supports this with the `hydrateRender()` method.
+
+Use this just like `Resolver.render()`;
+
+```js
+import { Resolver } from "react-resolver";
+
+Resolver.hydrateRender(
+  () => <Router ... />,
+  document.getElementById("app")
+);
 ```

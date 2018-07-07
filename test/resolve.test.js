@@ -68,4 +68,28 @@ describe("@resolve", function() {
       );
     });
   });
+
+  context("browser render and hydrateRender", function() {
+
+    it("browser render", () => {
+      return Resolver.render(() => (<Test actual="testRender" expected="testRender" />), document.getElementById("resolver"))
+    })
+
+    it("browser hydrateRender", () => {
+      return Resolver.hydrateRender(() => (<Test actual="testHydrateRender" expected="testHydrateRender" />), document.getElementById("resolver"))
+    })
+
+    it("browser render markup", function() {
+      Resolver.render(() => (<Test actual="testRender" expected="testRender" />), document.getElementById("resolver"));
+      const markup = document.getElementById("resolver").innerHTML;
+      assert.equal(markup, "<pre>testRender</pre>");
+    });
+
+    it("browser hydrateRender markup", function() {
+      Resolver.hydrateRender(() => (<Test actual="testHydrateRender" expected="testHydrateRender" />), document.getElementById("resolver"))
+      const markup = document.getElementById("resolver").innerHTML;
+      assert.equal(markup, "<pre>testHydrateRender</pre>");
+    });
+
+  });
 });
